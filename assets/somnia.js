@@ -147,4 +147,29 @@
 
   /* ---------- year ---------- */
   var y=document.querySelector('[data-year]'); if(y) y.textContent=new Date().getFullYear();
+
+  /* ---------- collection card click → detail page ---------- */
+  document.querySelectorAll('.good').forEach(function(card){
+    var hit=card.querySelector('.good__hit');
+    if(!hit) return;
+    card.addEventListener('click',function(e){
+      if(e.target.closest('.good__buy')) return;
+      window.location.href=hit.href;
+    });
+  });
+
+  /* ---------- collection cart buttons ---------- */
+  document.querySelectorAll('.good__buy[data-id]').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      if(window.CART){
+        CART.add({
+          id:btn.dataset.id,
+          name:btn.dataset.name,
+          price:parseInt(btn.dataset.price,10),
+          qty:1
+        });
+      }
+    });
+  });
 })();

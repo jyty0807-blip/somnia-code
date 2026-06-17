@@ -60,6 +60,24 @@ For multi-step tasks, state a brief plan:
 
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
 
+## 5. Token Efficiency
+
+**Minimize reads. Prefer diffs over full files.**
+
+- Never re-read a file that was just edited or created.
+- Use `git diff` instead of reading full files to review changes.
+- Only inspect files directly related to the current task.
+- Warn the user when the session appears to exceed ~100k tokens.
+
+## 6. SOMNIA Project Rules
+
+**새 페이지/파일 추가 시 반드시 함께 처리할 것:**
+
+- `index.html` 브랜드 섹션에 카드 추가 (배지 타입: Page / Tool / Asset / System)
+- 카드 내용: 이름, 한글 설명, 한 줄 desc, 파일명
+- 산출물 수(`<b>N</b> 산출물`) 업데이트
+- 기존 페이지에서 해당 페이지로 진입하는 링크가 있다면 함께 연결
+
 ---
 
 **These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.

@@ -1,6 +1,5 @@
 /* SOMNIA App — Sleep screens (dark): Home, Bedtime, Record, Report */
 const { useState:useStateS, useEffect:useEffectS, useRef:useRefS } = React;
-const P = window.SOMNIA_PRICE;
 
 /* ---- sleep quality tiers ---- */
 function quality(score){ return score>=85 ? 'good' : score>=70 ? 'fair' : 'poor'; }
@@ -337,11 +336,12 @@ function ScreenRecord({ t, lang, back, day, theme }) {
         </div>
       </div>
       <div className="body">
-        <div className="card" style={{display:'flex',alignItems:'center',gap:18}}>
-          <SleepRing score={score} tone={tone} size={120} />
-          <div>
-            <div style={{fontSize:13,color: tone==='poor'?'#E7A6BE':'var(--lav)',fontWeight:600,letterSpacing:'.04em',textTransform:'uppercase'}}>{t('q_'+tone)}</div>
-            <div style={{fontSize:14,color:'var(--dim)',marginTop:6,lineHeight:1.5}}>{t('cap_'+tone)}</div>
+        <div className="card score-card">
+          <SleepRing score={score} tone={tone} size={88} />
+          <div className="score-card__info">
+            <div className="score-card__tier" style={tone==='poor'?{color:'var(--poor-color)'}:null}>{t('q_'+tone)}</div>
+            <div className="score-card__num">{score}</div>
+            <div className="score-card__delta">{t('cap_'+tone)}</div>
           </div>
         </div>
 
@@ -409,7 +409,7 @@ function TabReport({ t, lang, go, tabbar, theme }) {
         {seg==='week' && (<>
         <div className="weekstrip">
           {D.week.map((d,i)=>(
-            <div key={i} className={'wday'+(sel===i?' on':'')} onClick={()=>setSel(i)}>
+            <div key={i} className={'wday'+(sel===i?' on':'')} onClick={()=>{ setSel(i); go('record', days[i]); }}>
               <span>{d.wk[lang]}</span><b>{days[i]}</b><em></em>
             </div>
           ))}
@@ -425,7 +425,7 @@ function TabReport({ t, lang, go, tabbar, theme }) {
         <div className="card">
           <div className="barchart">
             {D.week.map((d,i)=>(
-              <div className="col" key={i} onClick={()=>setSel(i)} style={{cursor:'pointer'}}>
+              <div className="col" key={i} onClick={()=>{ setSel(i); go('record', days[i]); }} style={{cursor:'pointer'}}>
                 <div className="bar" style={{height:`${d.score/max*100}%`,opacity:sel===i?1:.55}}></div>
                 <div className="bl">{d.wk[lang]}</div>
               </div>

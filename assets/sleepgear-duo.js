@@ -91,7 +91,10 @@
   var toastEl=document.getElementById('toast'), toastT;
   function toast(msg){ if(!toastEl) return; toastEl.textContent=msg; toastEl.classList.add('show'); clearTimeout(toastT); toastT=setTimeout(function(){ toastEl.classList.remove('show'); },2200); }
   function label(){ return state.comp+(state.needsSize?(' ('+state.size+')'):''); }
-  function addCart(){ cartCount+=state.qty; if(cartNumEl) cartNumEl.textContent=cartCount; toast(label()+' '+state.qty+'개를 장바구니에 담았어요.'); }
+  function addCart(){
+    if(window.CART){ CART.add({id:'sleepgear-duo',name:'슬립 기어 듀오 세트'+(state.needsSize?' ('+state.size+')':''),price:state.price,qty:state.qty}); }
+    else { cartCount+=state.qty; if(cartNumEl) cartNumEl.textContent=cartCount; toast(label()+' '+state.qty+'개를 장바구니에 담았어요.'); }
+  }
   function buyNow(){ toast('구매 페이지로 이동합니다 · 합계 '+fmt(state.price*state.qty)+'원'); }
   ['addcart','sticky-cart'].forEach(function(id){ var el=document.getElementById(id); if(el) el.addEventListener('click',addCart); });
   ['buynow','buynow2','sticky-buy'].forEach(function(id){ var el=document.getElementById(id); if(el) el.addEventListener('click',buyNow); });

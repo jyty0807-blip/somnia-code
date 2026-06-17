@@ -1,6 +1,5 @@
 /* SOMNIA App — Shop screens (light): Shop, Product, Cart, My, Settings + Onboarding */
 const { useState:useStateH, useEffect:useEffectH } = React;
-const P2 = window.SOMNIA_PRICE;
 
 /* full-bleed marketing detail cuts, per product id (rendered below the buy info) */
 const APP_DETAILCUTS = {
@@ -350,24 +349,234 @@ function ScreenSettings({ t, lang, setLang, back, nightTheme, setNightTheme }) {
   );
 }
 
-/* ============== ONBOARDING ============== */
-function Onboarding({ t, finish }) {
-  useEffectH(()=>{
-    const host = document.querySelector('.onb__stars'); if(!host||host.childElementCount) return;
-    for(let i=0;i<40;i++){ const s=document.createElement('span'); s.className='star';
-      const r=Math.random()*2+0.6; s.style.width=s.style.height=r+'px';
-      s.style.left=Math.random()*100+'%'; s.style.top=Math.random()*70+'%';
-      s.style.setProperty('--d',(2+Math.random()*4)+'s'); s.style.setProperty('--dl',(Math.random()*4)+'s');
-      host.appendChild(s); }
-  },[]);
+/* ── Onboarding pickers (reuse WheelCol from screens-sleep.jsx) ── */
+function OnbTimePicker({ value, onChange }) {
+  const iv = value && value.includes(':') ? value.split(':') : ['23','00'];
+  const [h, setH] = useStateH(parseInt(iv[0],10)||23);
+  const [m, setM] = useStateH(parseInt(iv[1],10)||0);
+  useEffectH(() => {
+    onChange(String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0'));
+  }, [h, m]);
   return (
+    <div className="onb-picker">
+      <WheelCol value={h} set={setH} max={24} />
+      <span className="wheelcolon">:</span>
+      <WheelCol value={m} set={setM} max={60} step={5} />
+      <span className="wheelampm">{h < 12 ? 'AM' : 'PM'}</span>
+    </div>
+  );
+}
+
+function OnbDurationPicker({ value, onChange, ko }) {
+  const iv = value && value.includes(':') ? value.split(':') : ['07','30'];
+  const [h, setH] = useStateH(parseInt(iv[0],10)||7);
+  const [m, setM] = useStateH(parseInt(iv[1],10)||0);
+  useEffectH(() => {
+    onChange(String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0'));
+  }, [h, m]);
+  return (
+    <div className="onb-picker">
+      <WheelCol value={h} set={setH} max={24} pad={false} />
+      <span style={{fontSize:16,fontWeight:600,color:'var(--dim)',alignSelf:'center',marginBottom:2}}>{ko?'시':'h'}</span>
+      <WheelCol value={m} set={setM} max={60} step={30} />
+      <span style={{fontSize:16,fontWeight:600,color:'var(--dim)',alignSelf:'center',marginBottom:2}}>{ko?'분':'m'}</span>
+    </div>
+  );
+}
+
+/* ============== ONBOARDING ============== */
+function Onboarding({ t, lang, finish }) {
+  const [step, setStep] = useStateH(0);
+  const [goal, setGoal] = useStateH(null);
+  const [goalCustom, setGoalCustom] = useStateH(false);
+  const [goalCustomVal, setGoalCustomVal] = useStateH('');
+  const [bed,  setBed]  = useStateH(null);
+  const [bedCustom, setBedCustom] = useStateH(false);
+  const [bedCustomVal, setBedCustomVal] = useStateH('');
+  const [wake, setWake] = useStateH(null);
+  const [wakeCustom, setWakeCustom] = useStateH(false);
+  const [wakeCustomVal, setWakeCustomVal] = useStateH('');
+
+  useEffectH(() => {
+    const host = document.querySelector('.onb__stars'); if (!host) return;
+    host.innerHTML = '';
+    for (let i = 0; i < 40; i++) {
+      const s = document.createElement('span'); s.className = 'star';
+      const r = Math.random() * 2 + 0.6;
+      s.style.width = s.style.height = r + 'px';
+      s.style.left = Math.random() * 100 + '%';
+      s.style.top  = Math.random() * 70  + '%';
+      s.style.setProperty('--d',  (2 + Math.random() * 4) + 's');
+      s.style.setProperty('--dl', (Math.random() * 4) + 's');
+      host.appendChild(s);
+    }
+  }, [step]);
+
+  const ko = lang === 'ko';
+  const next = () => setStep(s => s + 1);
+  const prev = () => setStep(s => s - 1);
+
+  const GOALS = ko ? ['6시간','7시간','7.5시간','8시간','9시간'] : ['6h','7h','7.5h','8h','9h'];
+  const BEDS  = ['21:00','22:00','23:00','00:00','01:00'];
+  const WAKES = ['06:00','06:30','07:00','07:30','08:00'];
+
+  const Opt = ({ label, on, onClick }) => (
+    <button className={'onb-opt'+(on?' on':'')} onClick={onClick}>
+      <span>{label}</span>
+      <span className="onb-opt__circle">
+        {on && <svg width="11" height="9" viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#0a1430" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+      </span>
+    </button>
+  );
+
+  const bg = step === 0
+    ? <><div className="onb__bg"/><div className="onb__stars"/></>
+    : <div className="onb__stars"/>;
+  const dots = (
+    <div style={{display:'flex',gap:6,justifyContent:'center',position:'absolute',top:54,left:0,right:0}}>
+      {[1,2,3].map(i => (
+        <div key={i} style={{height:6, width:step>=i?18:6, borderRadius:99,
+          background: step>=i ? '#C2B0F5' : 'rgba(255,255,255,.2)', transition:'all .3s'}}/>
+      ))}
+    </div>
+  );
+  const foot = (can) => (
+    <div className="bt-foot" style={{display:'flex',gap:10}}>
+      <button className="btn btn--ghost" onClick={prev}>{ko?'이전':'Back'}</button>
+      <button className="btn btn--primary" onClick={next}
+        style={{opacity:can?1:.4, pointerEvents:can?'auto':'none'}}>
+        {ko?'다음':'Next'} →
+      </button>
+    </div>
+  );
+
+  /* ── Step 0: Welcome ── */
+  if (step === 0) return (
     <div className="scr dark onb anim-fade">
-      <div className="onb__bg"></div>
-      <div className="onb__stars"></div>
+      {bg}
       <img className="onb__logo" src="assets/logo-full-white.png" alt="SOMNIA"/>
       <div className="onb__tag" style={{whiteSpace:'pre-line'}}>{t('onb_tag')}</div>
       <div className="onb__btn">
-        <button className="btn btn--primary" onClick={finish}>{t('onb_start')}</button>
+        <button className="btn btn--primary" onClick={next}>{ko?'시작하기':'Get started'} →</button>
+      </div>
+    </div>
+  );
+
+  /* ── Step 1: Sleep goal ── */
+  if (step === 1) return (
+    <div className="scr dark anim-fade" style={{justifyContent:'flex-start',position:'relative'}}>
+      {bg}{dots}
+      <div className="body" style={{paddingTop:120}}>
+        <div style={{fontSize:11,letterSpacing:'.22em',textTransform:'uppercase',color:'var(--lav)',marginBottom:12}}>
+          {ko?'수면 목표':'Sleep Goal'}
+        </div>
+        <h1 style={{fontSize:24,fontWeight:700,lineHeight:1.3,marginBottom:24,whiteSpace:'pre-line'}}>
+          {ko?'하루에 몇 시간\n자고 싶으세요?':'How many hours\ndo you want to sleep?'}
+        </h1>
+        <div className="onb-opts grid2">
+          {GOALS.map((g,i) => (
+            <Opt key={i} label={g} on={!goalCustom && goal===i}
+              onClick={()=>{ setGoal(i); setGoalCustom(false); }}/>
+          ))}
+          <Opt label={ko?'직접 입력':'Custom'} on={goalCustom}
+            onClick={()=>{ setGoalCustom(true); setGoal(null); if(!goalCustomVal) setGoalCustomVal('07:30'); }}/>
+        </div>
+        {goalCustom && <OnbDurationPicker value={goalCustomVal} onChange={setGoalCustomVal} ko={ko}/>}
+      </div>
+      {foot(!goalCustom ? goal !== null : true)}
+    </div>
+  );
+
+  /* ── Step 2: Bedtime ── */
+  if (step === 2) return (
+    <div className="scr dark anim-fade" style={{justifyContent:'flex-start',position:'relative'}}>
+      {bg}{dots}
+      <div className="body" style={{paddingTop:120}}>
+        <div style={{fontSize:11,letterSpacing:'.22em',textTransform:'uppercase',color:'var(--lav)',marginBottom:12}}>
+          {ko?'취침 시간':'Bedtime'}
+        </div>
+        <h1 style={{fontSize:24,fontWeight:700,lineHeight:1.3,marginBottom:24,whiteSpace:'pre-line'}}>
+          {ko?'보통 언제\n잠드나요?':'When do you usually\nfall asleep?'}
+        </h1>
+        <div className="onb-opts grid2">
+          {BEDS.map((b,i) => (
+            <Opt key={i} label={b} on={!bedCustom && bed===i}
+              onClick={()=>{ setBed(i); setBedCustom(false); }}/>
+          ))}
+          <Opt label={ko?'직접 입력':'Custom'} on={bedCustom}
+            onClick={()=>{ setBedCustom(true); setBed(null); if(!bedCustomVal) setBedCustomVal('23:00'); }}/>
+        </div>
+        {bedCustom && <OnbTimePicker value={bedCustomVal} onChange={setBedCustomVal}/>}
+      </div>
+      {foot(!bedCustom ? bed !== null : true)}
+    </div>
+  );
+
+  /* ── Step 3: Wake time ── */
+  if (step === 3) return (
+    <div className="scr dark anim-fade" style={{justifyContent:'flex-start',position:'relative'}}>
+      {bg}{dots}
+      <div className="body" style={{paddingTop:120}}>
+        <div style={{fontSize:11,letterSpacing:'.22em',textTransform:'uppercase',color:'var(--lav)',marginBottom:12}}>
+          {ko?'기상 시간':'Wake Time'}
+        </div>
+        <h1 style={{fontSize:24,fontWeight:700,lineHeight:1.3,marginBottom:24,whiteSpace:'pre-line'}}>
+          {ko?'몇 시에\n일어나나요?':'When do you\nusually wake up?'}
+        </h1>
+        <div className="onb-opts grid2">
+          {WAKES.map((w,i) => (
+            <Opt key={i} label={w} on={!wakeCustom && wake===i}
+              onClick={()=>{ setWake(i); setWakeCustom(false); }}/>
+          ))}
+          <Opt label={ko?'직접 입력':'Custom'} on={wakeCustom}
+            onClick={()=>{ setWakeCustom(true); setWake(null); if(!wakeCustomVal) setWakeCustomVal('07:00'); }}/>
+        </div>
+        {wakeCustom && <OnbTimePicker value={wakeCustomVal} onChange={setWakeCustomVal}/>}
+      </div>
+      {foot(!wakeCustom ? wake !== null : true)}
+    </div>
+  );
+
+  /* ── Step 4: Ready ── */
+  const goalVal = (() => {
+    if (!goalCustom) return goal !== null ? GOALS[goal] : null;
+    const [gh,gm] = (goalCustomVal||'07:30').split(':').map(Number);
+    return ko ? `${gh}시간${gm?' '+gm+'분':''}` : gm ? `${gh}h ${gm}m` : `${gh}h`;
+  })();
+  const bedVal  = bedCustom  ? bedCustomVal  : (bed  !== null ? BEDS[bed]   : null);
+  const wakeVal = wakeCustom ? wakeCustomVal : (wake !== null ? WAKES[wake] : null);
+  const summary = [
+    [ko?'수면 목표':'Sleep goal', goalVal],
+    [ko?'취침'    :'Bedtime',    bedVal],
+    [ko?'기상'    :'Wake up',    wakeVal],
+  ];
+  return (
+    <div className="scr dark anim-fade" style={{justifyContent:'flex-start',position:'relative'}}>
+      {bg}{dots}
+      <div className="body" style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',textAlign:'center',paddingTop:70,paddingBottom:80}}>
+        <div style={{width:68,height:68,borderRadius:22,background:'rgba(194,176,245,.18)',
+          display:'flex',alignItems:'center',justifyContent:'center',marginBottom:24}}>
+          {Ico.moon({s:34})}
+        </div>
+        <h1 style={{fontSize:26,fontWeight:700,marginBottom:10}}>{ko?'준비됐어요!':'All set!'}</h1>
+        <p style={{fontSize:14,color:'var(--dim)',lineHeight:1.6,marginBottom:28,maxWidth:260,whiteSpace:'pre-line'}}>
+          {ko?'당신의 수면 루틴이 설계되었습니다.\n썸니아와 함께 시작해요.':'Your sleep routine is ready.\nLet\'s start with SOMNIA.'}
+        </p>
+        <div className="card" style={{width:'100%',textAlign:'left',padding:'18px 20px'}}>
+          {summary.map(([label,val],i,arr) => (
+            <div key={i} style={{display:'flex',justifyContent:'space-between',fontSize:14,
+              paddingBottom:i<arr.length-1?12:0, marginBottom:i<arr.length-1?12:0,
+              borderBottom:i<arr.length-1?'1px solid rgba(255,255,255,.1)':'none'}}>
+              <span style={{color:'var(--dim)'}}>{label}</span>
+              <span style={{fontWeight:600}}>{val??'—'}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="bt-foot">
+        <button className="btn btn--primary" style={{width:'100%'}} onClick={finish}>
+          {ko?'썸니아 시작하기':'Start SOMNIA'} →
+        </button>
       </div>
     </div>
   );

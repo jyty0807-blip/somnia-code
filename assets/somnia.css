@@ -237,6 +237,7 @@ h2.section-title{
 [lang-mode="kr"] .manifesto__q,[lang-mode="kr"] .manifesto__sub{word-break:keep-all;text-wrap:balance}
 [lang-mode="kr"] .manifesto__q{line-height:1.5}
 [lang-mode="kr"] .manifesto__sub{line-height:1.7}
+.manifesto__cta{margin-top:2rem;text-align:center}
 @media (max-width:560px){
   .manifesto__q br,.manifesto__sub br{display:none}
 }
@@ -288,23 +289,48 @@ h2.section-title{
 .good{
   grid-column:span 3;border-radius:20px;overflow:hidden;background:var(--pastel-soft);
   border:1px solid var(--line);transition:transform .6s var(--ease),box-shadow .6s;
-  display:flex;flex-direction:column;
+  display:flex;flex-direction:column;position:relative;
 }
 .good.feature{grid-column:span 6}
+.good{cursor:pointer}
 .good:hover{transform:translateY(-8px);box-shadow:0 34px 60px -30px rgba(25,91,130,.36)}
-.good image-slot{width:100%;aspect-ratio:4/5;display:block;background:var(--pastel)}
-.good.feature image-slot{aspect-ratio:16/11}
+
+.good__hit{display:none}
+
+/* image wrapper + hover skeleton */
+.good__media{position:relative;overflow:hidden;flex-shrink:0}
+.good__media image-slot{width:100%;aspect-ratio:4/5;display:block;background:var(--pastel)}
+.good.feature .good__media image-slot{aspect-ratio:16/11}
+.good__hover-skin{
+  position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(160deg,var(--somnia-night-800,#123a73),var(--somnia-night-950,#0a1430));
+  opacity:0;transition:opacity .35s ease;
+  display:flex;align-items:center;justify-content:center;
+}
+.good__hover-skin::after{
+  content:'lifestyle';
+  font-family:Outfit,sans-serif;font-size:.6rem;font-weight:600;
+  letter-spacing:.22em;text-transform:uppercase;color:rgba(214,236,250,.3);
+}
+.good:hover .good__hover-skin{opacity:1}
+
 .good__body{padding:1.3rem 1.4rem 1.6rem}
 .good__cat{font-size:.66rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
   color:var(--navy);opacity:.55}
 .good__name{font-size:1.2rem;font-weight:600;margin:.5rem 0 .35rem;letter-spacing:-.01em}
 .good.feature .good__name{font-size:1.5rem}
 .good__desc{font-size:.9rem;color:var(--ink-soft);font-weight:300}
-.good__buy{display:inline-flex;align-items:center;gap:.4rem;margin-top:1rem;font-size:.82rem;font-weight:600;
-  color:var(--navy);border-bottom:1px solid transparent;padding-bottom:2px;transition:gap .3s,border-color .3s}
-.good__buy:hover{gap:.7rem;border-color:var(--navy)}
-.good__buy svg{transition:transform .3s}
-.good__buy:hover svg{transform:translateX(2px)}
+.good__buy{
+  display:inline-flex;align-items:center;gap:.4rem;margin-top:1.1rem;
+  font-size:.78rem;font-weight:600;letter-spacing:.03em;
+  color:#fff;background:var(--navy);
+  border:none;border-radius:100px;padding:.52rem 1.15rem;
+  cursor:pointer;font-family:inherit;
+  transition:background .2s,gap .25s;
+}
+.good__buy:hover{background:var(--ocean);gap:.65rem}
+.good__buy svg{transition:transform .25s}
+.good__buy:hover svg{transform:translateX(3px)}
 @media (max-width:980px){
   .good{grid-column:span 6}.good.feature{grid-column:span 12}
 }

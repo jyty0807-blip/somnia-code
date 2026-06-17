@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOMNIA — Brand Identity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<link rel="stylesheet" href="assets/tokens.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--somnia-font);color:var(--somnia-text);background:var(--somnia-ivory);-webkit-font-smoothing:antialiased;line-height:var(--lh-body)}
+
+.back{display:inline-flex;align-items:center;gap:8px;font-family:var(--somnia-en);font-size:var(--fs-sm);font-weight:var(--w-medium);color:var(--somnia-mist);opacity:.8;text-decoration:none;position:absolute;top:clamp(24px,4vw,40px);left:clamp(24px,5vw,72px);z-index:10}
+.back:hover{opacity:1}
+
+/* ── Hero ── */
+.hero{position:relative;background:radial-gradient(70% 100% at 75% -5%,rgba(184,167,230,.15),transparent 50%),linear-gradient(160deg,var(--somnia-night-800),var(--somnia-night-900) 55%,var(--somnia-night-950));color:#fff;padding:clamp(130px,16vw,190px) clamp(24px,5vw,72px) clamp(80px,10vw,120px);text-align:center;overflow:hidden}
+.hero__eyebrow{font-family:var(--somnia-en);font-size:var(--fs-eyebrow);font-weight:var(--w-semibold);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--somnia-mist);opacity:.7;display:block;margin-bottom:24px}
+.hero__title{font-family:var(--somnia-en);font-size:clamp(4rem,9vw,7.5rem);font-weight:var(--w-semibold);letter-spacing:-0.03em;line-height:.95;margin-bottom:28px}
+.hero__sub{font-size:var(--fs-lead);font-weight:var(--w-light);color:rgba(214,236,250,.75);max-width:560px;margin:0 auto}
+
+/* ── Layout ── */
+.bi-wrap{max-width:1080px;margin:0 auto;padding:0 clamp(24px,5vw,72px)}
+.bi-sec{padding:clamp(72px,9vw,112px) 0;border-top:1px solid rgba(14,26,58,.1)}
+.sec-head{margin-bottom:clamp(48px,6vw,72px)}
+.sec-num{font-family:var(--somnia-en);font-size:var(--fs-eyebrow);font-weight:var(--w-semibold);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--somnia-ocean);display:block;margin-bottom:14px}
+.sec-title{font-family:var(--somnia-en);font-size:var(--fs-h1);font-weight:var(--w-semibold);line-height:var(--lh-snug);letter-spacing:var(--ls-snug);color:var(--somnia-ink);margin-bottom:14px}
+.sec-desc{font-size:var(--fs-lead);font-weight:var(--w-light);color:var(--somnia-text-soft)}
+.subsec{margin-top:clamp(48px,6vw,64px)}
+.subsec-label{font-family:var(--somnia-en);font-size:var(--fs-eyebrow);font-weight:var(--w-semibold);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--somnia-text-soft);margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid rgba(14,26,58,.1)}
+
+/* ── 01 Brand Story ── */
+.brand-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(18px,3vw,28px)}
+.brand-card{border-radius:24px;padding:clamp(36px,4vw,52px)}
+.brand-card--dark{background:linear-gradient(155deg,var(--somnia-night-800),var(--somnia-night-950))}
+.brand-card--light{background:#fff;border:1px solid rgba(14,26,58,.08)}
+.brand-latin{font-family:var(--somnia-en);font-size:var(--fs-caption);font-weight:var(--w-light);letter-spacing:.2em;text-transform:uppercase;color:var(--somnia-lavender);display:block;margin-bottom:20px}
+.brand-name{font-family:var(--somnia-en);font-size:clamp(3rem,5vw,4.5rem);font-weight:var(--w-semibold);letter-spacing:-0.03em;line-height:1;color:#fff;margin-bottom:20px}
+.brand-body{font-size:var(--fs-body);font-weight:var(--w-light);line-height:var(--lh-body);color:rgba(214,236,250,.78)}
+.mission-label{font-family:var(--somnia-en);font-size:var(--fs-caption);font-weight:var(--w-semibold);letter-spacing:.2em;text-transform:uppercase;color:var(--somnia-lavender);display:block;margin-bottom:18px}
+.mission-text{font-family:var(--somnia-en);font-size:clamp(1.45rem,2.5vw,2rem);font-weight:var(--w-semibold);line-height:1.2;letter-spacing:-0.01em;color:#fff;margin-bottom:20px}
+.mission-sub{font-size:var(--fs-body);font-weight:var(--w-light);color:rgba(214,236,250,.72);line-height:var(--lh-body)}
+
+/* ── 02 Logo System ── */
+.logo-pair{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.logo-card{border-radius:20px;padding:clamp(32px,4vw,48px);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:180px;gap:20px}
+.logo-card--ivory{background:var(--somnia-ivory);border:1px solid rgba(14,26,58,.08)}
+.logo-card--dark{background:linear-gradient(160deg,var(--somnia-night-800),var(--somnia-night-950))}
+.logo-card img{max-width:76%;height:auto;max-height:68px;object-fit:contain}
+.logo-card--sym img{max-height:110px;max-width:110px}
+.logo-tag{font-family:var(--somnia-en);font-size:var(--fs-caption);font-weight:var(--w-semibold);letter-spacing:.14em;text-transform:uppercase;color:var(--somnia-text-soft)}
+.logo-card--dark .logo-tag{color:rgba(214,236,250,.4)}
+
+.cs-wrap{background:#fff;border:1px solid rgba(14,26,58,.08);border-radius:20px;padding:clamp(40px,5vw,64px);display:flex;flex-direction:column;align-items:center;gap:28px}
+.cs-stage{position:relative;padding:48px;display:inline-flex;align-items:center;justify-content:center}
+.cs-stage::before{content:'';position:absolute;inset:0;border:1.5px dashed rgba(25,88,178,.3);border-radius:6px}
+.cs-x{position:absolute;font-family:var(--somnia-en);font-size:10px;font-weight:var(--w-bold);letter-spacing:.08em;color:var(--somnia-ocean);background:#fff;padding:0 5px;line-height:1}
+.cs-x--t{top:0;left:50%;transform:translate(-50%,-50%)}
+.cs-x--b{bottom:0;left:50%;transform:translate(-50%,50%)}
+.cs-x--l{left:0;top:50%;transform:translate(-50%,-50%)}
+.cs-x--r{right:0;top:50%;transform:translate(50%,-50%)}
+.cs-desc{font-size:var(--fs-sm);font-weight:var(--w-light);color:var(--somnia-text-soft);text-align:center;max-width:480px;line-height:var(--lh-body)}
+
+.wrong-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.wrong-card{background:#fff;border:1px solid rgba(14,26,58,.08);border-radius:18px;padding:28px 22px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.wrong-vis{height:64px;display:flex;align-items:center;justify-content:center;width:100%}
+.wrong-vis img{max-height:36px;object-fit:contain}
+.wrong-tag{display:flex;align-items:center;gap:8px;font-family:var(--somnia-en);font-size:var(--fs-caption);font-weight:var(--w-semibold);letter-spacing:.08em;text-transform:uppercase;color:#b72b2b}
+.wrong-dot{width:18px;height:18px;border-radius:50%;background:#b72b2b;color:#fff;font-size:10px;font-weight:var(--w-bold);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* ── 03 Color ── */
+.color-label{font-family:var(--somnia-en);font-size:var(--fs-caption);font-weight:var(--w-semibold);letter-spacing:.16em;text-transform:uppercase;color:var(--somnia-text-soft);margin-bottom:16px}
+.color-row{display:grid;gap:18px;margin-bottom:24px}
+.color-row--2{grid-template-columns:1fr 1fr}
+.color-row--3{grid-template-columns:1fr 1fr 1fr}
+.color-block{border-radius:20px;overflow:hidden;border:1px solid rgba(14,26,58,.06)}
+.csw--tall{height:200px}
+.csw--short{height:120px}
+.color-meta{padding:22px 24px;background:#fff}
+.color-hex{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:var(--fs-h3);font-weight:var(--w-semibold);color:var(--somnia-ink);margin-bottom:4px}
+.color-name{font-family:var(--somnia-en);font-size:var(--fs-sm);font-weight:var(--w-semibold);color:var(--somnia-text);margin-bottom:5px}
+.color-meaning{font-size:var(--fs-caption);font-weight:var(--w-light);color:var(--somnia-text-soft)}
+
+/* ── 04 Typography ── */
+.type-card{background:#fff;border:1px solid rgba(14,26,58,.08);border-radius:24px;padding:clamp(40px,5vw,64px);margin-bottom:20px}
+.type-family-name{font-family:var(--somnia-en);font-size:clamp(2.5rem,5vw,4rem);font-weight:var(--w-light);color:var(--somnia-ink);line-height:1;margin-bottom:6px}
+.type-role{font-family:var(--somnia-en);font-size:var(--fs-caption);font-weight:var(--w-semibold);letter-spacing:.2em;text-transform:uppercase;color:var(--somnia-ocean);margin-bottom:36px;display:block}
+.type-glyphs{font-family:var(--somnia-en);font-size:clamp(1.3rem,2.2vw,1.7rem);line-height:1.65;color:var(--somnia-ink);letter-spacing:.01em;border-bottom:1px solid rgba(14,26,58,.08);padding-bottom:32px;margin-bottom:32px}
+.type-chars{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:36px}
+.type-badge{background:var(--somnia-ivory);border-radius:999px;padding:6px 16px;font-family:var(--somnia-en);font-size:var(--fs-caption);font-weight:var(--w-semibold);color:var(--somnia-text-soft);letter-spacing:.06em}
+.type-weights{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.wt{text-align:center;padding:24px 10px;background:var(--somnia-ivory);border-radius:14px}
+.wt__sample{font-family:var(--somnia-en);font-size:clamp(1.5rem,2vw,2rem);color:var(--somnia-ink);line-height:1;margin-bottom:10px}
+.wt__label{font-family:var(--somnia-en);font-size:10px;font-weight:var(--w-semibold);letter-spacing:.1em;text-transform:uppercase;color:var(--somnia-text-soft)}
+.kr-note{background:rgba(25,88,178,.05);border:1px solid rgba(25,88,178,.14);border-radius:16px;padding:24px 28px;display:flex;gap:18px;align-items:flex-start}
+.kr-note__glyph{font-family:var(--somnia-kr);font-size:2rem;line-height:1;color:var(--somnia-ink);flex-shrink:0}
+.kr-note__title{font-family:var(--somnia-en);font-size:var(--fs-sm);font-weight:var(--w-semibold);color:var(--somnia-ink);margin-bottom:6px}
+.kr-note__body{font-size:var(--fs-sm);font-weight:var(--w-light);color:var(--somnia-text-soft);line-height:var(--lh-body)}
+
+/* ── 05 Visual Language ── */
+.mood-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:220px;gap:14px}
+.mood-tile{border-radius:18px;display:flex;align-items:flex-end;padding:24px;overflow:hidden}
+.mood-tile--lg{grid-column:span 2}
+.mood-kw{font-family:var(--somnia-en);font-size:var(--fs-sm);font-weight:var(--w-semibold);letter-spacing:.1em;text-transform:uppercase;color:#fff}
+.mood-sub{font-size:var(--fs-caption);font-weight:var(--w-light);color:rgba(255,255,255,.55);display:block;margin-top:4px}
+.mt1{background:linear-gradient(160deg,var(--somnia-night-800),var(--somnia-night-950))}
+.mt2{background:radial-gradient(70% 70% at 30% 15%,rgba(184,167,230,.18),transparent 60%),linear-gradient(150deg,var(--somnia-plum),var(--somnia-night-950))}
+.mt3{background:linear-gradient(140deg,var(--somnia-night-900),var(--somnia-night-950))}
+.mt4{background:radial-gradient(circle at 65% 20%,rgba(208,230,250,.08),transparent 50%),linear-gradient(160deg,var(--somnia-navy),var(--somnia-night-950))}
+.mt5{background:linear-gradient(160deg,var(--somnia-night-700),var(--somnia-night-950))}
+.mt6{background:radial-gradient(60% 60% at 40% 30%,rgba(184,167,230,.15),transparent 65%),linear-gradient(150deg,var(--somnia-plum),var(--somnia-night-950))}
+.mt7{background:linear-gradient(160deg,var(--somnia-night-800),var(--somnia-night-950))}
+.mt8{background:radial-gradient(70% 50% at 50% 0%,rgba(184,167,230,.12),transparent 55%),linear-gradient(175deg,var(--somnia-navy),var(--somnia-night-950))}
+
+/* ── 06 Ecosystem ── */
+.eco-wrap{max-width:580px;margin:0 auto}
+.eco-wrap svg{width:100%;height:auto;display:block}
+
+/* ── Responsive ── */
+@media(max-width:800px){
+  .brand-grid,.logo-pair,.color-row--2,.color-row--3,.wrong-grid{grid-template-columns:1fr}
+  .type-weights{grid-template-columns:repeat(3,1fr)}
+  .mood-grid{grid-template-columns:1fr 1fr;grid-auto-rows:190px}
+}
+@media(max-width:500px){
+  .type-weights{grid-template-columns:1fr 1fr}
+  .wrong-grid{grid-template-columns:1fr 1fr}
+  .mood-grid{grid-template-columns:1fr;grid-auto-rows:160px}
+  .mood-tile--lg{grid-column:span 1}
+}
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← 작업물 목차</a>
+
+<!-- Hero -->
+<section class="hero">
+  <span class="hero__eyebrow">SOMNIA · Brand Identity Guide</span>
+  <h1 class="hero__title">Brand<br>Identity</h1>
+  <p class="hero__sub">브랜드의 가치와 정체성을 정의하는 시각 언어 가이드.<br>모든 표현의 기준이 됩니다.</p>
+</section>
+
+<div class="bi-wrap">
+
+  <!-- ── Section 01 ── -->
+  <section class="bi-sec">
+    <div class="sec-head">
+      <span class="sec-num">Section 01</span>
+      <h2 class="sec-title">Brand Story</h2>
+      <p class="sec-desc">SOMNIA가 태어난 이유, 우리가 지키는 약속.</p>
+    </div>
+    <div class="brand-grid">
+      <div class="brand-card brand-card--dark">
+        <span class="brand-latin">Latin · Somnium</span>
+        <img src="assets/logo-full-white.png" alt="SOMNIA" style="max-width:72%;height:auto;max-height:80px;object-fit:contain;margin-bottom:16px">
+        <p class="brand-body">라틴어 'Somnium(꿈)'에서 파생된 이름. SOMNIA는 수면 웰니스 브랜드로, 정교하게 설계된 제품과 경험을 통해 더 건강한 수면 루틴을 돕습니다.</p>
+      </div>
+      <div class="brand-card brand-card--dark">
+        <span class="mission-label">Brand Mission</span>
+        <div class="mission-text">SLEEP DEEPER,<br>LIVE BETTER</div>
+        <p class="mission-sub">좋은 하루는 좋은 잠에서 시작됩니다. SOMNIA는 수면을 단순한 생리적 필요가 아닌, 삶의 의미 있는 의식으로 변화시킵니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Section 02 ── -->
+  <section class="bi-sec">
+    <div class="sec-head">
+      <span class="sec-num">Section 02</span>
+      <h2 class="sec-title">Logo System</h2>
+      <p class="sec-desc">SOMNIA의 시각적 정체성. 모든 응용에서 일관된 형태를 유지합니다.</p>
+    </div>
+
+    <div class="subsec">
+      <div class="subsec-label">Symbol Mark</div>
+      <p style="font-size:var(--fs-sm);font-weight:var(--w-light);color:var(--somnia-text-soft);margin-bottom:22px;max-width:560px;line-height:var(--lh-body)">심볼은 달, 감은 눈, 그리고 깊은 잠의 고요함을 형상화합니다.</p>
+      <div class="logo-pair">
+        <div class="logo-card logo-card--ivory logo-card--sym">
+          <img src="assets/symbol.png" alt="SOMNIA Symbol">
+          <span class="logo-tag">Symbol · Dark</span>
+        </div>
+        <div class="logo-card logo-card--dark logo-card--sym">
+          <img src="assets/symbol-white.png" alt="SOMNIA Symbol White">
+          <span class="logo-tag">Symbol · White</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsec">
+      <div class="subsec-label">Primary Wordmark</div>
+      <div class="logo-pair">
+        <div class="logo-card logo-card--ivory">
+          <img src="assets/logo-wordmark.png" alt="SOMNIA Wordmark">
+          <span class="logo-tag">Wordmark · Dark</span>
+        </div>
+        <div class="logo-card logo-card--dark">
+          <img src="assets/logo-wordmark-white.png" alt="SOMNIA Wordmark White">
+          <span class="logo-tag">Wordmark · White</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsec">
+      <div class="subsec-label">Signature Logo</div>
+      <div class="logo-pair">
+        <div class="logo-card logo-card--ivory">
+          <img src="assets/logo-full.png" alt="SOMNIA Full Logo">
+          <span class="logo-tag">Full Logo · Dark</span>
+        </div>
+        <div class="logo-card logo-card--dark">
+          <img src="assets/logo-full-white.png" alt="SOMNIA Full Logo White">
+          <span class="logo-tag">Full Logo · White</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsec">
+      <div class="subsec-label">Clear Space</div>
+      <div class="cs-wrap">
+        <div class="cs-stage">
+          <span class="cs-x cs-x--t">X</span>
+          <span class="cs-x cs-x--b">X</span>
+          <span class="cs-x cs-x--l">X</span>
+          <span class="cs-x cs-x--r">X</span>
+          <img src="assets/logo-wordmark.png" alt="SOMNIA Wordmark" style="height:36px;object-fit:contain">
+        </div>
+        <p class="cs-desc">최소 여백 X는 로고 높이와 동일합니다. 이 범위 안에 다른 그래픽 요소나 텍스트를 배치하지 않습니다.</p>
+      </div>
+    </div>
+
+    <div class="subsec">
+      <div class="subsec-label">Incorrect Usage</div>
+      <div class="wrong-grid">
+        <div class="wrong-card">
+          <div class="wrong-vis"><img src="assets/logo-wordmark.png" alt="" style="transform:scaleX(1.65)"></div>
+          <span class="wrong-tag"><span class="wrong-dot">✕</span>가로로 늘리기</span>
+        </div>
+        <div class="wrong-card">
+          <div class="wrong-vis"><img src="assets/logo-wordmark.png" alt="" style="filter:hue-rotate(145deg) saturate(2)"></div>
+          <span class="wrong-tag"><span class="wrong-dot">✕</span>색상 변경</span>
+        </div>
+        <div class="wrong-card">
+          <div class="wrong-vis"><img src="assets/logo-wordmark.png" alt="" style="filter:drop-shadow(3px 4px 8px rgba(0,0,0,.55))"></div>
+          <span class="wrong-tag"><span class="wrong-dot">✕</span>그림자 추가</span>
+        </div>
+        <div class="wrong-card">
+          <div class="wrong-vis"><img src="assets/logo-wordmark.png" alt="" style="transform:rotate(18deg)"></div>
+          <span class="wrong-tag"><span class="wrong-dot">✕</span>로고 회전</span>
+        </div>
+        <div class="wrong-card">
+          <div class="wrong-vis"><img src="assets/logo-wordmark.png" alt="" style="filter:drop-shadow(1px 0 0 #b72b2b) drop-shadow(-1px 0 0 #b72b2b) drop-shadow(0 1px 0 #b72b2b) drop-shadow(0 -1px 0 #b72b2b) drop-shadow(2px 0 0 #b72b2b) drop-shadow(-2px 0 0 #b72b2b) drop-shadow(0 2px 0 #b72b2b) drop-shadow(0 -2px 0 #b72b2b)"></div>
+          <span class="wrong-tag"><span class="wrong-dot">✕</span>윤곽선 추가</span>
+        </div>
+        <div class="wrong-card">
+          <div class="wrong-vis"><img src="assets/logo-wordmark.png" alt="" style="transform:scaleY(0.5)"></div>
+          <span class="wrong-tag"><span class="wrong-dot">✕</span>세로로 압축</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Section 03 ── -->
+  <section class="bi-sec">
+    <div class="sec-head">
+      <span class="sec-num">Section 03</span>
+      <h2 class="sec-title">Color Identity</h2>
+      <p class="sec-desc">밤하늘과 달빛에서 영감 받은 팔레트. 신뢰, 고요함, 따뜻함을 동시에 전달합니다.</p>
+    </div>
+
+    <div class="color-label">Primary Colors</div>
+    <div class="color-row color-row--2">
+      <div class="color-block">
+        <div class="csw--tall" style="background:#0E1A3A"></div>
+        <div class="color-meta">
+          <div class="color-hex">#0E1A3A</div>
+          <div class="color-name">Midnight Navy</div>
+          <div class="color-meaning">깊은 밤과 신뢰</div>
+        </div>
+      </div>
+      <div class="color-block">
+        <div class="csw--tall" style="background:#1958B2"></div>
+        <div class="color-meta">
+          <div class="color-hex">#1958B2</div>
+          <div class="color-name">Deep Ocean Blue</div>
+          <div class="color-meaning">고요함과 안정감</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="color-label" style="margin-top:32px">Secondary Colors</div>
+    <div class="color-row color-row--3">
+      <div class="color-block">
+        <div class="csw--short" style="background:#B8A7E6"></div>
+        <div class="color-meta">
+          <div class="color-hex">#B8A7E6</div>
+          <div class="color-name">Lavender Mist</div>
+          <div class="color-meaning">이완과 편안함</div>
+        </div>
+      </div>
+      <div class="color-block">
+        <div class="csw--short" style="background:#D0E6FA"></div>
+        <div class="color-meta">
+          <div class="color-hex">#D0E6FA</div>
+          <div class="color-name">Mist Blue</div>
+          <div class="color-meaning">청명함과 맑음</div>
+        </div>
+      </div>
+      <div class="color-block" style="border:1px solid rgba(14,26,58,.08)">
+        <div class="csw--short" style="background:#F6F2EA"></div>
+        <div class="color-meta">
+          <div class="color-hex">#F6F2EA</div>
+          <div class="color-name">Moon Ivory</div>
+          <div class="color-meaning">따뜻함과 부드러움</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Section 04 ── -->
+  <section class="bi-sec">
+    <div class="sec-head">
+      <span class="sec-num">Section 04</span>
+      <h2 class="sec-title">Typography</h2>
+      <p class="sec-desc">모던하고 미니멀한 서체로 브랜드의 조용한 프리미엄을 표현합니다.</p>
+    </div>
+
+    <div class="type-card">
+      <div class="type-family-name">Outfit</div>
+      <span class="type-role">Primary Typeface · Latin &amp; Numerals</span>
+      <div class="type-glyphs">
+        ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>
+        abcdefghijklmnopqrstuvwxyz<br>
+        1234567890
+      </div>
+      <div class="type-chars">
+        <span class="type-badge">Modern</span>
+        <span class="type-badge">Minimal</span>
+        <span class="type-badge">Premium</span>
+        <span class="type-badge">Clean</span>
+        <span class="type-badge">Readable</span>
+      </div>
+      <div class="type-weights">
+        <div class="wt"><div class="wt__sample" style="font-family:'Outfit';font-weight:300">Aa</div><div class="wt__label">Light · 300</div></div>
+        <div class="wt"><div class="wt__sample" style="font-family:'Outfit';font-weight:400">Aa</div><div class="wt__label">Regular · 400</div></div>
+        <div class="wt"><div class="wt__sample" style="font-family:'Outfit';font-weight:500">Aa</div><div class="wt__label">Medium · 500</div></div>
+        <div class="wt"><div class="wt__sample" style="font-family:'Outfit';font-weight:600">Aa</div><div class="wt__label">Semibold · 600</div></div>
+        <div class="wt"><div class="wt__sample" style="font-family:'Outfit';font-weight:700">Aa</div><div class="wt__label">Bold · 700</div></div>
+      </div>
+    </div>
+
+    <div class="kr-note">
+      <div class="kr-note__glyph">가</div>
+      <div>
+        <div class="kr-note__title">한글 서체 · Pretendard</div>
+        <p class="kr-note__body">한글 텍스트에는 Pretendard를 사용합니다. 한글은 동일 weight에서 영문보다 무거워 보이므로, 본문 한글은 영문 대비 1단계 낮은 weight를 적용해 시각적 균형을 유지합니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Section 05 ── -->
+  <section class="bi-sec">
+    <div class="sec-head">
+      <span class="sec-num">Section 05</span>
+      <h2 class="sec-title">Visual Language</h2>
+      <p class="sec-desc">SOMNIA의 세계를 구성하는 시각적 키워드. 모든 이미지와 그래픽에 일관되게 적용됩니다.</p>
+    </div>
+    <div class="mood-grid">
+      <div class="mood-tile mood-tile--lg mt1">
+        <div><div class="mood-kw">Moonlight</div><span class="mood-sub">달빛 아래의 고요함</span></div>
+      </div>
+      <div class="mood-tile mt2">
+        <div><div class="mood-kw">Soft Shadows</div><span class="mood-sub">부드러운 그림자</span></div>
+      </div>
+      <div class="mood-tile mt3">
+        <div><div class="mood-kw">Evening</div><span class="mood-sub">저녁의 분위기</span></div>
+      </div>
+      <div class="mood-tile mt4">
+        <div><div class="mood-kw">Calm Bedroom</div><span class="mood-sub">조용한 침실</span></div>
+      </div>
+      <div class="mood-tile mt5">
+        <div><div class="mood-kw">Dreamlike</div><span class="mood-sub">몽환적 빛</span></div>
+      </div>
+      <div class="mood-tile mood-tile--lg mt6">
+        <div><div class="mood-kw">Minimal Luxury</div><span class="mood-sub">절제된 럭셔리</span></div>
+      </div>
+      <div class="mood-tile mt7">
+        <div><div class="mood-kw">Premium Wellness</div><span class="mood-sub">프리미엄 웰니스</span></div>
+      </div>
+      <div class="mood-tile mt8">
+        <div><div class="mood-kw">Deep Sleep</div><span class="mood-sub">깊은 잠</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Section 06 ── -->
+  <section class="bi-sec">
+    <div class="sec-head">
+      <span class="sec-num">Section 06</span>
+      <h2 class="sec-title">Product Ecosystem</h2>
+      <p class="sec-desc">SOMNIA의 제품은 독립적으로 존재하지 않습니다. 함께 완전한 수면 루틴을 만듭니다.</p>
+    </div>
+    <div class="eco-wrap">
+      <svg viewBox="-300 -300 600 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SOMNIA Product Ecosystem">
+        <defs>
+          <radialGradient id="cg" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#164a93"/>
+            <stop offset="100%" stop-color="#0a1430"/>
+          </radialGradient>
+          <radialGradient id="ng" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#0e2040"/>
+            <stop offset="100%" stop-color="#060d22"/>
+          </radialGradient>
+        </defs>
+
+        <!-- Outer ring -->
+        <circle cx="0" cy="0" r="200" fill="none" stroke="rgba(184,167,230,.1)" stroke-width="1" stroke-dasharray="4 6"/>
+
+        <!-- Connection lines -->
+        <line x1="0" y1="-78" x2="0" y2="-144" stroke="rgba(184,167,230,.28)" stroke-width="1" stroke-dasharray="3 4"/>
+        <line x1="67" y1="-39" x2="125" y2="-72" stroke="rgba(184,167,230,.28)" stroke-width="1" stroke-dasharray="3 4"/>
+        <line x1="67" y1="39" x2="125" y2="72" stroke="rgba(184,167,230,.28)" stroke-width="1" stroke-dasharray="3 4"/>
+        <line x1="0" y1="78" x2="0" y2="144" stroke="rgba(184,167,230,.28)" stroke-width="1" stroke-dasharray="3 4"/>
+        <line x1="-67" y1="39" x2="-125" y2="72" stroke="rgba(184,167,230,.28)" stroke-width="1" stroke-dasharray="3 4"/>
+        <line x1="-67" y1="-39" x2="-125" y2="-72" stroke="rgba(184,167,230,.28)" stroke-width="1" stroke-dasharray="3 4"/>
+
+        <!-- Center -->
+        <circle cx="0" cy="0" r="78" fill="url(#cg)" stroke="rgba(184,167,230,.3)" stroke-width="1"/>
+        <text x="0" y="-7" text-anchor="middle" fill="#ffffff" font-family="Outfit,sans-serif" font-size="17" font-weight="600" letter-spacing="-0.4">SOMNIA</text>
+        <text x="0" y="11" text-anchor="middle" fill="rgba(184,167,230,.65)" font-family="Outfit,sans-serif" font-size="7.5" font-weight="500" letter-spacing="2">SLEEP SYSTEM</text>
+
+        <!-- Melatonin Jelly (top) -->
+        <circle cx="0" cy="-200" r="56" fill="url(#ng)" stroke="rgba(184,167,230,.28)" stroke-width="1"/>
+        <text text-anchor="middle" fill="rgba(255,255,255,.88)" font-family="Outfit,sans-serif" font-size="9.5" font-weight="600" letter-spacing="0.2">
+          <tspan x="0" y="-205">Melatonin</tspan><tspan x="0" y="-192">Jelly</tspan>
+        </text>
+
+        <!-- Aroma Oil (top-right) -->
+        <circle cx="173" cy="-100" r="56" fill="url(#ng)" stroke="rgba(184,167,230,.28)" stroke-width="1"/>
+        <text text-anchor="middle" fill="rgba(255,255,255,.88)" font-family="Outfit,sans-serif" font-size="9.5" font-weight="600" letter-spacing="0.2">
+          <tspan x="173" y="-105">Aroma</tspan><tspan x="173" y="-92">Oil</tspan>
+        </text>
+
+        <!-- Room Spray (bottom-right) -->
+        <circle cx="173" cy="100" r="56" fill="url(#ng)" stroke="rgba(184,167,230,.28)" stroke-width="1"/>
+        <text text-anchor="middle" fill="rgba(255,255,255,.88)" font-family="Outfit,sans-serif" font-size="9.5" font-weight="600" letter-spacing="0.2">
+          <tspan x="173" y="95">Room</tspan><tspan x="173" y="108">Spray</tspan>
+        </text>
+
+        <!-- Eye Mask (bottom) -->
+        <circle cx="0" cy="200" r="56" fill="url(#ng)" stroke="rgba(184,167,230,.28)" stroke-width="1"/>
+        <text text-anchor="middle" fill="rgba(255,255,255,.88)" font-family="Outfit,sans-serif" font-size="9.5" font-weight="600" letter-spacing="0.2">
+          <tspan x="0" y="195">Eye</tspan><tspan x="0" y="208">Mask</tspan>
+        </text>
+
+        <!-- Sleep Socks (bottom-left) -->
+        <circle cx="-173" cy="100" r="56" fill="url(#ng)" stroke="rgba(184,167,230,.28)" stroke-width="1"/>
+        <text text-anchor="middle" fill="rgba(255,255,255,.88)" font-family="Outfit,sans-serif" font-size="9.5" font-weight="600" letter-spacing="0.2">
+          <tspan x="-173" y="95">Sleep</tspan><tspan x="-173" y="108">Socks</tspan>
+        </text>
+
+        <!-- Sleepwear (top-left) -->
+        <circle cx="-173" cy="-100" r="56" fill="url(#ng)" stroke="rgba(184,167,230,.28)" stroke-width="1"/>
+        <text text-anchor="middle" fill="rgba(255,255,255,.88)" font-family="Outfit,sans-serif" font-size="9.5" font-weight="600" letter-spacing="0.2">
+          <tspan x="-173" y="-105">Sleep</tspan><tspan x="-173" y="-92">wear</tspan>
+        </text>
+      </svg>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

@@ -1,5 +1,5 @@
 /* SOMNIA App — shell: state, navigation, tab bar, toast, scaling */
-const { useState, useEffect, useCallback } = React;
+const { useState, useEffect, useCallback, useRef } = React;
 
 const DARK_SCREENS = { home:1, report:1, bedprep:1, bedtime:1, record:1, summary:1 };
 
@@ -34,6 +34,7 @@ function App() {
   const [overlay, setOverlay] = useState(null); // {name, arg}
   const [cart, setCart] = useState([]);
   const [toast, setToast] = useState({ msg:'', show:false });
+  const toastTimer = useRef(null);
 
   const t = useCallback((k)=> (window.SOMNIA_I18N[lang] && window.SOMNIA_I18N[lang][k]) || k, [lang]);
   const setLang = (l)=>{ setLangState(l); localStorage.setItem('somnia-app-lang', l); };
@@ -42,8 +43,8 @@ function App() {
 
   const showToast = (msg)=>{
     setToast({ msg, show:true });
-    clearTimeout(window.__stoast);
-    window.__stoast = setTimeout(()=>setToast(s=>({ ...s, show:false })), 2200);
+    clearTimeout(toastTimer.current);
+    toastTimer.current = setTimeout(()=>setToast(s=>({ ...s, show:false })), 2200);
   };
 
   const go = (name, arg)=>{
@@ -91,7 +92,7 @@ function App() {
     <IOSDevice dark={frameDark}>
       <div className="screen-host">
         {onboard
-          ? <Onboarding t={t} finish={()=>setOnboard(false)} />
+          ? <Onboarding t={t} lang={lang} finish={()=>setOnboard(false)} />
           : content}
       </div>
       <div className={'toast'+(toast.show?' show':'')}>{Ico.check({s:18})} <span>{toast.msg}</span></div>

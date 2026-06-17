@@ -229,4 +229,35 @@ border-radius: 999px;
 - Outfit → 영문·숫자
 - Pretendard → 한글
 - `localStorage` 언어 토글 (KR / EN)
+
+---
+
+## 확정된 디자인 결정 사항 (Design Decisions Log)
+
+> `/ui-review` 또는 `/ds` 에이전트가 피드백 시 이미 결정된 패턴과 충돌하지 않도록 참고할 것.
+
+### 텍스트 · 레이아웃
+
+| 항목 | 결정 | 이유 |
+|---|---|---|
+| `.sec-desc` max-width | **제거** — max-width 없음 | 640px 제한이 모든 설명 텍스트를 강제로 두 줄로 잘라냄 |
+| 두 문장 이상 설명 텍스트의 줄바꿈 | **마침표 기준 `<br>` 삽입** | 자연 호흡 단위로 시각적 단락 부여; `white-space:nowrap`보다 의도적 |
+
+### 컴포넌트 패턴
+
+| 항목 | 결정 | 이유 |
+|---|---|---|
+| 컬렉션 카드 전체 클릭 → 상세페이지 | **JS 클릭 위임** (`card.addEventListener` → `location.href`) | CSS z-index 오버레이(`.good__hit`) 방식은 `.good__body`가 z-index 상위라 클릭 이벤트가 링크에 도달하지 못함 |
+| `.good__hit` | `display:none` — href 데이터 소스로만 유지 | JS 핸들러가 href 읽어 이동; 시각적 오버레이 역할 제거 |
+| `.good__buy` 버튼 스타일 | **네이비 pill 버튼** (`background:var(--navy); border-radius:100px; color:#fff`) | 언더라인 텍스트 버튼은 장바구니 담기 액션의 시각적 무게감 부족 |
+| 카드 내 버튼·링크 충돌 방지 | `e.stopPropagation()` on `.good__buy` click | 버튼 클릭이 카드 클릭 핸들러로 버블링되어 상세페이지 이동되는 것 방지 |
+
+### 장바구니 시스템
+
+| 항목 | 결정 |
+|---|---|
+| 카트 상태 저장 | `localStorage` 키 `'somnia-cart'`, 항목 구조 `{id, name, price, qty}` |
+| 전역 API | `window.CART = { add, remove, update, open, close, toast, getCount }` |
+| 카트 스크립트 로드 순서 | `assets/cart.js` → 페이지별 PDP JS 순서 유지 (cart.js가 반드시 먼저) |
+| PDP addCart 폴백 | `window.CART` 없을 때 로컬 `cartCount` 변수로 폴백 처리 유지 |
 - 양국어 병기 시 한글은 weight 1단계 낮춰 시각적 균형 유지

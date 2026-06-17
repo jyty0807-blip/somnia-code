@@ -32,21 +32,21 @@
   /* body */
   .wrap{max-width:1180px;margin:0 auto;padding:clamp(40px,5vw,64px) clamp(24px,5vw,72px) 120px}
   .cat{margin-bottom:56px}
-  .cat__head{display:flex;align-items:baseline;gap:14px;padding-bottom:18px;margin-bottom:26px;
+  .cat__head{display:flex;align-items:baseline;gap:14px;padding-bottom:16px;margin-bottom:24px;
     border-bottom:1px solid rgba(14,26,58,.13)}
   .cat__num{font-family:var(--somnia-en);font-size:var(--fs-caption);font-weight:var(--w-bold);
     letter-spacing:.16em;color:var(--somnia-ocean)}
   .cat__title{font-family:var(--somnia-en);font-size:var(--fs-h3);font-weight:var(--w-semibold);color:var(--somnia-ink)}
   .cat__sub{font-size:var(--fs-sm);font-weight:var(--w-light);color:var(--somnia-text-soft);margin-left:auto}
 
-  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
   @media(max-width:900px){.grid{grid-template-columns:1fr 1fr}}
   @media(max-width:600px){.grid{grid-template-columns:1fr}}
 
   .card{position:relative;display:flex;flex-direction:column;background:var(--somnia-white);border:1px solid rgba(14,26,58,.08);
-    border-radius:16px;padding:24px 24px 20px;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;min-height:158px}
+    border-radius:16px;padding:24px;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;min-height:158px}
   .card:hover{transform:translateY(-4px);box-shadow:0 22px 44px -28px rgba(14,26,58,.45);border-color:rgba(25,88,178,.35)}
-  .card__top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .card__top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
   .badge{font-family:var(--somnia-en);font-size:11px;font-weight:var(--w-semibold);letter-spacing:.12em;
     text-transform:uppercase;padding:5px 10px;border-radius:999px}
   .b-page{background:rgba(25,88,178,.12);color:var(--somnia-ocean)}
@@ -56,15 +56,16 @@
   .arrow{color:var(--somnia-text-soft);transition:transform .25s,color .25s}
   .card:hover .arrow{transform:translateX(4px);color:var(--somnia-ocean)}
   .card__name{font-family:var(--somnia-en);font-size:var(--fs-h3);font-weight:var(--w-semibold);
-    color:var(--somnia-ink);line-height:1.2;margin-bottom:4px}
+    color:var(--somnia-ink);line-height:var(--lh-snug);margin-bottom:4px}
   .card__kr{font-size:var(--fs-sm);font-weight:var(--w-medium);color:var(--somnia-text);margin-bottom:8px}
-  .card__desc{font-size:var(--fs-sm);font-weight:var(--w-light);color:var(--somnia-text-soft);line-height:1.6;flex:1}
-  .card__foot{margin-top:14px;display:flex;align-items:center;gap:12px;font-family:var(--somnia-en);font-size:var(--fs-caption)}
-  .card__file{color:var(--somnia-text-soft);opacity:.7;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;
+  .card__desc{font-size:var(--fs-sm);font-weight:var(--w-light);color:var(--somnia-text-soft);line-height:var(--lh-body);flex:1;word-break:keep-all;overflow-wrap:break-word}
+  .card__foot{margin-top:16px;display:flex;align-items:center;gap:12px;font-family:var(--somnia-en);font-size:var(--fs-caption)}
+  .card__file{color:var(--somnia-text-soft);opacity:.7;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:var(--fs-caption);
     overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0}
   .card__hit{position:absolute;inset:0;z-index:1;border-radius:16px}
   .printlink{position:relative;z-index:2;flex:none;color:var(--somnia-ocean);font-weight:var(--w-medium)}
   .printlink:hover{text-decoration:underline}
+  .masthead .meta a{color:#fff;text-decoration:underline}
 </style>
 </head>
 <body>
@@ -75,10 +76,10 @@
       <h1>작업물 한눈에</h1>
       <p>SOMNIA 브랜드의 모든 페이지·도구·에셋을 한 곳에서. 카드를 눌러 바로 엽니다.</p>
       <div class="meta">
-        <span><b>17</b> 산출물</span>
-        <span>색·타입 단일 원천 · <a href="assets/tokens.css" style="color:#fff;text-decoration:underline">tokens.css</a></span>
-        <span><a href="SOMNIA Type System.html" style="color:#fff;text-decoration:underline">타입 시스템 →</a></span>
-        <span><a href="SOMNIA Social System.html" style="color:#fff;text-decoration:underline">SNS 비주얼 →</a></span>
+        <span><b>19</b> 산출물</span>
+        <span>색·타입 단일 원천 · <a href="assets/tokens.css">tokens.css</a></span>
+        <span><a href="SOMNIA Type System.html">타입 시스템 →</a></span>
+        <span><a href="SOMNIA Social System.html">SNS 비주얼 →</a></span>
       </div>
     </div>
   </header>
@@ -95,6 +96,20 @@
           <div class="card__kr">브랜드 랜딩 페이지</div>
           <div class="card__desc">이중언어(KR/EN) 메인 사이트. 히어로·철학·컬렉션·앱·뉴스레터.</div>
           <div class="card__foot"><span class="card__file">SOMNIA.html</span><a class="printlink" href="SOMNIA-print.html">인쇄용</a></div>
+        </div>
+        <div class="card"><a class="card__hit" href="SOMNIA Our Story.html" aria-label="열기"></a>
+          <div class="card__top"><span class="badge b-page">Page</span><span class="arrow">→</span></div>
+          <div class="card__name">Our Story</div>
+          <div class="card__kr">브랜드 스토리 페이지</div>
+          <div class="card__desc">소비자 대상 브랜드 스토리. 철학·컬러·무드·컬렉션 소개. 철학 섹션에서 연결.</div>
+          <div class="card__foot"><span class="card__file">SOMNIA Our Story.html</span></div>
+        </div>
+        <div class="card"><a class="card__hit" href="SOMNIA Brand Identity.html" aria-label="열기"></a>
+          <div class="card__top"><span class="badge b-system">System</span><span class="arrow">→</span></div>
+          <div class="card__name">Brand Identity</div>
+          <div class="card__kr">브랜드 아이덴티티 가이드</div>
+          <div class="card__desc">로고 시스템·컬러·타이포·비주얼 언어·제품 생태계를 담은 브랜드 바이블.</div>
+          <div class="card__foot"><span class="card__file">SOMNIA Brand Identity.html</span></div>
         </div>
         <div class="card"><a class="card__hit" href="SOMNIA App.html" aria-label="열기"></a>
           <div class="card__top"><span class="badge b-page">Page</span><span class="arrow">→</span></div>

@@ -83,9 +83,13 @@
     toastT=setTimeout(function(){ toastEl.classList.remove('show'); },2200);
   }
   function addCart(){
-    cartCount+=state.qty;
-    if(cartNumEl) cartNumEl.textContent=cartCount;
-    toast(state.flavor+' '+state.qty+'개를 장바구니에 담았어요.');
+    if(window.CART){
+      CART.add({id:'jelly-'+state.flavor,name:'멜라토닌 슬립 젤리 ('+state.flavor+')',price:UNIT,qty:state.qty});
+    } else {
+      cartCount+=state.qty;
+      if(cartNumEl) cartNumEl.textContent=cartCount;
+      toast(state.flavor+' '+state.qty+'개를 장바구니에 담았어요.');
+    }
   }
   function buyNow(){
     toast('구매 페이지로 이동합니다 · 합계 '+fmt(UNIT*state.qty)+'원');

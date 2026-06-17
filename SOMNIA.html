@@ -28,6 +28,10 @@
       <button data-lang="en">EN</button>
       <button data-lang="kr">KR</button>
     </div>
+    <a class="nav__cart" href="#" aria-label="장바구니">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      <span class="cartnum"></span>
+    </a>
     <button class="nav__menu" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
@@ -71,6 +75,9 @@
       <span class="kr-text">썸니아는 수면의 중요성에서 출발한 슬립 라이프스타일 브랜드입니다.
 정성껏 설계된 휴식이 모든 것을 바꿉니다.</span>
     </p>
+    <div class="manifesto__cta reveal d3">
+      <a class="btn btn--ghost t" href="SOMNIA Our Story.html"><span class="en">Our Brand Story</span><span class="kr-text">브랜드 스토리 보기</span> <span class="arw">→</span></a>
+    </div>
   </div>
 </section>
 
@@ -123,55 +130,75 @@
 
     <div class="goods-grid">
       <article class="good feature reveal">
-        <image-slot id="good-jelly" placeholder="Melatonin Jelly — product shot"></image-slot>
+        <a class="good__hit" href="SOMNIA Product.html" aria-label="상품 상세보기"></a>
+        <div class="good__media">
+          <image-slot id="good-jelly" placeholder="Melatonin Jelly — product shot"></image-slot>
+          <div class="good__hover-skin" aria-hidden="true"></div>
+        </div>
         <div class="good__body">
           <span class="good__cat t"><span class="en">Inner Beauty</span><span class="kr-text">이너 뷰티</span></span>
           <h3 class="good__name t"><span class="en">Melatonin Sleep Jelly</span><span class="kr-text">멜라토닌 슬립 젤리</span></h3>
           <p class="good__desc t"><span class="en">A nightly ritual in a single soft chew — calm in, restlessness out.</span><span class="kr-text">한 알의 부드러운 의식 — 평온은 들이고, 불안은 내보냅니다.</span></p>
-          <a class="good__buy t" href="SOMNIA Product.html"><span class="en">View &amp; Buy</span><span class="kr-text">구매하기</span> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <button class="good__buy t" data-id="jelly" data-name="멜라토닌 슬립 젤리" data-price="29000"><span class="en">Add to Cart</span><span class="kr-text">장바구니 담기</span> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
         </div>
       </article>
 
       <article class="good reveal d1">
-        <image-slot id="good-oil" placeholder="Lavender oil — product shot"></image-slot>
+        <a class="good__hit" href="SOMNIA Aroma Duo.html" aria-label="상품 상세보기"></a>
+        <div class="good__media">
+          <image-slot id="good-oil" placeholder="Lavender oil — product shot"></image-slot>
+          <div class="good__hover-skin" aria-hidden="true"></div>
+        </div>
         <div class="good__body">
           <span class="good__cat t"><span class="en">Aroma Therapy</span><span class="kr-text">아로마 테라피</span></span>
           <h3 class="good__name t"><span class="en">Lavender Aroma Oil</span><span class="kr-text">라벤더 아로마 오일</span></h3>
           <p class="good__desc t"><span class="en">Slow, grounding lavender for the hour before sleep.</span><span class="kr-text">잠들기 전 한 시간, 차분히 내려앉는 라벤더로 힐링해보세요.</span></p>
-          <a class="good__buy t" href="SOMNIA Aroma Duo.html"><span class="en">View &amp; Buy</span><span class="kr-text">구매하기</span> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <button class="good__buy t" data-id="aroma-oil" data-name="라벤더 아로마 오일" data-price="23000"><span class="en">Add to Cart</span><span class="kr-text">장바구니 담기</span> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
         </div>
       </article>
 
       <article class="good reveal d2">
-        <image-slot id="good-mask" placeholder="Sleep eye mask — product shot"></image-slot>
+        <a class="good__hit" href="SOMNIA Sleep Gear Duo.html" aria-label="상품 상세보기"></a>
+        <div class="good__media">
+          <image-slot id="good-mask" placeholder="Sleep eye mask — product shot"></image-slot>
+          <div class="good__hover-skin" aria-hidden="true"></div>
+        </div>
         <div class="good__body">
           <span class="good__cat t"><span class="en">Sleep Gear</span><span class="kr-text">슬립 기어</span></span>
           <h3 class="good__name t"><span class="en">Velvet Sleep Mask</span><span class="kr-text">벨벳 수면 안대</span></h3>
           <p class="good__desc t"><span class="en">Weightless darkness, wrapped in soft velvet.</span><span class="kr-text">어떤 빛도 완벽 차단, 공학적 설계된 안대로 완전한 어둠을 즐기세요.</span></p>
-          <a class="good__buy t" href="SOMNIA Sleep Gear Duo.html"><span class="en">View &amp; Buy</span><span class="kr-text">구매하기</span> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <button class="good__buy t" data-id="sleep-mask" data-name="벨벳 수면 안대" data-price="55000"><span class="en">Add to Cart</span><span class="kr-text">장바구니 담기</span> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
         </div>
       </article>
 
 
 
       <article class="good reveal d2">
-        <image-slot id="good-spray" placeholder="Room spray — product shot"></image-slot>
+        <a class="good__hit" href="SOMNIA Aroma Duo.html" aria-label="상품 상세보기"></a>
+        <div class="good__media">
+          <image-slot id="good-spray" placeholder="Room spray — product shot"></image-slot>
+          <div class="good__hover-skin" aria-hidden="true"></div>
+        </div>
         <div class="good__body">
           <span class="good__cat t"><span class="en">Aroma Therapy</span><span class="kr-text">아로마 테라피</span></span>
           <h3 class="good__name t"><span class="en">Pillow Room Spray</span><span class="kr-text">필로우 룸 스프레이</span></h3>
           <p class="good__desc t"><span class="en">A light mist that turns any room into a quiet night.</span><span class="kr-text">어떤 공간이든 편안한 둥지로
 바꾸는 룸 스프레이.</span></p>
-          <a class="good__buy t" href="SOMNIA Aroma Duo.html"><span class="en">View &amp; Buy</span><span class="kr-text">구매하기</span> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <button class="good__buy t" data-id="room-spray" data-name="필로우 룸 스프레이" data-price="19000"><span class="en">Add to Cart</span><span class="kr-text">장바구니 담기</span> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
         </div>
       </article>
 
       <article class="good reveal d3">
-        <image-slot id="good-pajama" placeholder="Sleepwear / pajama — product shot"></image-slot>
+        <a class="good__hit" href="SOMNIA Sleep Gear Duo.html" aria-label="상품 상세보기"></a>
+        <div class="good__media">
+          <image-slot id="good-pajama" placeholder="Sleepwear / pajama — product shot"></image-slot>
+          <div class="good__hover-skin" aria-hidden="true"></div>
+        </div>
         <div class="good__body">
           <span class="good__cat t"><span class="en">Sleep Gear</span><span class="kr-text">슬립 기어</span></span>
           <h3 class="good__name t"><span class="en">Cloud Sleepwear</span><span class="kr-text">클라우드 슬립웨어</span></h3>
           <p class="good__desc t"><span class="en">Soft, breathable cotton made for stillness.</span><span class="kr-text">고요함을 위한 부드럽고 통기성 좋은 코튼.</span></p>
-          <a class="good__buy t" href="SOMNIA Sleep Gear Duo.html"><span class="en">View &amp; Buy</span><span class="kr-text">구매하기</span> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <button class="good__buy t" data-id="sleepwear" data-name="클라우드 슬립웨어" data-price="49000"><span class="en">Add to Cart</span><span class="kr-text">장바구니 담기</span> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
         </div>
       </article>
     </div>
@@ -195,6 +222,7 @@
       </ul>
       <div class="app__cta reveal d3">
         <a class="btn btn--light t" href="#cta"><span class="en">Get Early Access</span><span class="kr-text">사전 예약하기</span> <span class="arw">→</span></a>
+        <a class="btn btn--ghost t" href="SOMNIA App.html"><span class="en">View App Design</span><span class="kr-text">앱 디자인 보기</span> <span class="arw">→</span></a>
       </div>
     </div>
 
@@ -294,6 +322,7 @@
 </footer>
 
 <script src="assets/image-slot.js"></script>
+<script src="assets/cart.js"></script>
 <script src="assets/somnia.js"></script>
 </body>
 </html>
