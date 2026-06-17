@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOMNIA Detail Studio — Dream Jelly</title>
+<link rel="stylesheet" href="assets/detail/detail.css">
+</head>
+<body>
+<div class="studio">
+
+  <!-- LEFT RAIL -->
+  <aside class="rail">
+    <h1>SOMNIA Detail Studio</h1>
+    <div class="tag">Dream Jelly · 상세페이지 1000px</div>
+    <div class="seclist" id="seclist"></div>
+    <div class="railfoot">
+      <button class="btn" id="dlAll">전체 PNG 저장</button>
+      <button class="btn btn--g" id="dlStrip">세로 1장 PNG</button>
+    </div>
+  </aside>
+
+  <!-- CENTER STAGE -->
+  <main class="stage" id="stage">
+    <div class="zoombar">
+      <input type="range" id="zoom" min="28" max="100" step="1" value="52">
+      <span id="zoomv">52%</span>
+    </div>
+    <div class="stagewrap" id="strip">
+
+      <!-- 1 · HERO -->
+      <div class="frame" data-sec="hero" data-label="히어로">
+        <div class="secbar"><button data-png>PNG</button></div>
+        <section class="sec s-hero" data-screen-label="히어로">
+          <img class="sym" src="assets/symbol-white.png" alt="SOMNIA">
+          <div class="eyebrow" contenteditable="true">SOMNIA DREAM JELLY</div>
+          <h2 contenteditable="true">잠들기 전 30분,<br>하루를 차분하게 마무리하는 젤리</h2>
+          <div class="lead" contenteditable="true">바쁜 하루의 끝, 몸과 마음을 천천히 내려놓는<br>나이트 루틴의 시작.</div>
+          <div class="heroimg">
+            <image-slot id="hero_img" shape="rect" radius="0" placeholder="제품 · 모델 컷을 올려주세요"></image-slot>
+            <video class="herovid" muted loop playsinline></video>
+          </div>
+        </section>
+      </div>
+
+      <!-- 2 · POINTS 01–05 -->
+      <div class="frame" data-sec="points" data-label="POINT 01–05">
+        <div class="secbar"><button data-png>PNG</button></div>
+        <section class="sec s-points" data-screen-label="POINT 목록">
+          <div class="top">
+            <img class="lock" src="assets/logo-full.png" alt="SOMNIA">
+            <div class="kr" contenteditable="true">자기 전 한 알씩 챙기는<br><span class="hl">차분한 나이트 루틴</span></div>
+          </div>
+          <div class="plist">
+            <div class="prow"><div class="pn">POINT 01</div><div class="pt" contenteditable="true">잠들기 전 30분, <span class="ac">간편한 한 알</span></div></div>
+            <div class="prow"><div class="pn">POINT 02</div><div class="pt" contenteditable="true">카페인 프리, <span class="ac">부담 없는 취침 전 젤리</span></div></div>
+            <div class="prow"><div class="pn">POINT 03</div><div class="pt" contenteditable="true">라벤더·캐모마일 <span class="ac">허브 무드</span></div></div>
+            <div class="prow"><div class="pn">POINT 04</div><div class="pt" contenteditable="true">개별 포장, <span class="ac">어디서든 같은 루틴</span></div></div>
+            <div class="prow"><div class="pn">POINT 05</div><div class="pt" contenteditable="true">SOMNIA 앱과 <span class="ac">연결되는 수면 기록</span></div></div>
+          </div>
+        </section>
+      </div>
+
+      <!-- 3 · POINT DETAIL -->
+      <div class="frame" data-sec="detail" data-label="POINT 상세">
+        <div class="secbar"><button data-png>PNG</button></div>
+        <section class="sec s-detail" data-screen-label="POINT 상세">
+          <div class="badge" contenteditable="true">POINT 03</div>
+          <h2 contenteditable="true">허브 블렌딩 무드로<br><span class="ac">차분하게</span></h2>
+          <div class="body" contenteditable="true">라벤더, 캐모마일이 어우러진 취침 전 허브 무드로<br><span class="hl">하루의 긴장을 천천히</span> 내려놓으세요.</div>
+          <div class="disc" contenteditable="true">* 본 제품은 질병의 예방·치료를 위한 의약품이 아닙니다.</div>
+        </section>
+      </div>
+
+      <!-- 4 · FLAVORS -->
+      <div class="frame" data-sec="flavor" data-label="맛 3종">
+        <div class="secbar"><button data-png>PNG</button></div>
+        <section class="sec s-flavor" data-screen-label="맛 3종">
+          <div class="top">
+            <div class="eyebrow" contenteditable="true">3 NIGHT MOODS</div>
+            <h2 contenteditable="true">밤의 기분에 따라 고르는 <span class="ac">3가지 무드</span></h2>
+          </div>
+          <div class="fcards">
+            <div class="fcard">
+              <div class="dot" style="background:radial-gradient(circle at 38% 32%, #3b6fd4, #16306e)"></div>
+              <div class="nm" contenteditable="true">Moon Berry</div>
+              <div class="mood" contenteditable="true">블루베리 · 라벤더 무드</div>
+              <div class="cp" contenteditable="true">잔잔한 베리 향으로 하루를 천천히 정리하는 밤.</div>
+            </div>
+            <div class="fcard">
+              <div class="dot" style="background:radial-gradient(circle at 38% 32%, #9a78d6, #4b2e83)"></div>
+              <div class="nm" contenteditable="true">Deep Night Grape</div>
+              <div class="mood" contenteditable="true">포도 · 캐모마일 무드</div>
+              <div class="cp" contenteditable="true">깊은 보랏빛 무드로 잠들기 전 시간을 부드럽게.</div>
+            </div>
+            <div class="fcard">
+              <div class="dot" style="background:radial-gradient(circle at 38% 32%, #f4ecd8, #d8c79c)"></div>
+              <div class="nm" contenteditable="true">Vanilla Moon</div>
+              <div class="mood" contenteditable="true">바닐라 · 우유향 무드</div>
+              <div class="cp" contenteditable="true">포근한 바닐라 무드로 침실의 온도를 낮추는 밤.</div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- 5 · USAGE -->
+      <div class="frame" data-sec="usage" data-label="사용 방법">
+        <div class="secbar"><button data-png>PNG</button></div>
+        <section class="sec s-usage" data-screen-label="사용 방법">
+          <div class="top">
+            <div class="eyebrow" contenteditable="true">HOW TO USE</div>
+            <h2 contenteditable="true">잠들기 전, 세 단계면 충분해요</h2>
+            <div class="sub" contenteditable="true">매일 밤 같은 시간, 같은 루틴으로.</div>
+          </div>
+          <div class="steps">
+            <div class="step"><div class="num">1</div><div class="tx" contenteditable="true">잠들기 약 <b>30분 전</b> 한 알을 섭취합니다.</div></div>
+            <div class="step"><div class="num">2</div><div class="tx" contenteditable="true">조명을 낮추고 <b>화면 사용</b>을 줄입니다.</div></div>
+            <div class="step"><div class="num">3</div><div class="tx" contenteditable="true">앱에서 <b>오늘의 루틴</b>을 체크합니다.</div></div>
+          </div>
+        </section>
+      </div>
+
+      <!-- 6 · COMPARISON CHART -->
+      <div class="frame" data-sec="chart" data-label="비교 차트">
+        <div class="secbar"><button data-png>PNG</button></div>
+        <section class="sec s-chart" data-screen-label="비교 차트">
+          <div class="top">
+            <div class="eyebrow" contenteditable="true">ROUTINE COMPARISON</div>
+            <h2 contenteditable="true">잠들기 전, <span class="ac">루틴이 있는 밤</span>의 차이</h2>
+          </div>
+          <div class="chart" id="chart">
+            <div class="bar hot" data-val="92"><div class="blab" contenteditable="true">SOMNIA 루틴</div><div class="btrack"><div class="bfill"><span class="bval"></span></div></div></div>
+            <div class="bar" data-val="58"><div class="blab" contenteditable="true">불규칙한 취침</div><div class="btrack"><div class="bfill"><span class="bval"></span></div></div></div>
+            <div class="bar" data-val="34"><div class="blab" contenteditable="true">자기 전 스마트폰</div><div class="btrack"><div class="bfill"><span class="bval"></span></div></div></div>
+          </div>
+          <div class="disc" contenteditable="true">* 막대는 이해를 돕기 위한 예시이며, 실제 효과·수치를 보장하지 않습니다.</div>
+        </section>
+      </div>
+
+      <!-- 7 · GIF TEXT REVEAL -->
+      <div class="frame" data-sec="gif" data-label="GIF 텍스트 리빌">
+        <div class="secbar"><button data-png>PNG</button><button class="gif" data-gif>GIF 저장</button></div>
+        <section class="sec s-gif" data-screen-label="GIF 리빌" id="gifsec">
+          <div class="g-top" contenteditable="true">기분 탓이 아니에요!<span class="sm">다른 나이트 루틴과는</span></div>
+          <div class="g-divider"></div>
+          <div class="g-word"><span class="q">“</span><span class="w" contenteditable="true">확실히</span><span class="q">”</span></div>
+          <div class="g-bottom" contenteditable="true">달라요!</div>
+        </section>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- RIGHT PANEL -->
+  <aside class="panel" id="panel">
+    <h2 id="pTitle">섹션</h2>
+    <p class="hint" id="pHint">왼쪽에서 섹션을 고르거나 캔버스에서 텍스트를 클릭해 바로 편집하세요.</p>
+    <div id="pBody"></div>
+  </aside>
+
+</div>
+
+<script src="assets/image-slot.js"></script>
+<script src="assets/detail/detail.js"></script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOMNIA — Type System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<link rel="stylesheet" href="assets/tokens.css">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--somnia-font);color:var(--somnia-text);background:var(--somnia-ivory);
+    -webkit-font-smoothing:antialiased;line-height:var(--lh-body)}
+  .wrap{max-width:1080px;margin:0 auto;padding:clamp(48px,7vw,104px) clamp(24px,5vw,72px) 120px}
+
+  /* page head */
+  .masthead{border-bottom:1px solid rgba(14,26,58,.14);padding-bottom:40px;margin-bottom:56px}
+  .eyebrow{font-family:var(--somnia-en);font-size:var(--fs-eyebrow);font-weight:var(--w-semibold);
+    letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--somnia-ocean)}
+  .masthead h1{font-family:var(--somnia-en);font-size:var(--fs-display);font-weight:var(--w-semibold);
+    line-height:var(--lh-tight);letter-spacing:var(--ls-tight);color:var(--somnia-ink);margin:18px 0 14px}
+  .masthead p{font-size:var(--fs-lead);font-weight:var(--w-light);color:var(--somnia-text-soft);max-width:620px}
+
+  section{margin-bottom:72px}
+  .sec-label{font-family:var(--somnia-en);font-size:var(--fs-eyebrow);font-weight:var(--w-semibold);
+    letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--somnia-ocean);
+    padding-bottom:16px;margin-bottom:28px;border-bottom:1px solid rgba(14,26,58,.12)}
+
+  /* families */
+  .fams{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .fam{background:var(--somnia-white);border:1px solid rgba(14,26,58,.08);border-radius:18px;padding:34px 36px}
+  .fam__role{font-family:var(--somnia-en);font-size:var(--fs-caption);font-weight:var(--w-semibold);
+    letter-spacing:.14em;text-transform:uppercase;color:var(--somnia-text-soft);margin-bottom:6px}
+  .fam__name{font-family:var(--somnia-en);font-size:var(--fs-h2);font-weight:var(--w-semibold);
+    color:var(--somnia-ink);line-height:1.1;margin-bottom:18px}
+  .fam--kr .fam__name{font-family:var(--somnia-kr)}
+  .fam__glyph{font-size:64px;line-height:1.1;color:var(--somnia-ink);font-weight:var(--w-regular);margin-bottom:6px}
+  .fam--kr .fam__glyph{font-family:var(--somnia-kr)}
+  .fam__use{font-size:var(--fs-sm);font-weight:var(--w-light);color:var(--somnia-text-soft)}
+
+  /* weights */
+  .weights{display:flex;flex-direction:column;gap:2px}
+  .wrow{display:grid;grid-template-columns:150px 1fr;gap:24px;align-items:baseline;
+    padding:18px 0;border-top:1px solid rgba(14,26,58,.08)}
+  .wrow:first-child{border-top:none}
+  .wrow .meta{font-family:var(--somnia-en);font-size:var(--fs-caption);color:var(--somnia-text-soft)}
+  .wrow .meta b{display:block;font-size:var(--fs-sm);font-weight:var(--w-semibold);color:var(--somnia-ink);letter-spacing:.04em}
+  .wrow .sample{font-size:30px;color:var(--somnia-ink);line-height:1.2}
+
+  /* scale */
+  .scale{display:flex;flex-direction:column}
+  .srow{display:grid;grid-template-columns:184px 1fr;gap:28px;align-items:baseline;
+    padding:26px 0;border-top:1px solid rgba(14,26,58,.08)}
+  .srow:first-child{border-top:none}
+  .srow .tag{font-family:var(--somnia-en);font-size:var(--fs-caption);color:var(--somnia-text-soft);line-height:1.5}
+  .srow .tag b{display:block;font-size:var(--fs-sm);font-weight:var(--w-semibold);color:var(--somnia-ink);
+    letter-spacing:.02em;margin-bottom:3px}
+  .srow .tag code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;color:var(--somnia-ocean)}
+  .srow .demo .en{color:var(--somnia-ink);display:block}
+  .srow .demo .kr{font-family:var(--somnia-kr);color:var(--somnia-text-soft);display:block;margin-top:6px}
+
+  .d-display .en,.d-display .kr{font-size:var(--fs-display);font-weight:var(--w-semibold);line-height:var(--lh-tight);letter-spacing:var(--ls-tight)}
+  .d-h1 .en,.d-h1 .kr{font-size:var(--fs-h1);font-weight:var(--w-semibold);line-height:var(--lh-snug);letter-spacing:var(--ls-snug)}
+  .d-h2 .en,.d-h2 .kr{font-size:var(--fs-h2);font-weight:var(--w-semibold);line-height:var(--lh-snug);letter-spacing:var(--ls-snug)}
+  .d-h3 .en,.d-h3 .kr{font-size:var(--fs-h3);font-weight:var(--w-semibold);line-height:var(--lh-snug)}
+  .d-lead .en,.d-lead .kr{font-size:var(--fs-lead);font-weight:var(--w-light);line-height:var(--lh-body)}
+  .d-body .en,.d-body .kr{font-size:var(--fs-body);font-weight:var(--w-regular);line-height:var(--lh-body)}
+  .d-sm .en,.d-sm .kr{font-size:var(--fs-sm);font-weight:var(--w-regular);line-height:1.65}
+  .d-cap .en,.d-cap .kr{font-size:var(--fs-caption);font-weight:var(--w-regular);line-height:1.5}
+  .d-eye .en,.d-eye .kr{font-family:var(--somnia-en);font-size:var(--fs-eyebrow);font-weight:var(--w-semibold);
+    letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--somnia-ocean)}
+
+  /* rules */
+  .rules{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .rule{background:var(--somnia-white);border:1px solid rgba(14,26,58,.08);border-radius:16px;padding:26px 28px}
+  .rule h4{font-family:var(--somnia-en);font-size:var(--fs-h3);font-weight:var(--w-semibold);color:var(--somnia-ink);margin-bottom:10px}
+  .rule p{font-size:var(--fs-sm);font-weight:var(--w-light);color:var(--somnia-text-soft);line-height:1.7}
+  .rule p b{font-weight:var(--w-semibold);color:var(--somnia-text)}
+
+  .back{display:inline-flex;align-items:center;gap:8px;margin-bottom:36px;font-family:var(--somnia-en);
+    font-size:var(--fs-sm);font-weight:var(--w-medium);color:var(--somnia-ocean);text-decoration:none}
+  .back:hover{gap:12px}
+  @media(max-width:720px){.fams,.rules{grid-template-columns:1fr}.srow,.wrow{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <a class="back" href="index.html">← 작업물 목차</a>
+
+  <div class="masthead">
+    <div class="eyebrow">SOMNIA · Type System</div>
+    <h1>Quiet by design.</h1>
+    <p>두 글꼴 — 라틴·숫자는 Outfit, 한글은 Pretendard. 가볍고 넉넉한 행간으로 '잠'의 고요함을 활자로 옮깁니다.</p>
+  </div>
+
+  <!-- FAMILIES -->
+  <section>
+    <div class="sec-label">Typefaces</div>
+    <div class="fams">
+      <div class="fam">
+        <div class="fam__role">Latin · Numerals</div>
+        <div class="fam__name">Outfit</div>
+        <div class="fam__glyph">Aa Gg 0123</div>
+        <div class="fam__use">제목·영문·숫자·오버라인. 기하학적이고 단정한 산세리프. 300–700 사용.</div>
+      </div>
+      <div class="fam fam--kr">
+        <div class="fam__role">Korean</div>
+        <div class="fam__name">Pretendard</div>
+        <div class="fam__glyph">가나다 라마</div>
+        <div class="fam__use">본문·한글 전반. Outfit과 골격이 어울리는 한글 산세리프. 300–700 사용.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WEIGHTS -->
+  <section>
+    <div class="sec-label">Weights</div>
+    <div class="weights">
+      <div class="wrow"><div class="meta"><b>Light</b>300 · --w-light</div><div class="sample" style="font-weight:300">Sleep Deeper · 깊은 잠</div></div>
+      <div class="wrow"><div class="meta"><b>Regular</b>400 · --w-regular</div><div class="sample" style="font-weight:400">Sleep Deeper · 깊은 잠</div></div>
+      <div class="wrow"><div class="meta"><b>Medium</b>500 · --w-medium</div><div class="sample" style="font-weight:500">Sleep Deeper · 깊은 잠</div></div>
+      <div class="wrow"><div class="meta"><b>Semibold</b>600 · --w-semibold</div><div class="sample" style="font-weight:600">Sleep Deeper · 깊은 잠</div></div>
+      <div class="wrow"><div class="meta"><b>Bold</b>700 · --w-bold</div><div class="sample" style="font-weight:700">Sleep Deeper · 깊은 잠</div></div>
+    </div>
+  </section>
+
+  <!-- SCALE -->
+  <section>
+    <div class="sec-label">Type Scale</div>
+    <div class="scale">
+      <div class="srow d-display"><div class="tag"><b>Display</b>48 → 64px<br><code>--fs-display</code></div><div class="demo"><span class="en">Sleep Deeper</span><span class="kr">더 깊은 밤으로</span></div></div>
+      <div class="srow d-h1"><div class="tag"><b>H1 · Page Title</b>35 → 46px<br><code>--fs-h1</code></div><div class="demo"><span class="en">Night Collection</span><span class="kr">나이트 컬렉션</span></div></div>
+      <div class="srow d-h2"><div class="tag"><b>H2 · Section</b>27 → 38px<br><code>--fs-h2</code></div><div class="demo"><span class="en">A ritual before sleep</span><span class="kr">잠들기 전의 의식</span></div></div>
+      <div class="srow d-h3"><div class="tag"><b>H3 · Subhead</b>22 → 26px<br><code>--fs-h3</code></div><div class="demo"><span class="en">Lavender &amp; Cedarwood</span><span class="kr">라벤더와 시더우드</span></div></div>
+      <div class="srow d-lead"><div class="tag"><b>Lead</b>18 → 21px · Light<br><code>--fs-lead</code></div><div class="demo"><span class="en">Two scents that make the quietest night.</span><span class="kr">두 향이 만드는 가장 고요한 밤.</span></div></div>
+      <div class="srow d-body"><div class="tag"><b>Body</b>17px · Regular<br><code>--fs-body</code></div><div class="demo"><span class="en">Drop one or two onto your wrist and breathe deeply before bed.</span><span class="kr">잠들기 전 손목에 한두 방울 떨어뜨리고 깊게 호흡합니다.</span></div></div>
+      <div class="srow d-sm"><div class="tag"><b>Small</b>15px<br><code>--fs-sm</code></div><div class="demo"><span class="en">100% natural essential oils, no synthetic fragrance.</span><span class="kr">100% 천연 에센셜 오일, 합성향료 무첨가.</span></div></div>
+      <div class="srow d-cap"><div class="tag"><b>Caption</b>13px<br><code>--fs-caption</code></div><div class="demo"><span class="en">※ Images are styled shots and may differ from the actual product.</span><span class="kr">※ 이미지는 연출컷이며 실제와 다를 수 있습니다.</span></div></div>
+      <div class="srow d-eye"><div class="tag"><b>Eyebrow · Overline</b>13px · 0.28em<br><code>--fs-eyebrow</code></div><div class="demo"><span class="en">Scent Notes</span><span class="kr" style="letter-spacing:.18em">아로마테라피</span></div></div>
+    </div>
+  </section>
+
+  <!-- RULES -->
+  <section>
+    <div class="sec-label">Pairing Rules</div>
+    <div class="rules">
+      <div class="rule"><h4>EN + KR 한 문장</h4><p><b>--somnia-font</b>를 쓰면 영문·숫자는 Outfit, 한글은 자동으로 Pretendard로 렌더됩니다. 섞어 써도 골격이 어울립니다.</p></div>
+      <div class="rule"><h4>한글은 한 단계 가볍게</h4><p>같은 크기에서 한글이 더 무겁게 보입니다. 본문에서 영문이 <b>400</b>이면 한글 장문은 <b>300–400</b>으로 낮춰 균형을 맞춥니다.</p></div>
+      <div class="rule"><h4>오버라인은 영문 대문자</h4><p>Eyebrow/Overline은 Outfit 대문자 + <b>0.28em</b> 자간 + 오션블루. 한글 오버라인은 자간을 <b>0.18em</b>로 줄입니다.</p></div>
+      <div class="rule"><h4>큰 글자엔 음수 자간</h4><p>Display·H1은 <b>--ls-tight</b>(-0.02em)로 조여 단단하게, 본문은 기본 자간 + <b>1.7</b> 행간으로 여유롭게.</p></div>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

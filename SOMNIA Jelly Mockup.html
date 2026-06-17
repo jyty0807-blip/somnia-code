@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOMNIA Dream Jelly — Moon Berry · Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--navy:#1958B2;--ivory:#F6F2EA;--mist:#D0E6FA}
+  html,body{min-height:100%}
+  body{
+    font-family:'Outfit',-apple-system,sans-serif;color:#EAF0FF;
+    background:#0c1834 url('assets/mockup/src-night.png') center/cover no-repeat fixed;
+    position:relative;overflow-x:hidden;
+  }
+  body::before{content:"";position:fixed;inset:0;z-index:0;
+    background:
+      radial-gradient(80% 60% at 50% 12%,rgba(12,24,52,0) 30%,rgba(9,18,40,.62) 100%),
+      linear-gradient(180deg,rgba(11,22,46,.55),rgba(9,17,38,.78));}
+  .wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:clamp(36px,7vw,84px) 24px 90px}
+
+  /* header */
+  .head{text-align:center;margin-bottom:clamp(40px,7vw,72px)}
+  .eyebrow{font-size:12px;letter-spacing:.34em;text-transform:uppercase;color:var(--mist);opacity:.8}
+  .head h1{font-weight:600;font-size:clamp(28px,5vw,46px);letter-spacing:-.01em;margin:16px 0 10px;text-transform:uppercase}
+  .head p{font-weight:300;color:rgba(214,236,250,.8);font-size:clamp(14px,1.6vw,17px)}
+
+  /* hero jar */
+  .hero{display:flex;justify-content:center;margin-bottom:clamp(54px,8vw,96px)}
+  .jar{position:relative;filter:drop-shadow(0 50px 60px rgba(0,0,0,.55))}
+  .jar__lid{
+    width:316px;height:62px;margin:0 auto;border-radius:22px 22px 8px 8px;position:relative;z-index:3;
+    background:linear-gradient(180deg,#33517d 0%,#1f3a60 38%,#15294a 100%);
+    box-shadow:inset 0 3px 6px rgba(255,255,255,.18),inset 0 -8px 14px rgba(0,0,0,.4);
+  }
+  .jar__lid::before{content:"";position:absolute;top:7px;left:50%;transform:translateX(-50%);
+    width:280px;height:14px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,255,255,.16),transparent)}
+  .jar__neck{width:300px;height:14px;margin:-4px auto 0;position:relative;z-index:2;
+    background:linear-gradient(180deg,#0e1f3c,#16294b);border-radius:0 0 4px 4px;
+    box-shadow:inset 0 4px 8px rgba(0,0,0,.55)}
+  .jar__body{
+    width:330px;height:372px;margin:-2px auto 0;position:relative;z-index:1;overflow:hidden;
+    border-radius:18px 18px 30px 30px;
+  }
+  .jar__body img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    object-position:center 34%;}
+  /* cylindrical shading */
+  .jar__body::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+    background:linear-gradient(90deg,
+      rgba(6,12,28,.62) 0%,rgba(6,12,28,.18) 14%,rgba(255,255,255,.12) 40%,
+      rgba(255,255,255,.14) 52%,rgba(6,12,28,.2) 84%,rgba(6,12,28,.66) 100%);}
+  .jar__body::before{content:"";position:absolute;top:0;left:0;right:0;height:46px;z-index:2;
+    background:linear-gradient(180deg,rgba(0,0,0,.45),transparent)}
+  .shadow{width:280px;height:34px;margin:22px auto 0;border-radius:50%;
+    background:radial-gradient(closest-side,rgba(0,0,0,.5),transparent)}
+
+  /* assets row */
+  .assets{display:grid;grid-template-columns:1fr 1.25fr;gap:clamp(20px,3vw,34px)}
+  @media (max-width:720px){.assets{grid-template-columns:1fr}}
+  .card{
+    background:rgba(14,26,52,.5);border:1px solid rgba(214,236,250,.14);border-radius:24px;
+    padding:26px;backdrop-filter:blur(14px);display:flex;flex-direction:column;
+  }
+  .card__tag{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+  .card__tag h3{font-size:15px;font-weight:600;letter-spacing:.02em}
+  .card__tag .px{font-size:11px;font-weight:600;letter-spacing:.12em;color:#0c1a34;white-space:nowrap;
+    background:var(--mist);padding:5px 11px;border-radius:999px;flex:none}
+  .card__tag h3{font-size:15px;font-weight:600;letter-spacing:.02em}
+  .card__view{flex:1;display:flex;align-items:center;justify-content:center;
+    background:repeating-conic-gradient(rgba(255,255,255,.03) 0% 25%,transparent 0% 50%) 50%/26px 26px,
+      rgba(7,15,34,.4);border-radius:16px;padding:24px;min-height:240px}
+  .card--cap .card__view img{width:200px;height:200px;border-radius:50%;
+    box-shadow:0 24px 40px -14px rgba(0,0,0,.6)}
+  .card--body .card__view img{width:230px;height:230px;border-radius:14px;object-fit:cover;
+    box-shadow:0 24px 40px -14px rgba(0,0,0,.6)}
+  .card__cap{font-size:12.5px;color:rgba(214,236,250,.72);font-weight:300;margin-top:18px;line-height:1.6}
+  .card__cap b{color:#fff;font-weight:600}
+
+  .foot{margin-top:46px;text-align:center;font-size:12px;color:rgba(214,236,250,.55);font-weight:300;letter-spacing:.02em}
+  .foot span{color:var(--mist)}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="head">
+      <div class="eyebrow">Inner Beauty Collection · Product Mockup</div>
+      <h1>Dream Jelly — Moon Berry</h1>
+      <p>멜라토닌 슬립 젤리 · 블루베리 · 라벤더 · 잠들기 30분 전 나이트 루틴</p>
+    </header>
+
+    <section class="hero">
+      <div class="jar" aria-label="SOMNIA Dream Jelly Moon Berry jar mockup">
+        <div class="jar__lid"></div>
+        <div class="jar__neck"></div>
+        <div class="jar__body"><img src="assets/mockup/moonberry-body.png" alt="Moon Berry body label"></div>
+      </div>
+    </section>
+    <div class="shadow"></div>
+
+    <section class="assets">
+      <div class="card card--cap">
+        <div class="card__tag"><h3>CAP TOP · 캡 탑 (위에서 본 면)</h3><span class="px">1000 × 1000 PX</span></div>
+        <div class="card__view"><img src="assets/mockup/moonberry-cap.png" alt="Cap top 1000x1000"></div>
+        <p class="card__cap">매트 네이비 뚜껑을 정수리에서 본 면. <b>가장자리 널링 그립</b>과 중앙 <b>엠보 SOMNIA 로고</b>. 정사각 정원형 에셋이라 3D 목업 캡 텍스처로 바로 매핑돼.</p>
+      </div>
+      <div class="card card--body">
+        <div class="card__tag"><h3>BODY · 몸통 라벨</h3><span class="px">2000 × 2000 PX</span></div>
+        <div class="card__view"><img src="assets/mockup/moonberry-body.png" alt="Body label 2000x2000"></div>
+        <p class="card__cap">SOMNIA 로고(원본 그대로) · DREAM JELLY · <b>Moon Berry</b> · MELATONIN / L-THEANINE / MAGNESIUM · 30 JELLIES (120 g). 하단은 <b>두 번째 야경 이미지</b>를 합성한 호수·산 풍경.</p>
+      </div>
+    </section>
+
+    <p class="foot">SOMNIA — Sleep Deeper, Live Better · <span>로고는 보호 자산으로 재제작 없이 그대로 사용</span></p>
+  </div>
+</body>
+</html>

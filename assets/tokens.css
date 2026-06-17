@@ -1,0 +1,65 @@
+/* ============================================================
+   SOMNIA — Canonical Design Tokens (single source of truth)
+   Every stylesheet imports this file and derives its local
+   names from these variables. Change a brand color HERE and it
+   propagates everywhere.
+
+   Palette family: deep navy + ocean blue + plum / lavender
+   (the "sleep" mood adopted across the detail studios).
+   ============================================================ */
+:root{
+  /* ---- brand core ---- */
+  --somnia-ink:#0E1A3A;       /* deepest navy — dark sections, headings */
+  --somnia-navy:#13294f;      /* mid navy */
+  --somnia-ocean:#1958B2;     /* primary blue — accents, buttons, links */
+  --somnia-plum:#4B2E83;      /* secondary accent */
+  --somnia-lavender:#B8A7E6;  /* soft accent */
+  --somnia-mist:#D0E6FA;      /* pastel blue — light surfaces */
+  --somnia-ivory:#F6F2EA;     /* warm light surface */
+  --somnia-white:#FFFFFF;
+
+  /* ---- text on light ---- */
+  --somnia-text:#10182e;      /* body ink */
+  --somnia-text-soft:#44597d; /* muted body */
+
+  /* ---- night ramp (dark sections) ---- */
+  --somnia-night-700:#164a93;
+  --somnia-night-800:#123a73;
+  --somnia-night-900:#0E1A3A;
+  --somnia-night-950:#0a1430;
+
+  /* ---- type: families ---- */
+  --somnia-en:'Outfit',sans-serif;
+  --somnia-kr:'Pretendard','Noto Sans KR',sans-serif;
+  --somnia-font:'Outfit','Pretendard',system-ui,sans-serif;
+
+  /* ---- type: weights ----
+     Outfit (Latin/numerals) + Pretendard (Korean). Korean reads heavier
+     at the same weight, so step KR copy one weight DOWN from EN for body. */
+  --w-light:300;
+  --w-regular:400;
+  --w-medium:500;
+  --w-semibold:600;
+  --w-bold:700;
+
+  /* ---- type: fluid scale (min → max) ---- */
+  --fs-display:clamp(3rem,6vw,4rem);          /* 48 → 64  hero / cover */
+  --fs-h1:clamp(2.2rem,4vw,2.875rem);         /* 35 → 46  page title */
+  --fs-h2:clamp(1.7rem,3vw,2.375rem);         /* 27 → 38  section title */
+  --fs-h3:clamp(1.35rem,2vw,1.625rem);        /* 22 → 26  subhead */
+  --fs-lead:clamp(1.125rem,1.6vw,1.3125rem);  /* 18 → 21  lead / intro */
+  --fs-body:1.0625rem;                         /* 17       body */
+  --fs-sm:0.9375rem;                           /* 15       small */
+  --fs-caption:0.8125rem;                      /* 13       caption */
+  --fs-eyebrow:0.8125rem;                      /* 13       overline / eyebrow */
+
+  /* ---- type: line-height ---- */
+  --lh-tight:1.15;   /* display */
+  --lh-snug:1.32;    /* headings */
+  --lh-body:1.7;     /* body / lead */
+
+  /* ---- type: tracking ---- */
+  --ls-tight:-0.02em;   /* large display */
+  --ls-snug:-0.01em;    /* headings */
+  --ls-eyebrow:0.28em;  /* uppercase overline */
+}

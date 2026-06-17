@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOMNIA — 작업물 목차 / Project Index</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<link rel="stylesheet" href="assets/tokens.css">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--somnia-font);color:var(--somnia-text);background:var(--somnia-ivory);
+    -webkit-font-smoothing:antialiased;line-height:var(--lh-body)}
+  a{text-decoration:none;color:inherit}
+
+  /* masthead */
+  .masthead{background:
+      radial-gradient(80% 120% at 85% -10%,rgba(184,167,230,.22),transparent 55%),
+      linear-gradient(160deg,var(--somnia-night-800),var(--somnia-night-900) 60%,var(--somnia-night-950));
+    color:#fff;padding:clamp(56px,8vw,104px) clamp(24px,5vw,72px) clamp(48px,6vw,72px)}
+  .masthead .inner{max-width:1180px;margin:0 auto}
+  .masthead .eyebrow{font-family:var(--somnia-en);font-size:var(--fs-eyebrow);font-weight:var(--w-semibold);
+    letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--somnia-mist);opacity:.85}
+  .masthead h1{font-family:var(--somnia-en);font-size:var(--fs-display);font-weight:var(--w-semibold);
+    line-height:var(--lh-tight);letter-spacing:var(--ls-tight);margin:18px 0 14px}
+  .masthead p{font-size:var(--fs-lead);font-weight:var(--w-light);color:rgba(214,236,250,.82);max-width:600px}
+  .masthead .meta{margin-top:26px;display:flex;gap:26px;flex-wrap:wrap;font-family:var(--somnia-en);
+    font-size:var(--fs-caption);color:rgba(214,236,250,.7);letter-spacing:.04em}
+  .masthead .meta b{color:#fff;font-weight:var(--w-semibold)}
+
+  /* body */
+  .wrap{max-width:1180px;margin:0 auto;padding:clamp(40px,5vw,64px) clamp(24px,5vw,72px) 120px}
+  .cat{margin-bottom:56px}
+  .cat__head{display:flex;align-items:baseline;gap:14px;padding-bottom:18px;margin-bottom:26px;
+    border-bottom:1px solid rgba(14,26,58,.13)}
+  .cat__num{font-family:var(--somnia-en);font-size:var(--fs-caption);font-weight:var(--w-bold);
+    letter-spacing:.16em;color:var(--somnia-ocean)}
+  .cat__title{font-family:var(--somnia-en);font-size:var(--fs-h3);font-weight:var(--w-semibold);color:var(--somnia-ink)}
+  .cat__sub{font-size:var(--fs-sm);font-weight:var(--w-light);color:var(--somnia-text-soft);margin-left:auto}
+
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:900px){.grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:600px){.grid{grid-template-columns:1fr}}
+
+  .card{position:relative;display:flex;flex-direction:column;background:var(--somnia-white);border:1px solid rgba(14,26,58,.08);
+    border-radius:16px;padding:24px 24px 20px;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;min-height:158px}
+  .card:hover{transform:translateY(-4px);box-shadow:0 22px 44px -28px rgba(14,26,58,.45);border-color:rgba(25,88,178,.35)}
+  .card__top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .badge{font-family:var(--somnia-en);font-size:11px;font-weight:var(--w-semibold);letter-spacing:.12em;
+    text-transform:uppercase;padding:5px 10px;border-radius:999px}
+  .b-page{background:rgba(25,88,178,.12);color:var(--somnia-ocean)}
+  .b-tool{background:rgba(75,46,131,.12);color:var(--somnia-plum)}
+  .b-asset{background:rgba(14,26,58,.08);color:var(--somnia-text-soft)}
+  .b-system{background:rgba(184,167,230,.22);color:#5a3fa0}
+  .arrow{color:var(--somnia-text-soft);transition:transform .25s,color .25s}
+  .card:hover .arrow{transform:translateX(4px);color:var(--somnia-ocean)}
+  .card__name{font-family:var(--somnia-en);font-size:var(--fs-h3);font-weight:var(--w-semibold);
+    color:var(--somnia-ink);line-height:1.2;margin-bottom:4px}
+  .card__kr{font-size:var(--fs-sm);font-weight:var(--w-medium);color:var(--somnia-text);margin-bottom:8px}
+  .card__desc{font-size:var(--fs-sm);font-weight:var(--w-light);color:var(--somnia-text-soft);line-height:1.6;flex:1}
+  .card__foot{margin-top:14px;display:flex;align-items:center;gap:12px;font-family:var(--somnia-en);font-size:var(--fs-caption)}
+  .card__file{color:var(--somnia-text-soft);opacity:.7;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0}
+  .card__hit{position:absolute;inset:0;z-index:1;border-radius:16px}
+  .printlink{position:relative;z-index:2;flex:none;color:var(--somnia-ocean);font-weight:var(--w-medium)}
+  .printlink:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+
+  <header class="masthead">
+    <div class="inner">
+      <div class="eyebrow">SOMNIA · Project Index</div>
+      <h1>작업물 한눈에</h1>
+      <p>SOMNIA 브랜드의 모든 페이지·도구·에셋을 한 곳에서. 카드를 눌러 바로 엽니다.</p>
+      <div class="meta">
+        <span><b>17</b> 산출물</span>
+        <span>색·타입 단일 원천 · <a href="assets/tokens.css" style="color:#fff;text-decoration:underline">tokens.css</a></span>
+        <span><a href="SOMNIA Type System.html" style="color:#fff;text-decoration:underline">타입 시스템 →</a></span>
+        <span><a href="SOMNIA Social System.html" style="color:#fff;text-decoration:underline">SNS 비주얼 →</a></span>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+
+    <!-- 1 · BRAND -->
+    <section class="cat">
+      <div class="cat__head"><span class="cat__num">01</span><span class="cat__title">브랜드</span><span class="cat__sub">Brand · 공개용</span></div>
+      <div class="grid">
+        <div class="card"><a class="card__hit" href="SOMNIA.html" aria-label="열기"></a>
+          <div class="card__top"><span class="badge b-page">Page</span><span class="arrow">→</span></div>
+          <div class="card__name">Landing</div>
+          <div class="card__kr">브랜드 랜딩 페이지</div>
+          <div class="card__desc">이중언어(KR/EN) 메인 사이트. 히어로·철학·컬렉션·앱·뉴스레터.</div>
+          <div class="card__foot"><span class="card__file">SOMNIA.html</span><a class="printlink" href="SOMNIA-print.html">인쇄용</a></div>
+        </div>
+        <div class="card"><a class="card__hit" href="SOMNIA App.html" aria-label="열기"></a>
+          <div class="card__top"><span class="badge b-page">Page</span><span class="arrow">→</span></div>
+          <div class="card__name">Sleep &amp; Shop App</div>
+          <div class="card__kr">모바일 앱 프로토타입</div>
+          <div class="card__desc">수면 트래킹 + 멤버십 쇼핑. iOS 프레임·다국어·테마.</div>
+          <div class="card__foot"><span class="card__file">SOMNIA App.html</span><a class="printlink" href="SOMNIA App-print.html">인쇄용</a></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 · PDP -->
+    <section class="cat">
+      <div class="cat__head"><span class="cat__num">02</span><span class="cat__title">제품 상세</span><span class="cat__sub">Product Detail Pages</span></div>
+      <div class="grid">
+        <div class="card"><a class="card__hit" href="SOMNIA Product.html" aria-label="열기"></a>
+          <div class="card__top"><span class="badge b-page">Page</span><span class="arrow">→</span></div>
+          <div class="card__name">Dream Jelly</div>
+          <div class="card__kr">멜라토닌 슬립 젤리</div>
+          <div class="card__desc">대표 제품 상세페이지(PDP). 성분·맛·루틴·리뷰.</div>
+          <div class="card__foot"><span class="card__file">SOMNIA Product.html</span></div>
+        </div>
+        <div class="card"><a class="card__hit" href="SOMNIA Aroma Duo.html" aria-label="열기"></a>
+          <div class="card__top"><span class="badge b-page">Page</span><span class="arrow">→</span></div>
+          <div class="card__name">Aroma Therapy Duo</div>
+          <div class="card__kr">아로마 테라피 듀오</div>
+          <div class="card__desc">라벤더 오일 + 필로우 스프레이 세트 상세페이지.</div>
+          <div class="card__foot"><span class="card__file">SOMNIA Aroma Duo.html</span></div>
+        </div>
+        <div class="card"><a class="card__hit" href="SOMNIA Sleep Gear Duo.html" aria-label="열기"></a>
+          <div class="card__top"><span class="badge b-page">Page</span><span class="arrow">→</span></div>
+          <div class="card__name">Sleep Gear Duo</div>
+          <div class="card__kr">슬립 기어 듀오</div>
+          <div class="card__desc">잠옷 + 실크 안대 세트 상세페이지.</div>
+          <div class="card__foot"><span class="card__file">SOMNIA Sleep Gear Duo.html</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 · DETAIL STUDIOS -->
+    <section class="cat">
+      <div class="cat__head"><span class="cat__num">03</span><span class="cat__title">상세페이지 스튜디오</span><span class="cat__sub">편집 도구 · 1000px · PNG 추출</span></div>
+      <div class="grid">
+        <div class="card"><a class="card__hit" href="SOMNIA Detail Studio.html" aria-label="열기"></a>
+          <div class="card__top"><span class="badge b-tool">Tool</span><span class="arrow">→</span></div>
+          <div class="card__name">Detail Studio — Jelly</div>
+          <div class="card__kr">드림젤리 상세 편집기</div>
+          <div class="card__desc">섹션 편집·이미지 드롭·섹션별/전체 PNG 추출.</div>
+          <div class="card__foot"><span class="card__file">SOMNIA Detail Studio.html</span></div>
+        </div>
+        <div class="card"><a class="card__hit" href="SOMNIA Detail Studio - Aroma.html" aria-label="열기"></a>
+          <div class="card__top"><span class="badge b-tool">Tool</span><span class="arrow">→</span></div>
+          <div class="card__name">Detail Studio — Aroma</div>
+          <div class="card__kr">오일 &amp; 룸스프레이</div>
+          <div class="card__desc">향 노트·블렌딩·사용법 편집. 전체 글자색 토글 지원.</div>
+          <div class="card__foot"><span class="card__file">…Studio - Aroma.html</span></div>
+        </div>
+        <div class="card"><a class="card__hit" href="SOMNIA Detail Studio - Sleepwear.html" aria-label="열기"></a>
+          <div class="card__top"><span class="badge b-tool">Tool</span><span class="arrow">→</span></div>
+          <div class="card__name">Detail Studio — Sleepwear</div>
+          <div class="card__kr">수면 웨어 컬렉션</div>
+          <div class="card__desc">소재·핏·세탁관리 편집. Aroma와 동일 포맷.</div>
+          <div class="card__foot"><span class="card__file">…Studio - Sleepwear.html</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 · MARKETING -->
+    <section class="cat">
+      <div class="cat__head"><span class="cat__num">04</span><span class="cat__title">마케팅 에셋</span><span class="cat__sub">카드뉴스 · 브로슈어</span></div>
+      <div class="grid">
+        <div class="card"><a class="card__hit" href="SOMNIA Card News.html" aria-label="열기"></a>
+          <div class="card__top"><span class="badge b-asset">Asset</span><span class="arrow">→</span></div>
+          <div class="card__name">Card News</div>
+          <div class="card__kr">수면 캠페인 카드뉴스</div>
+          <div class="card__desc">1080×1080 · 6장 세트. 레이아웃·차트·이미지 슬롯.</div>
+          <div class="card__foot"><span class="card__file">SOMNIA Card News.html</span><a class="printlink" href="SOMNIA Card News-print.html">인쇄용</a></div>
+        </div>
+        <div class="card"><a class="card__hit" href="SOMNIA Card Export.html" aria-label="열기"></a>
+          <div class="card__top"><span class="badge b-tool">Tool</span><span class="arrow">→</span></div>
+          <div class="card__name">Card Export</div>
+          <div class="card__kr">카드뉴스 PNG 내보내기</div>
+          <div class="card__desc">캔버스 네이티브 렌더로 정확한 1080×1080 PNG 추출.</div>
+          <div class="card__foot"><span class="card__file">SOMNIA Card Export.html</span></div>
+        </div>
+        <div class="card"><a class="card__hit" href="SOMNIA Brochure.html" aria-label="열기"></a>
+          <div class="card__top"><span class="badge b-asset">Asset</span><span class="arrow">→</span></div>
+          <div class="card__name">Bi-fold Brochure</div>
+          <div class="card__kr">2단 접지 브로슈어</div>
+          <div class="card__desc">인쇄용 4패널 아트워크. 도련·안전영역 포함, 텍스트 편집.</div>
+          <div class="card__foot"><span class="card__file">SOMNIA Brochure.html</span></div>
+        </div>
+        <div class="card"><a class="card__hit" href="SOMNIA Brochure Studio.html" aria-label="열기"></a>
+          <div class="card__top"><span class="badge b-tool">Tool</span><span class="arrow">→</span></div>
+          <div class="card__name">Brochure Studio</div>
+          <div class="card__kr">브로슈어 편집기</div>
+          <div class="card__desc">패널별 미리보기·편집 도구.</div>
+          <div class="card__foot"><span class="card__file">SOMNIA Brochure Studio.html</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 · PACKAGING -->
+    <section class="cat">
+      <div class="cat__head"><span class="cat__num">05</span><span class="cat__title">패키징 · 목업</span><span class="cat__sub">Packaging &amp; Mockups</span></div>
+      <div class="grid">
+        <div class="card"><a class="card__hit" href="SOMNIA Jelly Mockup.html" aria-label="열기"></a>
+          <div class="card__top"><span class="badge b-asset">Asset</span><span class="arrow">→</span></div>
+          <div class="card__name">Dream Jelly Mockup</div>
+          <div class="card__kr">드림젤리 — 문베리</div>
+          <div class="card__desc">제품 패키지 목업 렌더. 무드·컬러 변형.</div>
+          <div class="card__foot"><span class="card__file">SOMNIA Jelly Mockup.html</span></div>
+        </div>
+        <div class="card"><a class="card__hit" href="SOMNIA Label Studio.html" aria-label="열기"></a>
+          <div class="card__top"><span class="badge b-tool">Tool</span><span class="arrow">→</span></div>
+          <div class="card__name">Label Studio</div>
+          <div class="card__kr">라벨 편집기</div>
+          <div class="card__desc">드림젤리 라벨 아트워크 편집 도구.</div>
+          <div class="card__foot"><span class="card__file">SOMNIA Label Studio.html</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 · SYSTEM -->
+    <section class="cat">
+      <div class="cat__head"><span class="cat__num">06</span><span class="cat__title">디자인 시스템</span><span class="cat__sub">단일 원천 · Source of truth</span></div>
+      <div class="grid">
+        <div class="card"><a class="card__hit" href="SOMNIA Type System.html" aria-label="열기"></a>
+          <div class="card__top"><span class="badge b-system">System</span><span class="arrow">→</span></div>
+          <div class="card__name">Type System</div>
+          <div class="card__kr">타이포그래피 시스템</div>
+          <div class="card__desc">Outfit + Pretendard · 웨이트·타입스케일·페어링 규칙.</div>
+          <div class="card__foot"><span class="card__file">SOMNIA Type System.html</span></div>
+        </div>
+        <div class="card"><a class="card__hit" href="SOMNIA Social System.html" aria-label="열기"></a>
+          <div class="card__top"><span class="badge b-system">System</span><span class="arrow">→</span></div>
+          <div class="card__name">Social Visual System</div>
+          <div class="card__kr">SNS 콘텐츠 비주얼 가이드</div>
+          <div class="card__desc">포맷·피드 리듬·포스트 템플릿·캐션·Do&amp;Don't. 인스타그램 기준.</div>
+          <div class="card__foot"><span class="card__file">SOMNIA Social System.html</span></div>
+        </div>
+        <div class="card"><a class="card__hit" href="assets/tokens.css" aria-label="열기"></a>
+          <div class="card__top"><span class="badge b-system">System</span><span class="arrow">→</span></div>
+          <div class="card__name">Design Tokens</div>
+          <div class="card__kr">색·타입 토큰</div>
+          <div class="card__desc">모든 스타일이 참조하는 단일 팔레트·타입 변수. 여기만 고치면 전체 반영.</div>
+          <div class="card__foot"><span class="card__file">assets/tokens.css</span></div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>

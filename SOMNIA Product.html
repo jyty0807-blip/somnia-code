@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ko" lang-mode="kr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>멜라토닌 슬립 젤리 — SOMNIA</title>
+<link rel="stylesheet" href="assets/product.css">
+<script src="assets/image-slot.js" defer></script>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<nav class="nav">
+  <div class="nav__brand">
+    <a class="nav__back" href="SOMNIA.html">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+      <span class="t"><span class="en">Shop</span><span class="kr-text">스토어</span></span>
+    </a>
+    <span class="nav__sep"></span>
+    <a href="SOMNIA.html"><img class="nav__logo" src="assets/logo-wordmark.png" alt="SOMNIA"></a>
+  </div>
+  <div class="nav__links">
+    <a class="nav__link" href="#detail">상세정보</a>
+    <a class="nav__link" href="#ingredients">성분</a>
+    <a class="nav__link" href="#flavors">맛</a>
+    <a class="nav__link" href="#specs">영양정보</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:1rem">
+    <div class="lang" role="group" aria-label="Language" style="display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;font-size:.72rem;font-weight:600">
+      <button data-lang="en" style="padding:.32rem .7rem;color:var(--ink-soft)">EN</button>
+      <button data-lang="kr" style="padding:.32rem .7rem;color:var(--ink-soft)">KR</button>
+    </div>
+    <a class="nav__cart" href="#"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> <span class="cartnum">0</span></a>
+  </div>
+</nav>
+
+<!-- ===================== BUY BLOCK ===================== -->
+<section class="buy">
+  <div class="wrap">
+    <nav class="crumb">
+      <a href="SOMNIA.html">SOMNIA</a><span>›</span>
+      <a href="SOMNIA.html#collection">컬렉션</a><span>›</span>
+      <a href="SOMNIA.html#collection">이너 뷰티</a><span>›</span>
+      <span style="color:var(--ink-soft)">멜라토닌 슬립 젤리</span>
+    </nav>
+
+    <div class="buy__grid">
+      <!-- gallery -->
+      <div class="gallery">
+        <div class="gallery__main">
+          <image-slot id="pdp-main" placeholder="메인 제품컷 — 정면 패키지"></image-slot>
+        </div>
+        <div class="gallery__thumbs">
+          <image-slot id="pdp-thumb-1" placeholder="썸네일 1"></image-slot>
+          <image-slot id="pdp-thumb-2" placeholder="썸네일 2"></image-slot>
+          <image-slot id="pdp-thumb-3" placeholder="썸네일 3"></image-slot>
+          <image-slot id="pdp-thumb-4" placeholder="썸네일 4"></image-slot>
+        </div>
+      </div>
+
+      <!-- info -->
+      <div class="info">
+        <span class="eyebrow info__cat">Inner Beauty · Dream Jelly</span>
+        <h1 class="info__title">멜라토닌 슬립 젤리</h1>
+        <p class="info__en">Melatonin Sleep Jelly</p>
+        <p class="info__tag">한 알의 부드러운 의식 — 평온은 들이고, 불안은 내보냅니다. 멜라토닌·L-테아닌·마그네슘을 담은 밤의 루틴.</p>
+
+        <div class="price">
+          <span class="price__off">24%</span>
+          <span class="price__now"><span class="num">29,000</span><span class="won">원</span></span>
+          <span class="price__was"><span class="num">38,000</span>원</span>
+          <span class="price__unit">30젤리 · 120g · 1일 1~2알 · 약 15~30일분</span>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- flavor -->
+        <div class="opt">
+          <p class="opt__label">맛 선택 <span class="req">필수</span></p>
+          <div class="flavors" id="flavor-select">
+            <button class="flavor on" data-flavor="moonberry" data-accent="#3a4f8a" data-name="문 베리" style="--dot:#4a63a8">
+              <span class="flavor__dot" style="background:linear-gradient(135deg,#5b73c0,#3a4f8a)"></span>
+              <span class="flavor__txt"><span class="flavor__name">문 베리</span><span class="flavor__sub">Moon Berry · 블루베리 &amp; 아사이</span></span>
+              <span class="flavor__check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+            </button>
+            <button class="flavor" data-flavor="grape" data-accent="#7a5a93" data-name="딥 나이트 그레이프" style="--dot:#8d6aa8">
+              <span class="flavor__dot" style="background:linear-gradient(135deg,#a07cbd,#7a5a93)"></span>
+              <span class="flavor__txt"><span class="flavor__name">딥 나이트 그레이프</span><span class="flavor__sub">Deep Night Grape · 청포도 &amp; 자몽</span></span>
+              <span class="flavor__check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+            </button>
+            <button class="flavor" data-flavor="vanilla" data-accent="#b89a5e" data-name="바닐라 문" style="--dot:#c7b58e">
+              <span class="flavor__dot" style="background:linear-gradient(135deg,#ddc998,#c7b58e)"></span>
+              <span class="flavor__txt"><span class="flavor__name">바닐라 문</span><span class="flavor__sub">Vanilla Moon · 바닐라 &amp; 캐모마일</span></span>
+              <span class="flavor__check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- qty + subtotal -->
+        <div class="qtyrow">
+          <div class="qty">
+            <button id="qminus" aria-label="수량 감소">−</button>
+            <input id="qty" type="number" value="1" min="1" max="20" inputmode="numeric">
+            <button id="qplus" aria-label="수량 증가">+</button>
+          </div>
+          <div class="subtotal">
+            <div class="subtotal__l">합계</div>
+            <div class="subtotal__v"><span class="num" id="subtotal">29,000</span><span class="won">원</span></div>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-row">
+          <button class="btn btn--ghost" id="addcart">장바구니</button>
+          <button class="btn btn--navy" id="buynow">바로 구매하기</button>
+        </div>
+
+        <!-- perks -->
+        <div class="perks">
+          <div class="perk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg><span><b>무료배송</b> · 3만원 이상 구매 시 · 오후 2시 이전 주문 당일 출고</span></div>
+          <div class="perk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span><b>식약처 신고</b> 건강기능식품 · 국내 GMP 인증 시설 제조</span></div>
+          <div class="perk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z"/><path d="M12 7v5l3 3"/></svg><span><b>비건 · 무카페인</b> · 인공 색소 무첨가 · 취침 30분 전 1~2알</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== DETAIL TABS ===================== -->
+<div class="detail__tabs" id="detail">
+  <div class="wrap">
+    <a class="detail__tab on" href="#detail">상세정보</a>
+    <a class="detail__tab" href="#why">왜 젤리인가</a>
+    <a class="detail__tab" href="#ingredients">핵심 성분</a>
+    <a class="detail__tab" href="#howto">섭취 방법</a>
+    <a class="detail__tab" href="#flavors">3가지 맛</a>
+    <a class="detail__tab" href="#specs">영양·제품정보</a>
+  </div>
+</div>
+
+<!-- ===================== DETAIL: INTRO ===================== -->
+<section class="sec sec--center intro detail">
+  <div class="stars" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="intro__inner">
+      <span class="eyebrow sec__eyebrow reveal">A Nightly Ritual</span>
+      <h2 class="sec__title reveal d1">하루의 끝에서<br>가장 부드러운 마침표.</h2>
+      <p class="sec__lead reveal d2">물 없이, 한 알. 잠들기 30분 전 입안에서 천천히 녹는 젤리 한 알이 분주했던 마음을 가라앉히고 깊은 밤으로 안내합니다.</p>
+    </div>
+    <div class="intro__shot reveal d2">
+      <div class="shot shot--pano">
+        <image-slot id="detail-hero" placeholder="무드 비주얼 — 밤, 손 위의 젤리 (가로 와이드)"></image-slot>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== DETAIL: WHY JELLY ===================== -->
+<section class="sec" id="why">
+  <div class="wrap">
+    <div class="row">
+      <div class="row__media reveal">
+        <div class="shot shot--tall">
+          <image-slot id="why-shot" placeholder="제품 디테일컷 — 젤리 클로즈업 (세로)"></image-slot>
+        </div>
+      </div>
+      <div class="row__copy">
+        <span class="eyebrow sec__eyebrow reveal">Why Jelly</span>
+        <h3 class="sec__title reveal d1">삼키는 알약이 아닌,<br><span class="ac">음미하는</span> 한 알.</h3>
+        <p class="sec__lead reveal d2">알약을 삼키기 어려운 분도, 물이 곁에 없는 순간에도. 부드럽게 씹어 먹는 젤리는 그 자체로 하루를 마무리하는 작은 의식이 됩니다.</p>
+        <div class="points reveal d2">
+          <div class="point"><span class="point__n">01</span><div class="point__b"><h4>물 없이 간편하게</h4><p>침대맡에서 바로. 번거로움 없는 밤의 루틴.</p></div></div>
+          <div class="point"><span class="point__n">02</span><div class="point__b"><h4>기분 좋은 식감과 맛</h4><p>인공 색소 없이, 자연에서 온 은은한 과일 향.</p></div></div>
+          <div class="point"><span class="point__n">03</span><div class="point__b"><h4>정확한 1회 분량</h4><p>한 알에 담긴 멜라토닌 1mg. 계량이 필요 없습니다.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- vertical stacked shot -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="shot shot--wide reveal">
+      <image-slot id="detail-2" placeholder="라이프스타일 컷 — 침실 무드 (가로)"></image-slot>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== DETAIL: INGREDIENTS ===================== -->
+<section class="sec sec--center ingredients" id="ingredients">
+  <div class="wrap">
+    <span class="eyebrow sec__eyebrow reveal">Core Ingredients</span>
+    <h2 class="sec__title reveal d1">잠 못 드는 밤을 위해<br>고른 <span class="ac">세 가지</span>.</h2>
+    <p class="sec__lead reveal d2">불필요한 것은 덜고, 휴식에 필요한 것만 담았습니다.</p>
+    <div class="ing-grid">
+      <div class="ing reveal d1">
+        <div class="ing__mark"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
+        <span class="ing__en">Melatonin · 1mg</span>
+        <h4>멜라토닌</h4>
+        <p>생체리듬에 작용하는 수면 신호 물질. 잠들기까지 걸리는 시간을 자연스럽게 줄여줍니다.</p>
+      </div>
+      <div class="ing reveal d2">
+        <div class="ing__mark"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6"/></svg></div>
+        <span class="ing__en">L-Theanine · 200mg</span>
+        <h4>L-테아닌</h4>
+        <p>녹차에서 온 아미노산. 긴장을 누그러뜨리고 마음을 차분하게 가다듬어 줍니다.</p>
+      </div>
+      <div class="ing reveal d3">
+        <div class="ing__mark"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <span class="ing__en">Magnesium · 100mg</span>
+        <h4>마그네슘</h4>
+        <p>근육과 신경의 이완을 돕는 필수 미네랄. 편안한 몸으로 밤을 맞이하세요.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- full-bleed ingredient shot -->
+<section class="sec" style="padding-top:0;background:var(--pastel-soft)">
+  <div class="wrap">
+    <div class="shot shot--ultra reveal">
+      <image-slot id="detail-3" placeholder="성분 비주얼 — 원료/텍스처 컷 (세로)"></image-slot>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== DETAIL: HOW TO ===================== -->
+<section class="sec sec--center" id="howto">
+  <div class="wrap">
+    <span class="eyebrow sec__eyebrow reveal">How to Enjoy</span>
+    <h2 class="sec__title reveal d1">밤을 준비하는<br>세 번의 호흡.</h2>
+    <div class="howto">
+      <div class="step reveal d1">
+        <div class="step__ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <span class="step__n">STEP 01</span>
+        <h4>취침 30분 전</h4>
+        <p>하루를 정리하는 시간, 젤리 한두 알을 준비하세요.</p>
+      </div>
+      <div class="step reveal d2">
+        <div class="step__ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a7 7 0 0 0-7 7c0 3 2 5 2 7h10c0-2 2-4 2-7a7 7 0 0 0-7-7z"/><path d="M9 21h6"/></svg></div>
+        <span class="step__n">STEP 02</span>
+        <h4>천천히 음미</h4>
+        <p>물 없이 부드럽게 씹어 입안에서 향을 느껴보세요.</p>
+      </div>
+      <div class="step reveal d3">
+        <div class="step__ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
+        <span class="step__n">STEP 03</span>
+        <h4>조명을 낮추고</h4>
+        <p>화면을 멀리하고 깊은 밤의 루틴으로 들어가세요.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== DETAIL: FLAVORS ===================== -->
+<section class="sec sec--center flavorshow" id="flavors">
+  <div class="stars" aria-hidden="true"></div>
+  <div class="wrap">
+    <span class="eyebrow sec__eyebrow reveal">Three Flavors</span>
+    <h2 class="sec__title reveal d1">취향대로 고르는<br>세 가지 밤.</h2>
+    <p class="sec__lead reveal d2">기분과 취향에 따라 매일 다른 밤을 만나보세요. 모든 맛에 동일한 슬립 포뮬러가 담겨 있습니다.</p>
+    <div class="fcards">
+      <div class="fcard reveal d1">
+        <image-slot id="flavor-moonberry" placeholder="문 베리 컷"></image-slot>
+        <div class="fcard__b">
+          <span class="fcard__dot" style="background:linear-gradient(135deg,#5b73c0,#3a4f8a)"></span>
+          <span class="fcard__en">Moon Berry</span>
+          <h4>문 베리</h4>
+          <p>블루베리와 아사이의 깊고 진한 베리 향. 가장 사랑받는 시그니처.</p>
+        </div>
+      </div>
+      <div class="fcard reveal d2">
+        <image-slot id="flavor-grape" placeholder="딥 나이트 그레이프 컷"></image-slot>
+        <div class="fcard__b">
+          <span class="fcard__dot" style="background:linear-gradient(135deg,#a07cbd,#7a5a93)"></span>
+          <span class="fcard__en">Deep Night Grape</span>
+          <h4>딥 나이트 그레이프</h4>
+          <p>청포도와 자몽이 어우러진 산뜻하고 청량한 끝맛.</p>
+        </div>
+      </div>
+      <div class="fcard reveal d3">
+        <image-slot id="flavor-vanilla" placeholder="바닐라 문 컷"></image-slot>
+        <div class="fcard__b">
+          <span class="fcard__dot" style="background:linear-gradient(135deg,#ddc998,#c7b58e)"></span>
+          <span class="fcard__en">Vanilla Moon</span>
+          <h4>바닐라 문</h4>
+          <p>은은한 바닐라와 캐모마일의 포근하고 부드러운 마무리.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== DETAIL: SPECS / NUTRITION ===================== -->
+<section class="sec specs" id="specs">
+  <div class="wrap">
+    <div class="sec--center">
+      <span class="eyebrow sec__eyebrow reveal">Nutrition &amp; Product Info</span>
+      <h2 class="sec__title reveal d1">영양·제품 정보</h2>
+    </div>
+    <div class="spectable">
+      <!-- nutrition facts -->
+      <div class="facts reveal d1">
+        <div class="facts__head"><h4>영양·기능 정보</h4><span>1일 섭취량 2젤리 기준</span></div>
+        <div class="facts__row em"><span class="k">열량</span><span class="v">16 kcal</span></div>
+        <div class="facts__row"><span class="k">탄수화물</span><span class="v">4 g</span></div>
+        <div class="facts__row"><span class="k">— 당류</span><span class="v">2 g</span></div>
+        <div class="facts__row"><span class="k">단백질</span><span class="v">0 g</span></div>
+        <div class="facts__row"><span class="k">지방</span><span class="v">0 g</span></div>
+        <div class="facts__row"><span class="k">나트륨</span><span class="v">5 mg</span></div>
+        <div class="facts__row em"><span class="k">멜라토닌</span><span class="v">1 mg</span></div>
+        <div class="facts__row em"><span class="k">L-테아닌</span><span class="v">200 mg</span></div>
+        <div class="facts__row em"><span class="k">마그네슘</span><span class="v">100 mg</span></div>
+      </div>
+      <!-- product spec -->
+      <div class="specmeta reveal d2">
+        <h4>제품 정보</h4>
+        <div class="speclist">
+          <div class="speclist__row"><span class="k">제품명</span><span class="v">썸니아 멜라토닌 슬립 젤리</span></div>
+          <div class="speclist__row"><span class="k">내용량</span><span class="v">120g (4g × 30젤리)</span></div>
+          <div class="speclist__row"><span class="k">제형</span><span class="v">젤리 (구미)</span></div>
+          <div class="speclist__row"><span class="k">섭취량</span><span class="v">1일 1~2알, 취침 30분 전</span></div>
+          <div class="speclist__row"><span class="k">맛</span><span class="v">문 베리 · 딥 나이트 그레이프 · 바닐라 문</span></div>
+          <div class="speclist__row"><span class="k">특징</span><span class="v">비건 · 무카페인 · 인공색소 무첨가</span></div>
+          <div class="speclist__row"><span class="k">보관</span><span class="v">직사광선을 피해 서늘한 곳</span></div>
+          <div class="speclist__row"><span class="k">유형</span><span class="v">건강기능식품 (GMP 제조)</span></div>
+        </div>
+        <p class="disc">※ 본 제품은 의약품이 아니며 질병의 예방·치료를 위한 것이 아닙니다. 특정 질환이 있거나 임산부·수유부, 어린이는 섭취 전 전문가와 상담하시기 바랍니다. 알레르기 체질은 원료를 확인하세요. 이미지는 연출컷이며 실제와 다를 수 있습니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CLOSING ===================== -->
+<section class="sec sec--center closing">
+  <div class="stars" aria-hidden="true"></div>
+  <div class="wrap">
+    <p class="closing__q reveal">오늘 밤,<br><b>더 깊은 잠</b>으로<br>내일을 준비하세요.</p>
+    <p class="closing__by reveal d1">Sleep Deeper · Live Better</p>
+    <div class="closing__cta reveal d2">
+      <button class="btn btn--light" id="buynow2" style="background:#fff;color:var(--navy);padding:1.05rem 2.4rem;border-radius:14px;font-weight:600">바로 구매하기 · 29,000원</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <img src="assets/logo-wordmark-white.png" alt="SOMNIA">
+        <p>휴식은 사치가 아닙니다. 더 나은 삶을 위한 토대입니다. 썸니아는 수면에서 출발한 슬립 라이프스타일 브랜드입니다.</p>
+      </div>
+      <div class="footer__links">
+        <div class="footer__col">
+          <h5>Shop</h5>
+          <a href="SOMNIA.html#collection">전체 컬렉션</a>
+          <a href="#">드림 젤리</a>
+          <a href="#">아로마 테라피</a>
+          <a href="#">슬립 기어</a>
+        </div>
+        <div class="footer__col">
+          <h5>Support</h5>
+          <a href="#">배송 안내</a>
+          <a href="#">교환·반품</a>
+          <a href="#">자주 묻는 질문</a>
+          <a href="#">문의하기</a>
+        </div>
+        <div class="footer__col">
+          <h5>Brand</h5>
+          <a href="SOMNIA.html#philosophy">브랜드 철학</a>
+          <a href="SOMNIA.html#app">썸니아 앱</a>
+          <a href="#">저널</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 SOMNIA. All rights reserved.</span>
+      <span class="slogan">Sleep Deeper · Live Better</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ===================== STICKY BUY BAR ===================== -->
+<div class="stickybar" id="stickybar">
+  <div class="stickybar__in">
+    <div class="stickybar__meta">
+      <div class="stickybar__name">멜라토닌 슬립 젤리</div>
+      <div class="stickybar__opt" id="sticky-opt">문 베리 · 수량 1</div>
+    </div>
+    <div class="stickybar__price"><span class="num" id="sticky-price">29,000</span><span class="won">원</span></div>
+    <button class="btn btn--ghost" id="sticky-cart" style="padding:.85rem 1.3rem">장바구니</button>
+    <button class="btn btn--navy" id="sticky-buy">바로 구매</button>
+  </div>
+</div>
+
+<!-- toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Tweaks mount -->
+<div id="tweaks-root"></div>
+
+<script src="assets/somnia-lang.js"></script>
+<script src="assets/product.js"></script>
+
+<!-- React + Babel for Tweaks -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="assets/tweaks-panel.jsx"></script>
+<script type="text/babel" src="assets/product-tweaks.jsx"></script>
+
+</body>
+</html>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ko" lang-mode="kr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>아로마 테라피 듀오 — SOMNIA</title>
+<link rel="stylesheet" href="assets/product.css">
+<style>
+  :root{ --accent:#6f5b9e; }
+  /* lavender-tuned intro/flavorshow tint for this page */
+  .ritual .stars,.intro .stars,.closing .stars{opacity:1}
+  .duo-tag{display:inline-flex;align-items:center;gap:.5rem;font-family:'Outfit';font-size:.7rem;font-weight:600;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+    background:rgba(111,91,158,.1);border:1px solid rgba(111,91,158,.25);border-radius:999px;padding:.35rem .8rem;margin-bottom:1rem}
+  .incl{display:grid;gap:.7rem;margin-top:1.4rem}
+  .incl__row{display:flex;align-items:center;gap:.8rem;font-size:.9rem;color:var(--ink-soft)}
+  .incl__row svg{flex:none;color:var(--accent)}
+  .incl__row b{color:var(--ink);font-weight:600}
+  .pillrow{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.4rem}
+  .pill{font-size:.78rem;font-weight:500;color:var(--ink-soft);background:var(--pastel-soft);
+    border:1px solid var(--line-soft);border-radius:999px;padding:.4rem .85rem}
+  .note-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1rem,2vw,1.6rem);margin-top:clamp(2.5rem,5vw,3.5rem)}
+  .note{background:#fff;border:1px solid var(--line-soft);border-radius:18px;padding:1.6rem 1.5rem;text-align:left}
+  .note__k{font-family:'Outfit';font-size:.66rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);opacity:.8}
+  .note h4{font-size:1.15rem;font-weight:600;margin:.4rem 0 .5rem;color:var(--ink)}
+  .note p{font-size:.86rem;color:var(--ink-soft);font-weight:300;line-height:1.7}
+  @media(max-width:760px){.note-grid{grid-template-columns:1fr}}
+  /* gallery main swaps with the composition selection */
+  .gallery__main{position:relative}
+  .gallery__main image-slot[data-comp-img]{position:absolute;inset:0;width:100%;height:100%;
+    opacity:0;pointer-events:none;transition:opacity .35s var(--ease)}
+  .gallery__main[data-comp="duo"]   image-slot[data-comp-img="duo"],
+  .gallery__main[data-comp="oil"]   image-slot[data-comp-img="oil"],
+  .gallery__main[data-comp="spray"] image-slot[data-comp-img="spray"]{opacity:1;pointer-events:auto}
+</style>
+<script src="assets/image-slot.js" defer></script>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<nav class="nav">
+  <div class="nav__brand">
+    <a class="nav__back" href="SOMNIA.html">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+      <span class="t"><span class="en">Shop</span><span class="kr-text">스토어</span></span>
+    </a>
+    <span class="nav__sep"></span>
+    <a href="SOMNIA.html"><img class="nav__logo" src="assets/logo-wordmark.png" alt="SOMNIA"></a>
+  </div>
+  <div class="nav__links">
+    <a class="nav__link" href="#detail">상세정보</a>
+    <a class="nav__link" href="#oil">아로마 오일</a>
+    <a class="nav__link" href="#spray">룸 스프레이</a>
+    <a class="nav__link" href="#specs">제품정보</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:1rem">
+    <div class="lang" role="group" aria-label="Language" style="display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;font-size:.72rem;font-weight:600">
+      <button data-lang="en" style="padding:.32rem .7rem;color:var(--ink-soft)">EN</button>
+      <button data-lang="kr" style="padding:.32rem .7rem;color:var(--ink-soft)">KR</button>
+    </div>
+    <a class="nav__cart" href="#"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> <span class="cartnum">0</span></a>
+  </div>
+</nav>
+
+<!-- ===================== BUY BLOCK ===================== -->
+<section class="buy">
+  <div class="wrap">
+    <nav class="crumb">
+      <a href="SOMNIA.html">SOMNIA</a><span>›</span>
+      <a href="SOMNIA.html#collection">컬렉션</a><span>›</span>
+      <a href="SOMNIA.html#collection">아로마 테라피</a><span>›</span>
+      <span style="color:var(--ink-soft)">아로마 테라피 듀오</span>
+    </nav>
+
+    <div class="buy__grid">
+      <!-- gallery -->
+      <div class="gallery">
+        <div class="gallery__main" data-comp="duo">
+          <image-slot id="duo-main" data-comp-img="duo" placeholder="듀오 세트 사진 — 오일 + 스프레이"></image-slot>
+          <image-slot id="duo-main-oil" data-comp-img="oil" placeholder="라벤더 아로마 오일 단품 사진"></image-slot>
+          <image-slot id="duo-main-spray" data-comp-img="spray" placeholder="필로우 룸 스프레이 단품 사진"></image-slot>
+        </div>
+        <div class="gallery__thumbs">
+          <image-slot id="duo-thumb-1" placeholder="썸네일 1"></image-slot>
+          <image-slot id="duo-thumb-2" placeholder="썸네일 2"></image-slot>
+          <image-slot id="duo-thumb-3" placeholder="썸네일 3"></image-slot>
+          <image-slot id="duo-thumb-4" placeholder="썸네일 4"></image-slot>
+        </div>
+      </div>
+
+      <!-- info -->
+      <div class="info">
+        <span class="duo-tag"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12v10H4V12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg> Bundle · 듀오 세트</span>
+        <h1 class="info__title">아로마 테라피 듀오</h1>
+        <p class="info__en">Aroma Therapy Duo · Lavender Oil + Pillow Spray</p>
+        <p class="info__tag">잠들기 전 한 시간의 의식. 손끝에 떨어뜨리는 라벤더 오일과 베개 위에 뿌리는 룸 스프레이, 두 향이 만드는 가장 고요한 밤.</p>
+
+        <div class="price">
+          <span class="price__off" id="off">11%</span>
+          <span class="price__now"><span class="num" id="price-now">39,000</span><span class="won">원</span></span>
+          <span class="price__was"><span class="num" id="price-was">43,000</span>원</span>
+          <span class="price__unit" id="unit">라벤더 아로마 오일 30ml + 필로우 룸 스프레이 100ml</span>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- composition -->
+        <div class="opt">
+          <p class="opt__label">구성 선택 <span class="req">필수</span></p>
+          <div class="flavors" id="comp-select">
+            <button class="flavor on" data-comp="duo" data-price="39000" data-was="43000" data-off="11"
+                    data-name="듀오 세트" data-unit="라벤더 아로마 오일 30ml + 필로우 룸 스프레이 100ml">
+              <span class="flavor__dot" style="background:linear-gradient(135deg,#9a86c4,#6f5b9e)"></span>
+              <span class="flavor__txt"><span class="flavor__name">듀오 세트 · 11% 할인</span><span class="flavor__sub">오일 30ml + 스프레이 100ml</span></span>
+              <span class="flavor__check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+            </button>
+            <button class="flavor" data-comp="oil" data-price="24000" data-was="24000" data-off="0"
+                    data-name="라벤더 아로마 오일" data-unit="라벤더 아로마 오일 30ml 단품">
+              <span class="flavor__dot" style="background:linear-gradient(135deg,#8b78b8,#5f4e88)"></span>
+              <span class="flavor__txt"><span class="flavor__name">라벤더 아로마 오일</span><span class="flavor__sub">30ml 단품</span></span>
+              <span class="flavor__check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+            </button>
+            <button class="flavor" data-comp="spray" data-price="19000" data-was="19000" data-off="0"
+                    data-name="필로우 룸 스프레이" data-unit="필로우 룸 스프레이 100ml 단품">
+              <span class="flavor__dot" style="background:linear-gradient(135deg,#a9c0e0,#7d9bc4)"></span>
+              <span class="flavor__txt"><span class="flavor__name">필로우 룸 스프레이</span><span class="flavor__sub">100ml 단품</span></span>
+              <span class="flavor__check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- qty + subtotal -->
+        <div class="qtyrow">
+          <div class="qty">
+            <button id="qminus" aria-label="수량 감소">−</button>
+            <input id="qty" type="number" value="1" min="1" max="20" inputmode="numeric">
+            <button id="qplus" aria-label="수량 증가">+</button>
+          </div>
+          <div class="subtotal">
+            <div class="subtotal__l">합계</div>
+            <div class="subtotal__v"><span class="num" id="subtotal">39,000</span><span class="won">원</span></div>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-row">
+          <button class="btn btn--ghost" id="addcart">장바구니</button>
+          <button class="btn btn--navy" id="buynow">바로 구매하기</button>
+        </div>
+
+        <!-- included -->
+        <div class="perks">
+          <div class="perk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg><span><b>무료배송</b> · 3만원 이상 구매 시 · 오후 2시 이전 주문 당일 출고</span></div>
+          <div class="perk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L9.5 8.5 3 9l5 4.5L6.5 20 12 16.5 17.5 20 16 13.5 21 9l-6.5-.5z"/></svg><span><b>100% 천연 에센셜 오일</b> · 합성향료 무첨가 · 동물실험 반대</span></div>
+          <div class="perk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z"/><path d="M12 7v5l3 3"/></svg><span><b>함께 쓰면 더 좋은</b> 밤의 리추얼 — 오일은 손목에, 스프레이는 베개에</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== DETAIL TABS ===================== -->
+<div class="detail__tabs" id="detail">
+  <div class="wrap">
+    <a class="detail__tab on" href="#detail">상세정보</a>
+    <a class="detail__tab" href="#oil">아로마 오일</a>
+    <a class="detail__tab" href="#spray">룸 스프레이</a>
+    <a class="detail__tab" href="#ritual">밤의 리추얼</a>
+    <a class="detail__tab" href="#notes">향 노트</a>
+    <a class="detail__tab" href="#specs">제품정보</a>
+  </div>
+</div>
+
+<!-- ===================== INTRO ===================== -->
+<section class="sec sec--center intro detail">
+  <div class="stars" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="intro__inner">
+      <span class="eyebrow sec__eyebrow reveal">An Evening Ritual</span>
+      <h2 class="sec__title reveal d1">향으로 짓는<br>하루의 마지막 한 시간.</h2>
+      <p class="sec__lead reveal d2">불을 낮추고, 손끝에 오일 한 방울. 베개 위엔 가벼운 미스트 한 번. 라벤더의 깊은 향이 공간과 마음을 천천히 가라앉힙니다.</p>
+    </div>
+    <div class="intro__shot reveal d2">
+      <div class="shot shot--pano">
+        <image-slot id="duo-hero" placeholder="무드 비주얼 — 밤, 오일+스프레이 연출 (가로 와이드)"></image-slot>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PRODUCT 1: OIL ===================== -->
+<section class="sec" id="oil">
+  <div class="wrap">
+    <div class="row">
+      <div class="row__media reveal">
+        <div class="shot shot--tall">
+          <image-slot id="oil-shot" placeholder="라벤더 아로마 오일 컷 (세로)"></image-slot>
+        </div>
+      </div>
+      <div class="row__copy">
+        <span class="eyebrow sec__eyebrow reveal">01 · Lavender Aroma Oil</span>
+        <h3 class="sec__title reveal d1">라벤더 <span class="ac">아로마 오일</span></h3>
+        <p class="sec__lead reveal d2">잠들기 전 한 시간, 차분히 내려앉는 라벤더. 100% 천연 에센셜 오일을 손목과 관자놀이에 한두 방울 발라 깊게 호흡하세요.</p>
+        <div class="incl reveal d2">
+          <div class="incl__row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2s7 8 7 13a7 7 0 0 1-14 0c0-5 7-13 7-13z"/></svg><span><b>30ml</b> · 프렌치 라벤더 단일 추출</span></div>
+          <div class="incl__row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2a7 7 0 0 0-7 7c0 3 2 5 2 7h10c0-2 2-4 2-7a7 7 0 0 0-7-7z"/><path d="M9 21h6"/></svg><span>피부에 직접 또는 디퓨저·목욕물에 점적</span></div>
+          <div class="incl__row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6L9 17l-5-5"/></svg><span>합성향료·파라벤 무첨가</span></div>
+        </div>
+        <div class="pillrow reveal d3">
+          <span class="pill">프렌치 라벤더</span>
+          <span class="pill">우디 베이스</span>
+          <span class="pill">은은한 허브 노트</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- stacked wide shot -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="shot shot--wide reveal">
+      <image-slot id="oil-life" placeholder="오일 사용 라이프스타일 컷 (가로)"></image-slot>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PRODUCT 2: SPRAY ===================== -->
+<section class="sec" id="spray">
+  <div class="wrap">
+    <div class="row row--rev">
+      <div class="row__media reveal">
+        <div class="shot shot--tall">
+          <image-slot id="spray-shot" placeholder="필로우 룸 스프레이 컷 (세로)"></image-slot>
+        </div>
+      </div>
+      <div class="row__copy">
+        <span class="eyebrow sec__eyebrow reveal">02 · Pillow Room Spray</span>
+        <h3 class="sec__title reveal d1">필로우 <span class="ac">룸 스프레이</span></h3>
+        <p class="sec__lead reveal d2">어떤 공간이든 편안한 둥지로 바꾸는 가벼운 미스트. 베개와 침구, 커튼에 두세 번 분사하면 방 전체가 고요한 밤으로 물듭니다.</p>
+        <div class="incl reveal d2">
+          <div class="incl__row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="7" y="9" width="10" height="12" rx="2"/><path d="M9 9V5h6v4M11 2h2"/></svg><span><b>100ml</b> · 베개·침구·커튼용 패브릭 미스트</span></div>
+          <div class="incl__row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2s7 8 7 13a7 7 0 0 1-14 0c0-5 7-13 7-13z"/></svg><span>라벤더 &amp; 베르가못 블렌드</span></div>
+          <div class="incl__row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6L9 17l-5-5"/></svg><span>얼룩 없는 마일드 포뮬러</span></div>
+        </div>
+        <div class="pillrow reveal d3">
+          <span class="pill">라벤더 &amp; 베르가못</span>
+          <span class="pill">패브릭 안심</span>
+          <span class="pill">은은한 잔향</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- stacked ultra shot -->
+<section class="sec" style="padding-top:0;background:var(--pastel-soft)">
+  <div class="wrap">
+    <div class="shot shot--ultra reveal">
+      <image-slot id="spray-life" placeholder="스프레이 사용 라이프스타일 컷 (세로)"></image-slot>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== RITUAL ===================== -->
+<section class="sec sec--center flavorshow ritual" id="ritual">
+  <div class="stars" aria-hidden="true"></div>
+  <div class="wrap">
+    <span class="eyebrow sec__eyebrow reveal">Better Together</span>
+    <h2 class="sec__title reveal d1">함께 쓰는<br>세 번의 밤.</h2>
+    <p class="sec__lead reveal d2">오일과 스프레이가 만드는 한 시간의 리추얼. 향이 겹겹이 쌓일수록 밤은 더 깊어집니다.</p>
+    <div class="howto">
+      <div class="step reveal d1">
+        <div class="step__ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2s7 8 7 13a7 7 0 0 1-14 0c0-5 7-13 7-13z"/></svg></div>
+        <span class="step__n">STEP 01</span>
+        <h4>손목에 오일</h4>
+        <p>한두 방울 떨어뜨려 손목과 관자놀이에. 깊게 세 번 호흡.</p>
+      </div>
+      <div class="step reveal d2">
+        <div class="step__ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="7" y="9" width="10" height="12" rx="2"/><path d="M9 9V5h6v4"/></svg></div>
+        <span class="step__n">STEP 02</span>
+        <h4>베개에 미스트</h4>
+        <p>베개와 침구에 두세 번. 방 전체에 은은한 라벤더.</p>
+      </div>
+      <div class="step reveal d3">
+        <div class="step__ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
+        <span class="step__n">STEP 03</span>
+        <h4>조명을 낮추고</h4>
+        <p>화면을 멀리, 향에 집중하며 깊은 밤으로.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SCENT NOTES ===================== -->
+<section class="sec sec--center ingredients" id="notes">
+  <div class="wrap">
+    <span class="eyebrow sec__eyebrow reveal">Scent Notes</span>
+    <h2 class="sec__title reveal d1">하나의 향이<br>그리는 <span class="ac">세 겹</span>.</h2>
+    <p class="sec__lead reveal d2">시간에 따라 천천히 피어나는 라벤더의 결.</p>
+    <div class="note-grid">
+      <div class="note reveal d1"><span class="note__k">Top</span><h4>탑 — 베르가못</h4><p>처음 퍼지는 산뜻하고 가벼운 시트러스. 하루의 긴장을 가볍게 풀어줍니다.</p></div>
+      <div class="note reveal d2"><span class="note__k">Heart</span><h4>하트 — 라벤더</h4><p>중심을 잡는 깊고 부드러운 프렌치 라벤더. 마음을 차분히 가라앉힙니다.</p></div>
+      <div class="note reveal d3"><span class="note__k">Base</span><h4>베이스 — 우디 머스크</h4><p>은은하게 남는 따뜻한 잔향. 잠드는 순간까지 곁을 지킵니다.</p></div>
+    </div>
+    <div class="shot shot--wide reveal d2" style="margin-top:clamp(2.5rem,5vw,3.5rem)">
+      <image-slot id="notes-shot" placeholder="향/원료 비주얼 컷 (가로)"></image-slot>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SPECS ===================== -->
+<section class="sec specs" id="specs">
+  <div class="wrap">
+    <div class="sec--center">
+      <span class="eyebrow sec__eyebrow reveal">Product Info</span>
+      <h2 class="sec__title reveal d1">제품 정보</h2>
+    </div>
+    <div class="spectable">
+      <!-- oil spec -->
+      <div class="specmeta reveal d1">
+        <h4>라벤더 아로마 오일</h4>
+        <div class="speclist">
+          <div class="speclist__row"><span class="k">용량</span><span class="v">30ml</span></div>
+          <div class="speclist__row"><span class="k">주성분</span><span class="v">프렌치 라벤더 에센셜 오일</span></div>
+          <div class="speclist__row"><span class="k">사용법</span><span class="v">손목·관자놀이 1~2방울 / 디퓨저</span></div>
+          <div class="speclist__row"><span class="k">특징</span><span class="v">100% 천연 · 합성향료 무첨가</span></div>
+          <div class="speclist__row"><span class="k">보관</span><span class="v">직사광선을 피해 서늘한 곳</span></div>
+        </div>
+      </div>
+      <!-- spray spec -->
+      <div class="specmeta reveal d2">
+        <h4>필로우 룸 스프레이</h4>
+        <div class="speclist">
+          <div class="speclist__row"><span class="k">용량</span><span class="v">100ml</span></div>
+          <div class="speclist__row"><span class="k">향</span><span class="v">라벤더 &amp; 베르가못 블렌드</span></div>
+          <div class="speclist__row"><span class="k">사용법</span><span class="v">베개·침구·커튼에 2~3회 분사</span></div>
+          <div class="speclist__row"><span class="k">특징</span><span class="v">얼룩 없는 패브릭 안심 포뮬러</span></div>
+          <div class="speclist__row"><span class="k">주의</span><span class="v">눈·피부 직접 분사 금지</span></div>
+        </div>
+      </div>
+    </div>
+    <p class="disc">※ 본 제품은 화장품/방향제이며 의약품이 아닙니다. 사용 중 이상 반응이 있으면 사용을 중단하고 전문가와 상담하세요. 어린이·임산부는 사용 전 주의하세요. 이미지는 연출컷이며 실제와 다를 수 있습니다.</p>
+  </div>
+</section>
+
+<!-- ===================== CLOSING ===================== -->
+<section class="sec sec--center closing">
+  <div class="stars" aria-hidden="true"></div>
+  <div class="wrap">
+    <p class="closing__q reveal">오늘 밤,<br><b>향으로 짓는</b><br>가장 고요한 한 시간.</p>
+    <p class="closing__by reveal d1">Sleep Deeper · Live Better</p>
+    <div class="closing__cta reveal d2">
+      <button class="btn btn--light" id="buynow2" style="background:#fff;color:var(--navy);padding:1.05rem 2.4rem;border-radius:14px;font-weight:600">듀오 세트 구매하기 · 39,000원</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <img src="assets/logo-wordmark-white.png" alt="SOMNIA">
+        <p>휴식은 사치가 아닙니다. 더 나은 삶을 위한 토대입니다. 썸니아는 수면에서 출발한 슬립 라이프스타일 브랜드입니다.</p>
+      </div>
+      <div class="footer__links">
+        <div class="footer__col">
+          <h5>Shop</h5>
+          <a href="SOMNIA.html#collection">전체 컬렉션</a>
+          <a href="#">아로마 테라피</a>
+          <a href="SOMNIA Product.html">드림 젤리</a>
+          <a href="#">슬립 기어</a>
+        </div>
+        <div class="footer__col">
+          <h5>Support</h5>
+          <a href="#">배송 안내</a>
+          <a href="#">교환·반품</a>
+          <a href="#">자주 묻는 질문</a>
+          <a href="#">문의하기</a>
+        </div>
+        <div class="footer__col">
+          <h5>Brand</h5>
+          <a href="SOMNIA.html#philosophy">브랜드 철학</a>
+          <a href="SOMNIA.html#app">썸니아 앱</a>
+          <a href="#">저널</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 SOMNIA. All rights reserved.</span>
+      <span class="slogan">Sleep Deeper · Live Better</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ===================== STICKY BUY BAR ===================== -->
+<div class="stickybar" id="stickybar">
+  <div class="stickybar__in">
+    <div class="stickybar__meta">
+      <div class="stickybar__name">아로마 테라피 듀오</div>
+      <div class="stickybar__opt" id="sticky-opt">듀오 세트 · 수량 1</div>
+    </div>
+    <div class="stickybar__price"><span class="num" id="sticky-price">39,000</span><span class="won">원</span></div>
+    <button class="btn btn--ghost" id="sticky-cart" style="padding:.85rem 1.3rem">장바구니</button>
+    <button class="btn btn--navy" id="sticky-buy">바로 구매</button>
+  </div>
+</div>
+
+<!-- toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Tweaks mount -->
+<div id="tweaks-root"></div>
+
+<script src="assets/somnia-lang.js"></script>
+<script src="assets/aroma-duo.js"></script>
+
+<!-- React + Babel for Tweaks -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="assets/tweaks-panel.jsx"></script>
+<script type="text/babel" src="assets/aroma-tweaks.jsx"></script>
+
+</body>
+</html>

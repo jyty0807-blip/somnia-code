@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOMNIA 카드뉴스 — PNG 내보내기 (캔버스)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Outfit','Noto Sans KR',sans-serif;background:#22242b;color:#e8eaf0;
+    display:flex;flex-direction:column;align-items:center;gap:24px;padding:36px 18px 90px}
+  h1{font-size:18px;font-weight:600;letter-spacing:.03em}
+  .sub{font-size:12.5px;color:#a7adba;text-align:center;line-height:1.6;margin-top:-12px}
+  .toolbar{position:sticky;top:0;z-index:50;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;
+    background:rgba(34,36,43,.92);backdrop-filter:blur(6px);padding:12px;border-radius:14px}
+  button{font-family:inherit;font-size:13px;font-weight:600;border:none;cursor:pointer;border-radius:99px;transition:.2s;white-space:nowrap}
+  .big{padding:13px 22px;background:#9d88e8;color:#1a1340}
+  .big:hover{background:#b3a3f0}
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;width:100%;max-width:900px}
+  @media (max-width:640px){.grid{grid-template-columns:1fr}}
+  .item{background:#191b21;border:1px solid #2c2f37;border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:12px}
+  .item canvas{width:100%;height:auto;border-radius:8px;display:block;background:#000}
+  .item .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .item .nm{font-size:12px;color:#a7adba;letter-spacing:.1em}
+  .dl{padding:8px 16px;background:rgba(157,136,232,.16);color:#cfc8e8;border:1px solid rgba(157,136,232,.4)}
+  .dl:hover{background:rgba(157,136,232,.3)}
+  #status{font-size:12px;color:#9d88e8;min-height:16px}
+</style>
+</head>
+<body>
+  <h1>SOMNIA 카드뉴스 · PNG 내보내기</h1>
+  <p class="sub">캔버스 네이티브 렌더 — 글자 안 깨지고 정확히 1080 × 1080.<br>아래 미리보기가 곧 저장될 결과입니다.</p>
+  <div class="toolbar">
+    <button class="big" id="all">6장 모두 PNG 저장</button>
+    <span id="status"></span>
+  </div>
+  <div id="c6panel" style="background:#191b21;border:1px solid #2c2f37;border-radius:14px;padding:16px 20px;width:100%;max-width:900px;display:flex;flex-wrap:wrap;gap:18px;align-items:center">
+    <b style="font-size:12px;letter-spacing:.08em;color:#cfc8e8;width:100%">카드 6 이미지 위치·크기</b>
+    <label style="font-size:12px;color:#a7adba;flex:1;min-width:170px">가로 위치 <input type="range" id="c6x" min="60" max="980" step="2" style="width:100%;accent-color:#9d88e8"></label>
+    <label style="font-size:12px;color:#a7adba;flex:1;min-width:170px">세로 위치 <input type="range" id="c6y" min="60" max="780" step="2" style="width:100%;accent-color:#9d88e8"></label>
+    <label style="font-size:12px;color:#a7adba;flex:1;min-width:170px">너비 <input type="range" id="c6w" min="180" max="560" step="2" style="width:100%;accent-color:#9d88e8"></label>
+    <label style="font-size:12px;color:#a7adba;flex:1;min-width:170px">높이 <input type="range" id="c6h" min="180" max="560" step="2" style="width:100%;accent-color:#9d88e8"></label>
+    <button id="c6reset" style="padding:7px 14px;background:rgba(157,136,232,.16);color:#cfc8e8;border:1px solid rgba(157,136,232,.4)">기본값</button>
+  </div>
+  <div class="grid" id="grid"></div>
+
+  <script src="assets/cards/canvas-export.js"></script>
+  <script>
+    (async function(){
+      var st=document.getElementById('status'); st.textContent='폰트·에셋 불러오는 중…';
+      await window.SOMNIA_CARDS_READY;
+      var grid=document.getElementById('grid'); var canvases=[];
+      for(var i=0;i<window.SOMNIA_CARDS.count;i++){
+        var item=document.createElement('div'); item.className='item';
+        var cv=document.createElement('canvas'); cv.width=1080; cv.height=1080;
+        var row=document.createElement('div'); row.className='row';
+        var nm=document.createElement('span'); nm.className='nm'; nm.textContent='CARD '+String(i+1).padStart(2,'0');
+        var dl=document.createElement('button'); dl.className='dl'; dl.textContent='PNG 저장';
+        (function(idx,canvas){ dl.addEventListener('click',function(){ save(idx,canvas); }); })(i,cv);
+        row.appendChild(nm); row.appendChild(dl);
+        item.appendChild(cv); item.appendChild(row); grid.appendChild(item);
+        window.SOMNIA_CARDS.draw(i,cv); canvases.push(cv);
+      }
+      st.textContent='';
+      function save(i,canvas){ canvas.toBlob(function(b){ var a=document.createElement('a');
+        a.href=URL.createObjectURL(b); a.download='somnia-card-'+String(i+1).padStart(2,'0')+'.png'; a.click();
+        setTimeout(function(){URL.revokeObjectURL(a.href);},1000); },'image/png'); }
+      document.getElementById('all').addEventListener('click',async function(){
+        for(var i=0;i<canvases.length;i++){ st.textContent='저장 중… '+(i+1)+'/'+canvases.length; save(i,canvases[i]);
+          await new Promise(function(r){setTimeout(r,400);}); }
+        st.textContent='완료 ✓ 다운로드 폴더를 확인하세요';
+        setTimeout(function(){st.textContent='';},3000);
+      });
+      window.__canvases=canvases;
+
+      // ---- card 6 image position/size sliders ----
+      var DEF={x:600,y:150,w:384,h:330};
+      function loadCfg(){ try{ return Object.assign({},DEF,JSON.parse(localStorage.getItem('somnia-card6-img')||'{}')); }catch(e){ return Object.assign({},DEF); } }
+      window.CARD6_IMG=loadCfg();
+      var sx=document.getElementById('c6x'), sy=document.getElementById('c6y'), sw=document.getElementById('c6w'), sh=document.getElementById('c6h');
+      function syncSliders(){ sx.value=window.CARD6_IMG.x; sy.value=window.CARD6_IMG.y; sw.value=window.CARD6_IMG.w; sh.value=window.CARD6_IMG.h; }
+      function redraw6(){ window.SOMNIA_CARDS.draw(5,canvases[5]); }
+      function apply(){ window.CARD6_IMG={x:+sx.value,y:+sy.value,w:+sw.value,h:+sh.value};
+        localStorage.setItem('somnia-card6-img',JSON.stringify(window.CARD6_IMG)); redraw6(); }
+      [sx,sy,sw,sh].forEach(function(s){ s.addEventListener('input',apply); });
+      document.getElementById('c6reset').addEventListener('click',function(){ window.CARD6_IMG=Object.assign({},DEF);
+        localStorage.setItem('somnia-card6-img',JSON.stringify(window.CARD6_IMG)); syncSliders(); redraw6(); });
+      syncSliders(); redraw6();
+    })();
+  </script>
+</body>
+</html>

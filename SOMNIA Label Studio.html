@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOMNIA Label Studio — Dream Jelly</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--mist:#D0E6FA;--line:rgba(208,230,250,.14)}
+  body{font-family:'Outfit',-apple-system,sans-serif;color:#EAF0FF;background:#0b1530;min-height:100vh;
+    background:radial-gradient(70% 50% at 20% 0%,rgba(110,91,203,.16),transparent 60%),
+      radial-gradient(70% 60% at 100% 100%,rgba(25,91,130,.2),transparent 55%),#0b1530;}
+  .app{display:grid;grid-template-columns:1fr 380px;min-height:100vh}
+  @media (max-width:920px){.app{grid-template-columns:1fr}}
+
+  /* stage */
+  .stage{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 28px;gap:22px;position:relative}
+  .stage h1{font-size:13px;letter-spacing:.28em;text-transform:uppercase;color:var(--mist);opacity:.8;font-weight:500}
+  .canvas-wrap{position:relative;background:
+      repeating-conic-gradient(rgba(255,255,255,.035) 0% 25%,transparent 0% 50%) 50%/28px 28px;
+    border-radius:18px;padding:26px;border:1px solid var(--line)}
+  #art{display:block;width:min(440px,72vw);height:auto;border-radius:10px;box-shadow:0 40px 70px -28px rgba(0,0,0,.7)}
+  #art.cap{border-radius:50%;box-shadow:0 30px 50px -22px rgba(0,0,0,.65)}
+  .modes{display:flex;gap:8px}
+  .modebtn{padding:9px 18px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.04);
+    color:#EAF0FF;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:.2s}
+  .modebtn.on{background:#C2B0F5;border-color:#C2B0F5;color:#1a1340}
+  .dims{font-size:12px;color:rgba(214,236,250,.55);letter-spacing:.04em}
+
+  /* panel */
+  .panel{background:rgba(10,20,44,.6);border-left:1px solid var(--line);backdrop-filter:blur(16px);
+    padding:26px 24px 60px;overflow-y:auto;max-height:100vh}
+  .panel h2{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mist);opacity:.7;
+    margin:26px 0 12px;font-weight:600}
+  .panel h2:first-child{margin-top:0}
+  .presets{display:flex;gap:8px}
+  .preset{flex:1;padding:11px 6px;border-radius:13px;border:1px solid var(--line);background:rgba(255,255,255,.04);
+    cursor:pointer;text-align:center;transition:.2s}
+  .preset .sw{width:22px;height:22px;border-radius:50%;margin:0 auto 7px;border:1px solid rgba(255,255,255,.2)}
+  .preset b{font-size:11px;font-weight:600;display:block;line-height:1.2}
+  .preset.on{border-color:#C2B0F5;background:rgba(194,176,245,.12)}
+  .field{margin-bottom:13px}
+  .field label{display:block;font-size:12px;color:rgba(214,236,250,.7);margin-bottom:6px;font-weight:500}
+  .field input[type=text],.field textarea{width:100%;padding:11px 13px;border-radius:11px;border:1px solid var(--line);
+    background:rgba(255,255,255,.05);color:#fff;font-family:inherit;font-size:14px;outline:none;transition:.2s}
+  .field input:focus,.field textarea:focus{border-color:#C2B0F5;background:rgba(255,255,255,.08)}
+  .field textarea{resize:vertical;min-height:78px;line-height:1.6}
+  .row{display:flex;gap:10px}
+  .row .field{flex:1}
+  .colorrow{display:flex;align-items:center;gap:10px;margin-bottom:11px}
+  .colorrow label{flex:1;font-size:13px;color:rgba(214,236,250,.8)}
+  .colorrow input[type=color]{width:42px;height:32px;border:1px solid var(--line);border-radius:9px;background:none;cursor:pointer;padding:2px}
+  .toggle{display:flex;align-items:center;justify-content:space-between;padding:11px 0;font-size:13.5px;color:#EAF0FF}
+  .toggle input{appearance:none;width:46px;height:27px;border-radius:99px;background:rgba(255,255,255,.12);
+    position:relative;cursor:pointer;transition:.25s;flex:none}
+  .toggle input:checked{background:#C2B0F5}
+  .toggle input::after{content:"";position:absolute;top:3px;left:3px;width:21px;height:21px;border-radius:50%;background:#fff;transition:.25s}
+  .toggle input:checked::after{transform:translateX(19px)}
+  .slider{margin-bottom:13px}
+  .slider label{display:flex;justify-content:space-between;font-size:12px;color:rgba(214,236,250,.7);margin-bottom:7px}
+  .slider input{width:100%;accent-color:#C2B0F5}
+  .seg{display:flex;gap:6px}
+  .seg .logocol{flex:1;padding:9px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.04);
+    color:#EAF0FF;font-size:12.5px;font-weight:600;cursor:pointer;text-align:center;transition:.2s}
+  .seg .logocol.on,.seg .fontbtn.on,.seg .otlogocol.on{background:#C2B0F5;border-color:#C2B0F5;color:#1a1340}
+  .seg .otlogocol{flex:1;padding:9px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.04);
+    color:#EAF0FF;font-size:12.5px;font-weight:600;cursor:pointer;text-align:center;transition:.2s}
+  .seg .fontbtn{flex:1;padding:9px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.04);
+    color:#EAF0FF;font-size:12.5px;font-weight:600;cursor:pointer;text-align:center;transition:.2s}
+  .prodtabs{display:flex;gap:8px;margin-bottom:20px}
+  .prodbtn{flex:1;padding:12px;border-radius:13px;border:1px solid var(--line);background:rgba(255,255,255,.04);
+    color:#EAF0FF;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:.2s}
+  .prodbtn.on{background:#C2B0F5;border-color:#C2B0F5;color:#1a1340}
+  body[data-product="spray"] .jelly-only{display:none}
+  body[data-product="jelly"] .spray-only{display:none}
+  body[data-product="oil"] .jelly-only{display:none}
+  body:not([data-product="spray"]) .spray-only{display:none}
+  body:not([data-product="oil"]) .oil-only{display:none}
+  body:not([data-product="oiltitle"]) .oiltitle-only{display:none}
+  body[data-product="oiltitle"] .jelly-only{display:none}
+  body[data-product="oiltitle"] #art{width:min(520px,82vw)}
+  body[data-product="oil"] #art{width:min(560px,82vw)}
+  .file{display:block;font-size:12px;color:var(--mist);margin-top:8px;cursor:pointer}
+  .file input{display:none}
+  .file span{display:inline-block;padding:9px 14px;border:1px dashed rgba(214,236,250,.35);border-radius:10px;width:100%;text-align:center}
+  .dlrow{display:flex;gap:10px;margin-top:8px}
+  .btn{flex:1;padding:14px;border-radius:13px;border:none;font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;transition:.2s}
+  .btn--p{background:linear-gradient(135deg,#C2B0F5,#5b9fd6);color:#10183a}
+  .btn--g{background:rgba(255,255,255,.06);border:1px solid var(--line);color:#EAF0FF}
+  .btn:active{transform:scale(.97)}
+  .note{font-size:11.5px;color:rgba(214,236,250,.5);line-height:1.6;margin-top:14px}
+</style>
+</head>
+<body>
+  <div class="app">
+    <!-- STAGE -->
+    <div class="stage">
+      <h1>SOMNIA Label Studio</h1>
+      <div class="prodtabs" style="max-width:300px;margin-bottom:0">
+        <button class="prodbtn on" data-pr="jelly">드림젤리</button>
+        <button class="prodbtn" data-pr="jelly2">드림젤리(수정)</button>
+        <button class="prodbtn" data-pr="spray">룸스프레이</button>
+        <button class="prodbtn" data-pr="oil">아로마오일</button>
+        <button class="prodbtn" data-pr="oiltitle">오일타이틀</button>
+      </div>
+      <div class="modes jelly-only">
+        <button class="modebtn on" data-m="body">몸통 라벨 2000²</button>
+        <button class="modebtn" data-m="cap">캡 탑 1000²</button>
+      </div>
+      <div class="canvas-wrap"><canvas id="art" width="2000" height="2000"></canvas></div>
+      <div class="dims">미리보기 = 실제 내보내기 결과 (1:1)</div>
+    </div>
+
+    <!-- PANEL -->
+    <div class="panel">
+      <!-- ===== JELLY ===== -->
+      <div class="jelly-only">
+      <h2>맛 프리셋</h2>
+      <div class="presets">
+        <div class="preset on" data-p="moonberry"><div class="sw" style="background:#1d3360"></div><b>Moon<br>Berry</b></div>
+        <div class="preset" data-p="grape"><div class="sw" style="background:#4a3a7e"></div><b>Deep Night<br>Grape</b></div>
+        <div class="preset" data-p="vanilla"><div class="sw" style="background:#e7ddc7"></div><b>Vanilla<br>Moon</b></div>
+      </div>
+
+      <h2>텍스트</h2>
+      <div class="field"><label>맛 이름 (Flavor)</label><input type="text" id="f_label" value="Moon Berry"></div>
+      <div class="field"><label>맛 이름 폰트</label>
+        <div class="seg"><div class="fontbtn on" data-f="serif">Serif</div><div class="fontbtn" data-f="outfit">Outfit</div></div>
+      </div>
+      <div class="slider"><label>맛 글씨 크기</label><input type="range" id="f_labelSize" min="80" max="240" step="2" value="150"></div>
+      <div class="field"><label>제품 라인</label><input type="text" id="f_line" value="DREAM JELLY"></div>
+      <div class="slider"><label>DREAM JELLY + 선 위치</label><input type="range" id="f_lineY" min="-40" max="220" step="4" value="40"></div>
+      <div class="field"><label>성분 (한 줄에 하나)</label><textarea id="f_ing">MELATONIN
+L-THEANINE
+MAGNESIUM</textarea></div>
+      <div class="row">
+        <div class="field"><label>수량</label><input type="text" id="f_vol" value="30 JELLIES"></div>
+        <div class="field"><label>용량</label><input type="text" id="f_sub" value="(120 g)"></div>
+      </div>
+      <div class="toggle"><span>맛 이름 세리프 이탤릭</span><input type="checkbox" id="f_italic" checked></div>
+
+      <h2>색상</h2>
+      <div class="colorrow"><label>배경 상단</label><input type="color" id="f_c1" value="#21396a"></div>
+      <div class="colorrow"><label>배경 하단</label><input type="color" id="f_c2" value="#0e1d3a"></div>
+      <div class="colorrow"><label>텍스트</label><input type="color" id="f_text" value="#f3f7ff"></div>
+
+      <h2>로고</h2>
+      <div class="toggle"><span>로고 표시</span><input type="checkbox" id="f_logoOn" checked></div>
+      <div class="field"><label>로고 색</label>
+        <div class="seg"><div class="logocol on" data-c="white">화이트</div><div class="logocol" data-c="navy">네이비</div></div>
+      </div>
+      <div class="slider"><label>로고 크기 <span></span></label><input type="range" id="f_logoScale" min="0.6" max="1.4" step="0.02" value="1"></div>
+      <div class="slider"><label>로고 세로 위치</label><input type="range" id="f_logoY" min="-180" max="260" step="4" value="0"></div>
+
+      <h2>배경 야경 (몸통)</h2>
+      <div class="toggle"><span>야경 사용</span><input type="checkbox" id="f_scene" checked></div>
+      <div class="slider"><label>야경 세로 위치</label><input type="range" id="f_sceneY" min="-300" max="300" step="10" value="0"></div>
+      <label class="file"><input type="file" id="f_bg" accept="image/*"><span>＋ 배경 이미지 교체</span></label>
+
+      <h2>내보내기 (PNG)</h2>
+      <div class="dlrow">
+        <button class="btn btn--p" id="dl_body">몸통 2000²</button>
+        <button class="btn btn--g" id="dl_cap">캡 1000²</button>
+      </div>
+      <p class="note">미리보기 그대로 정확한 픽셀(2000×2000 / 1000×1000)로 저장됩니다. 로고는 보호 자산으로 위치·크기·색만 조정하고 형태는 원본을 그대로 사용해요.</p>
+      </div><!-- /jelly-only -->
+
+      <!-- ===== SPRAY ===== -->
+      <div class="spray-only">
+        <h2>룸스프레이 · 1254 × 1682</h2>
+        <div class="toggle"><span>SOMNIA 로고 표시</span><input type="checkbox" id="f_logoOn2" checked></div>
+        <div class="slider"><label>제목 글씨 두께</label><input type="range" id="f_sprayW" min="200" max="700" step="50" value="500"></div>
+        <div class="slider"><label>제목 글씨 크기</label><input type="range" id="f_sprayTitleSize" min="56" max="160" step="2" value="96"></div>
+        <div class="toggle"><span>제목 이탤릭</span><input type="checkbox" id="f_sprayItalic"></div>
+        <div class="slider"><label>제목 그림자 농도</label><input type="range" id="f_sprayShadow" min="0" max="70" step="2" value="18"></div>
+        <div class="slider"><label>텍스트 세로 위치 ↕</label><input type="range" id="f_sprayTextY" min="-620" max="120" step="6" value="0"></div>
+        <div class="slider"><label>로고 세로 위치 ↕</label><input type="range" id="f_sprayLogoY" min="-60" max="900" step="6" value="0"></div>
+        <label class="file"><input type="file" id="f_bg2" accept="image/*"><span>＋ 배경 이미지 교체</span></label>
+        <p class="note">기본 배경은 핑크 야경. 위에서 다른 이미지로 교체할 수 있어요. 내용(제품명·향·무드·용량)은 브리프대로 고정.</p>
+        <h2>내보내기 (PNG)</h2>
+        <div class="dlrow"><button class="btn btn--p" id="dl_spray">룸스프레이 1254×1682</button></div>
+      </div>
+
+      <!-- ===== AROMA OIL ===== -->
+      <div class="oil-only">
+        <h2>아로마오일 · 4091 × 4096</h2>
+        <p class="note" style="margin-top:0">원통을 감싸는 스티커. 가이드 띠(3767×1342) 안에 로고·내용이 들어가요. 가이드선은 화면에만 보이고 PNG에는 안 나와요.</p>
+        <div class="toggle"><span>SOMNIA 로고 표시</span><input type="checkbox" id="f_logoOn3" checked></div>
+        <div class="toggle"><span>가이드선 표시 (화면만)</span><input type="checkbox" id="f_oilGuide" checked></div>
+        <h2>텍스트 편집</h2>
+        <div class="field"><label>제품명 (KR)</label><input type="text" id="f_oilName" value="라벤더 아로마 오일"></div>
+        <div class="field"><label>제품명 (EN · 하이라이트 밴드)</label><input type="text" id="f_oilEN" value="LAVENDER AROMA OIL"></div>
+        <div class="field"><label>카피</label><input type="text" id="f_oilCopy" value="100% 라벤더 오일 · 발향용"></div>
+        <div class="field"><label>설명 (한 줄에 한 행)</label><textarea id="f_oilDesc">잠들기 전 침실과 베개 주변에 가볍게 사용하는
+발향 전용 라벤더 아로마 오일입니다.</textarea></div>
+        <div class="field"><label>스펙 표 (항목 | 값)</label><textarea id="f_oilRows">Lavender Oil | PURE
+Aroma / 발향용 | ✓
+Volume 용량 | 10 ml
+Origin 원산지 | Provence
+Net 순도 | 100%</textarea></div>
+        <div class="field"><label>세로 캡션</label><input type="text" id="f_oilVText" value="100% PURE LAVENDER ESSENTIAL OIL · FOR FRAGRANCE USE"></div>
+        <div class="field"><label>주의사항 (한 줄에 한 항목)</label><textarea id="f_oilCaution">어린이의 손이 닿지 않는 곳에 보관하십시오.
+눈에 들어가지 않도록 주의하십시오.
+피부에 직접 사용하지 마십시오.
+먹거나 삼키지 마십시오.
+직사광선을 피해 보관하십시오.</textarea></div>
+        <div class="slider"><label>제품명 글씨 크기</label><input type="range" id="f_oilTitleSize" min="80" max="180" step="2" value="128"></div>
+        <h2>컬럼 위치 (좌우 이동)</h2>
+        <div class="slider"><label>① 스펙 표 ↔</label><input type="range" id="f_oilLeftX" min="-200" max="900" step="10" value="0"></div>
+        <div class="slider"><label>② 중앙 박스 ↔</label><input type="range" id="f_oilCenterX" min="-900" max="500" step="10" value="0"></div>
+        <div class="slider"><label>③ 세로 문구 ↔</label><input type="range" id="f_oilRightX" min="-700" max="100" step="10" value="0"></div>
+        <div class="colorrow"><label>배경색</label><input type="color" id="f_oilBg" value="#9aa6b8"></div>
+        <div class="colorrow"><label>텍스트색</label><input type="color" id="f_oilText" value="#f6f8fc"></div>
+        <h2>내보내기 (PNG)</h2>
+        <div class="dlrow"><button class="btn btn--p" id="dl_oil">아로마오일 4091×4096</button></div>
+      </div>
+
+      <!-- ===== OIL TITLE STICKER ===== -->
+      <div class="oiltitle-only">
+        <h2>오일 타이틀 스티커 · 1145 × 953</h2>
+        <div class="toggle"><span>SOMNIA 로고 표시</span><input type="checkbox" id="f_logoOn4" checked></div>
+        <div class="field"><label>타이틀</label><input type="text" id="f_otTitle" value="AROMA OIL"></div>
+        <div class="field"><label>부제</label><input type="text" id="f_otSub" value="lavender / pillow & room mist"></div>
+        <div class="field"><label>하단 캡션 1</label><input type="text" id="f_otCap1" value="SOMNIA SLEEP COLLECTION"></div>
+        <div class="field"><label>하단 캡션 2</label><input type="text" id="f_otCap2" value="100% LAVENDER · FOR FRAGRANCE USE"></div>
+        <div class="slider"><label>타이틀 크기</label><input type="range" id="f_otSize" min="50" max="160" step="2" value="96"></div>
+        <div class="slider"><label>타이틀 굵기</label><input type="range" id="f_otWeight" min="300" max="700" step="100" value="600"></div>
+        <div class="toggle"><span>타이틀 이탤릭</span><input type="checkbox" id="f_otItalic"></div>
+        <div class="slider"><label>로고 크기</label><input type="range" id="f_otLogoScale" min="0.5" max="1.8" step="0.05" value="1"></div>
+        <div class="field"><label>로고 색</label>
+          <div class="seg"><div class="otlogocol on" data-c="navy">네이비</div><div class="otlogocol" data-c="white">화이트</div></div>
+        </div>
+        <div class="slider"><label>하단 캡션 크기</label><input type="range" id="f_otCapSize" min="20" max="60" step="2" value="40"></div>
+        <div class="slider"><label>하단 캡션 자간</label><input type="range" id="f_otCapSpace" min="0" max="28" step="1" value="10"></div>
+        <div class="colorrow"><label>배경색</label><input type="color" id="f_otBg" value="#7d6e86"></div>
+        <div class="colorrow"><label>글자색</label><input type="color" id="f_otText" value="#2e2838"></div>
+        <div class="toggle"><span>배경 이미지 사용</span><input type="checkbox" id="f_otBgImg"></div>
+        <label class="file"><input type="file" id="f_otBg2" accept="image/*"><span>＋ 배경 이미지 업로드</span></label>
+        <h2>내보내기 (PNG)</h2>
+        <div class="dlrow"><button class="btn btn--p" id="dl_oiltitle">오일타이틀 1145×953</button></div>
+        <div class="dlrow"><button class="btn btn--g" id="dl_oiltitle_svg">SVG (편집 가능 레이어)</button></div>
+        <div class="dlrow"><button class="btn btn--g" id="dl_oiltitle_bg">배경만 PNG</button></div>
+        <div class="dlrow"><button class="btn btn--g" id="dl_oiltitle_txt">텍스트만 PNG (투명)</button></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/mockup/label-studio.js"></script>
+</body>
+</html>

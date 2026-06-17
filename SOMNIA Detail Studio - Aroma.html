@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOMNIA Detail Studio — Aroma (오일 & 룸스프레이)</title>
+<link rel="stylesheet" href="assets/aroma-detail/aroma.css">
+</head>
+<body>
+<div class="studio">
+
+  <!-- LEFT RAIL -->
+  <aside class="rail">
+    <h1>SOMNIA Detail Studio</h1>
+    <div class="tag">Aroma · 오일 &amp; 룸스프레이 · 상세페이지 1000px</div>
+    <div class="seclist" id="seclist"></div>
+    <div class="railfoot">
+      <button class="btn" id="dlAll">전체 PNG 저장</button>
+      <button class="btn btn--g" id="dlStrip">세로 1장 PNG</button>
+    </div>
+  </aside>
+
+  <!-- CENTER STAGE -->
+  <main class="stage" id="stage">
+    <div class="zoombar">
+      <input type="range" id="zoom" min="28" max="100" step="1" value="52">
+      <span id="zoomv">52%</span>
+    </div>
+    <div class="stagewrap" id="strip">
+
+      <!-- 1 · HERO -->
+      <div class="frame" data-sec="hero" data-label="히어로">
+        <div class="secbar"><button data-png>PNG</button></div>
+        <section class="sec s-hero" data-screen-label="히어로">
+          <img class="sym" src="assets/symbol-white.png" alt="SOMNIA">
+          <div class="eyebrow" data-ed="hero-eyebrow" contenteditable="true">SOMNIA AROMATHERAPY</div>
+          <h2 data-ed="hero-h2" contenteditable="true">잠들기 전 한 시간,<br>향으로 짓는 나이트 리추얼</h2>
+          <div class="lead" data-ed="hero-lead" contenteditable="true">손끝에 떨어뜨리는 라벤더 오일과 베개 위 가벼운 미스트.<br>두 향이 만드는 가장 고요한 밤.</div>
+          <div class="heroimg">
+            <image-slot id="aroma_hero_img" shape="rect" radius="0" placeholder="오일 + 스프레이 무드컷을 올려주세요"></image-slot>
+          </div>
+        </section>
+      </div>
+
+      <!-- 2 · SCENT NOTES -->
+      <div class="frame" data-sec="notes" data-label="향 노트">
+        <div class="secbar"><button data-png>PNG</button></div>
+        <section class="sec s-notes" data-screen-label="향 노트">
+          <div class="top">
+            <div class="eyebrow">SCENT NOTES</div>
+            <h2 data-ed="notes-h2" contenteditable="true">시간에 따라 피어나는 <span class="ac">세 겹의 향</span></h2>
+          </div>
+          <div class="notelist">
+            <div class="nrow">
+              <div class="ntier"><span class="nk">TOP</span><span class="nko" data-ed="note1-stage" contenteditable="true">탑 노트</span></div>
+              <div class="nbody">
+                <div class="nm" data-ed="note1-nm" contenteditable="true">베르가못</div>
+                <div class="cp" data-ed="note1-cp" contenteditable="true">처음 퍼지는 산뜻하고 가벼운 시트러스. 하루의 긴장을 가볍게 풀어줍니다.</div>
+              </div>
+            </div>
+            <div class="nrow">
+              <div class="ntier"><span class="nk">HEART</span><span class="nko" data-ed="note2-stage" contenteditable="true">하트 노트</span></div>
+              <div class="nbody">
+                <div class="nm" data-ed="note2-nm" contenteditable="true">라벤더</div>
+                <div class="cp" data-ed="note2-cp" contenteditable="true">중심을 잡는 깊고 부드러운 프렌치 라벤더. 마음을 차분히 가라앉힙니다.</div>
+              </div>
+            </div>
+            <div class="nrow">
+              <div class="ntier"><span class="nk">BASE</span><span class="nko" data-ed="note3-stage" contenteditable="true">베이스 노트</span></div>
+              <div class="nbody">
+                <div class="nm" data-ed="note3-nm" contenteditable="true">시더우드</div>
+                <div class="cp" data-ed="note3-cp" contenteditable="true">은은하게 남는 따뜻한 우디 잔향. 잠드는 순간까지 곁을 지킵니다.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- 3 · PLANT & BLENDING -->
+      <div class="frame" data-sec="blend" data-label="원료 &amp; 블렌딩">
+        <div class="secbar"><button data-png>PNG</button></div>
+        <section class="sec s-blend" data-screen-label="원료 & 블렌딩">
+          <div class="row">
+            <div class="media">
+              <image-slot id="aroma_blend_img" placeholder="원료 · 텍스처 컷 (세로)"></image-slot>
+            </div>
+            <div class="copy">
+              <div class="eyebrow" data-ed="blend-eyebrow" contenteditable="true">PLANT &amp; BLENDING</div>
+              <h2 data-ed="blend-h2" contenteditable="true">100% 천연 에센셜 오일,<br><span class="ac">정교한 블렌딩</span></h2>
+              <div class="body" data-ed="blend-body" contenteditable="true">프렌치 라벤더를 중심으로 캐모마일과 시더우드를 더해, 시간에 따라 천천히 피어나는 향의 결을 완성했습니다.</div>
+              <div class="pillrow">
+                <span class="pill" data-ed="blend-pill1" contenteditable="true">프렌치 라벤더</span>
+                <span class="pill" data-ed="blend-pill2" contenteditable="true">캐모마일</span>
+                <span class="pill" data-ed="blend-pill3" contenteditable="true">시더우드</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- 4 · HOW TO USE -->
+      <div class="frame" data-sec="howto" data-label="사용 방법">
+        <div class="secbar"><button data-png>PNG</button></div>
+        <section class="sec s-howto" data-screen-label="사용 방법">
+          <div class="top">
+            <div class="eyebrow">HOW TO USE</div>
+            <h2 data-ed="howto-h2" contenteditable="true">두 가지 향, <span class="ac">하나의 리추얼</span></h2>
+          </div>
+          <div class="hcols">
+            <div class="hcol">
+              <div class="hcol__t" data-ed="oil-t" contenteditable="true">아로마 오일</div>
+              <ol class="hsteps">
+                <li data-ed="oil-1" contenteditable="true">손목·관자놀이에 1~2방울 발라 깊게 호흡합니다.</li>
+                <li data-ed="oil-2" contenteditable="true">디퓨저나 목욕물에 떨어뜨려 공간에 퍼뜨립니다.</li>
+                <li data-ed="oil-3" contenteditable="true">잠들기 약 한 시간 전부터 천천히 사용합니다.</li>
+              </ol>
+            </div>
+            <div class="hcol">
+              <div class="hcol__t" data-ed="spray-t" contenteditable="true">룸 스프레이</div>
+              <ol class="hsteps">
+                <li data-ed="spray-1" contenteditable="true">베개·침구에서 20~30cm 떨어져 2~3회 분사합니다.</li>
+                <li data-ed="spray-2" contenteditable="true">커튼·패브릭에 가볍게 뿌려 공간을 정돈합니다.</li>
+                <li data-ed="spray-3" contenteditable="true">향이 자리 잡으면 조명을 낮추고 취침합니다.</li>
+              </ol>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- 5 · WORRY-FREE FORMULA -->
+      <div class="frame" data-sec="formula" data-label="안심 포뮬러">
+        <div class="secbar"><button data-png>PNG</button></div>
+        <section class="sec s-formula" data-screen-label="안심 포뮬러">
+          <div class="top">
+            <div class="eyebrow">WORRY-FREE FORMULA</div>
+            <h2 data-ed="formula-h2" contenteditable="true">믿고 쓰는 <span class="ac">안심 포뮬러</span></h2>
+          </div>
+          <div class="fgrid">
+            <div class="fitem"><div class="fk" data-ed="f1-k" contenteditable="true">100% 천연 에센셜 오일</div><div class="fd" data-ed="f1-d" contenteditable="true">합성 향료 없이 식물에서 추출한 향만 담았습니다.</div></div>
+            <div class="fitem"><div class="fk" data-ed="f2-k" contenteditable="true">합성향료·파라벤 무첨가</div><div class="fd" data-ed="f2-d" contenteditable="true">피부와 침실에 부담이 적은 깨끗한 처방.</div></div>
+            <div class="fitem"><div class="fk" data-ed="f3-k" contenteditable="true">얼룩 없는 마일드 포뮬러</div><div class="fd" data-ed="f3-d" contenteditable="true">베개·침구에 안심하고 쓸 수 있는 패브릭 미스트.</div></div>
+            <div class="fitem"><div class="fk" data-ed="f4-k" contenteditable="true">은은하게 남는 잔향</div><div class="fd" data-ed="f4-d" contenteditable="true">강하지 않게, 잠드는 순간까지 곁을 지키는 향.</div></div>
+          </div>
+        </section>
+      </div>
+
+      <!-- 6 · PRODUCT INFO -->
+      <div class="frame" data-sec="spec" data-label="제품 정보">
+        <div class="secbar"><button data-png>PNG</button></div>
+        <section class="sec s-spec" data-screen-label="제품 정보">
+          <div class="top">
+            <div class="eyebrow">PRODUCT INFO</div>
+            <h2 data-ed="spec-h2" contenteditable="true">제품 정보</h2>
+          </div>
+          <div class="spectable">
+            <div class="specmeta">
+              <h4 data-ed="oilspec-h4" contenteditable="true">라벤더 아로마 오일</h4>
+              <div class="speclist">
+                <div class="speclist__row"><span class="k">용량</span><span class="v" data-ed="oil-vol" contenteditable="true">30ml</span></div>
+                <div class="speclist__row"><span class="k">주성분</span><span class="v" data-ed="oil-main" contenteditable="true">프렌치 라벤더 에센셜 오일</span></div>
+                <div class="speclist__row"><span class="k">사용법</span><span class="v" data-ed="oil-use" contenteditable="true">손목·관자놀이 1~2방울 / 디퓨저</span></div>
+                <div class="speclist__row"><span class="k">특징</span><span class="v" data-ed="oil-feat" contenteditable="true">100% 천연 · 합성향료 무첨가</span></div>
+                <div class="speclist__row"><span class="k">보관</span><span class="v" data-ed="oil-store" contenteditable="true">직사광선을 피해 서늘한 곳</span></div>
+              </div>
+            </div>
+            <div class="specmeta">
+              <h4 data-ed="sprayspec-h4" contenteditable="true">필로우 룸 스프레이</h4>
+              <div class="speclist">
+                <div class="speclist__row"><span class="k">용량</span><span class="v" data-ed="spray-vol" contenteditable="true">100ml</span></div>
+                <div class="speclist__row"><span class="k">향</span><span class="v" data-ed="spray-scent" contenteditable="true">라벤더 · 캐모마일 · 시더우드</span></div>
+                <div class="speclist__row"><span class="k">사용법</span><span class="v" data-ed="spray-use" contenteditable="true">베개·침구·커튼에 2~3회 분사</span></div>
+                <div class="speclist__row"><span class="k">특징</span><span class="v" data-ed="spray-feat" contenteditable="true">얼룩 없는 패브릭 안심 포뮬러</span></div>
+                <div class="speclist__row"><span class="k">주의</span><span class="v" data-ed="spray-caution" contenteditable="true">눈·피부 직접 분사 금지</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- 7 · NOTICE -->
+      <div class="frame" data-sec="notice" data-label="주의사항">
+        <div class="secbar"><button data-png>PNG</button></div>
+        <section class="sec s-notice" data-screen-label="주의사항">
+          <div class="top">
+            <div class="eyebrow">NOTICE</div>
+            <h2 data-ed="notice-h2" contenteditable="true">사용 시 주의사항</h2>
+          </div>
+          <ul class="notice-list">
+            <li data-ed="n1" contenteditable="true">피부나 얼굴에 직접 분사하지 마세요.</li>
+            <li data-ed="n2" contenteditable="true">눈에 들어가지 않도록 주의하세요.</li>
+            <li data-ed="n3" contenteditable="true">영유아·반려동물의 손이 닿지 않는 곳에 보관하세요.</li>
+            <li data-ed="n4" contenteditable="true">가죽·원목·실크·밝은 섬유에는 직접 분사를 피하세요.</li>
+            <li data-ed="n5" contenteditable="true">화기·고온·직사광선을 피해 보관하세요.</li>
+            <li data-ed="n6" contenteditable="true">향에 민감한 경우 소량 테스트 후 사용하세요.</li>
+          </ul>
+          <p class="disc" data-ed="notice-disc" contenteditable="true">※ 본 제품은 화장품/방향제이며 의약품이 아닙니다. 이미지는 연출컷이며 실제와 다를 수 있습니다.</p>
+        </section>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- RIGHT PANEL -->
+  <aside class="panel" id="panel">
+    <h2 id="pTitle">섹션</h2>
+    <p class="hint" id="pHint">왼쪽에서 섹션을 고르거나 캔버스에서 텍스트를 클릭해 바로 편집하세요.</p>
+    <div id="pBody"></div>
+  </aside>
+
+</div>
+
+<script src="assets/image-slot.js"></script>
+<script src="assets/aroma-detail/aroma.js"></script>
+</body>
+</html>

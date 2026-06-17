@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOMNIA Brochure Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--mist:#D0E6FA;--lav:#B8A7E6;--line:rgba(208,230,250,.14)}
+  body{font-family:'Outfit',-apple-system,sans-serif;color:#EAF0FF;background:#0b1530;min-height:100vh;
+    background:radial-gradient(70% 50% at 18% 0%,rgba(184,167,230,.16),transparent 60%),
+      radial-gradient(70% 60% at 100% 100%,rgba(25,88,178,.22),transparent 55%),#0b1530;}
+  .app{display:grid;grid-template-columns:1fr 400px;min-height:100vh}
+  @media (max-width:960px){.app{grid-template-columns:1fr}}
+
+  .stage{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:34px 26px;gap:18px}
+  .stage h1{font-size:13px;letter-spacing:.28em;text-transform:uppercase;color:var(--mist);opacity:.85;font-weight:500}
+  .views{display:flex;gap:7px;flex-wrap:wrap;justify-content:center}
+  .viewbtn{padding:9px 15px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.04);
+    color:#EAF0FF;font-family:inherit;font-size:12.5px;font-weight:600;cursor:pointer;transition:.2s}
+  .viewbtn small{display:block;font-size:10px;font-weight:400;opacity:.6;letter-spacing:.04em}
+  .viewbtn.on{background:var(--lav);border-color:var(--lav);color:#1a1340}
+  .viewbtn.on small{opacity:.7}
+  .canvas-wrap{position:relative;background:repeating-conic-gradient(rgba(255,255,255,.035) 0% 25%,transparent 0% 50%) 50%/26px 26px;
+    border-radius:16px;padding:22px;border:1px solid var(--line)}
+  #art{display:block;width:auto;height:min(74vh,720px);border-radius:6px;box-shadow:0 40px 70px -28px rgba(0,0,0,.7)}
+  .dims{font-size:12px;color:rgba(208,230,250,.55);letter-spacing:.04em;text-align:center}
+  .dims b{color:var(--mist);font-weight:600}
+
+  .panel{background:rgba(10,20,44,.62);border-left:1px solid var(--line);backdrop-filter:blur(16px);
+    padding:24px 22px 70px;overflow-y:auto;max-height:100vh}
+  .panel h2{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--mist);opacity:.7;margin:24px 0 12px;font-weight:600}
+  .panel h2:first-child{margin-top:0}
+  .panel .hint{font-size:11.5px;color:rgba(208,230,250,.5);line-height:1.6;margin:-4px 0 12px}
+  .field{margin-bottom:12px}
+  .field label{display:block;font-size:12px;color:rgba(208,230,250,.7);margin-bottom:6px;font-weight:500}
+  .field input[type=text],.field textarea,.field select{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);
+    background:rgba(255,255,255,.05);color:#fff;font-family:inherit;font-size:13.5px;outline:none;transition:.2s}
+  .field select{appearance:none;cursor:pointer}
+  .field select option{background:#0e1830;color:#fff}
+  .field input:focus,.field textarea:focus{border-color:var(--lav);background:rgba(255,255,255,.08)}
+  .field textarea{resize:vertical;min-height:72px;line-height:1.6}
+  .row{display:flex;gap:10px}.row .field{flex:1}
+  .toggle{display:flex;align-items:center;justify-content:space-between;padding:10px 0;font-size:13.5px;color:#EAF0FF}
+  .toggle input{appearance:none;width:46px;height:27px;border-radius:99px;background:rgba(255,255,255,.12);position:relative;cursor:pointer;transition:.25s;flex:none}
+  .toggle input:checked{background:var(--lav)}
+  .toggle input::after{content:"";position:absolute;top:3px;left:3px;width:21px;height:21px;border-radius:50%;background:#fff;transition:.25s}
+  .toggle input:checked::after{transform:translateX(19px)}
+  .slider{margin-bottom:12px}
+  .slider label{display:flex;justify-content:space-between;font-size:12px;color:rgba(208,230,250,.7);margin-bottom:7px}
+  .slider input{width:100%;accent-color:var(--lav)}
+  .file{display:block;font-size:12px;color:var(--mist);margin:8px 0 4px;cursor:pointer}
+  .file input{display:none}
+  .file span{display:inline-block;padding:9px 14px;border:1px dashed rgba(208,230,250,.32);border-radius:10px;width:100%;text-align:center}
+  .dlrow{display:flex;gap:10px;margin-top:8px}
+  .btn{flex:1;padding:13px;border-radius:12px;border:none;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:.2s}
+  .btn--p{background:linear-gradient(135deg,var(--lav),#5b9fd6);color:#10183a}
+  .btn--g{background:rgba(255,255,255,.06);border:1px solid var(--line);color:#EAF0FF}
+  .btn:active{transform:scale(.97)}
+  .swatches{display:flex;gap:6px;margin:2px 0 6px}
+  .sw{flex:1;height:34px;border-radius:8px;border:1px solid rgba(255,255,255,.14);position:relative}
+  .sw span{position:absolute;bottom:3px;left:0;right:0;text-align:center;font-size:8.5px;color:rgba(255,255,255,.85);letter-spacing:.02em}
+  .swatches button.sw{padding:0;cursor:pointer;font-family:inherit}
+  .swatches button.sw.on{box-shadow:0 0 0 2px var(--lav),0 0 0 4px rgba(11,21,48,.9);border-color:var(--lav)}
+  .swatches button.sw:hover{transform:translateY(-1px)}
+  .aseg button:hover{color:var(--mist)}
+  .aseg button.on{background:var(--lav);color:#10183a;font-weight:600}
+  .aseg button.on:hover{color:#10183a}
+  .note{font-size:11.5px;color:rgba(208,230,250,.5);line-height:1.6;margin-top:12px}
+  /* per-element transform controls */
+  .xform{border:1px solid var(--line);border-radius:12px;padding:11px 12px 13px;margin-bottom:11px;background:rgba(255,255,255,.025)}
+  .xfhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+  .xfhead > span{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--mist);opacity:.82;font-weight:600}
+  .reset-el{font-size:10.5px;color:rgba(208,230,250,.6);background:none;border:1px solid var(--line);border-radius:7px;padding:3px 9px;cursor:pointer;font-family:inherit;transition:.2s}
+  .reset-el:hover{border-color:var(--lav);color:var(--mist)}
+  .hctl{display:flex;align-items:center;gap:7px}
+  .eye{display:flex;align-items:center;justify-content:center;width:26px;height:24px;padding:0;border:1px solid var(--line);border-radius:7px;background:none;color:var(--mist);cursor:pointer;transition:.15s}
+  .eye:hover{border-color:var(--lav);color:#fff}
+  .eye .slash{display:none}
+  .eye.off{opacity:.5;color:rgba(208,230,250,.55)}
+  .eye.off .slash{display:inline}
+  .del-area{color:rgba(255,140,140,.85)}
+  .del-area:hover{border-color:rgba(255,120,120,.7);color:#ff9b9b}
+  .addarea{width:100%;margin-bottom:8px}
+  .xgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}
+  .mini label{display:flex;justify-content:space-between;font-size:11px;color:rgba(208,230,250,.62);margin-bottom:5px}
+  .mini .rdo{color:var(--mist);opacity:.85;font-variant-numeric:tabular-nums}
+  .mini input[type=range]{width:100%;accent-color:var(--lav)}
+  .cfield{display:flex;align-items:center;gap:10px;margin-top:11px}
+  .cfield .clab{font-size:11px;color:rgba(208,230,250,.62);min-width:34px}
+  .cwrap{display:flex;gap:6px;flex-wrap:wrap}
+  .cw{width:24px;height:24px;border-radius:6px;border:1px solid rgba(255,255,255,.18);cursor:pointer;padding:0;transition:.15s}
+  .cw.on{box-shadow:0 0 0 2px var(--lav);border-color:var(--lav)}
+  .cw:hover{transform:scale(1.09)}
+  .fc{width:24px;height:24px;border-radius:6px;border:1px solid rgba(255,255,255,.18);cursor:pointer;padding:0;transition:.15s;color:rgba(208,230,250,.7);font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center}
+  .fc.on{box-shadow:0 0 0 2px var(--lav);border-color:var(--lav)}
+  .fc:hover{transform:scale(1.09)}
+  .afield{display:flex;align-items:center;gap:10px;margin-top:11px}
+  .afield .clab{font-size:11px;color:rgba(208,230,250,.62);min-width:48px}
+  .aseg{display:flex;gap:4px;flex:1;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:9px;padding:3px}
+  .aseg button{flex:1;padding:6px 0;border:none;background:none;color:rgba(208,230,250,.7);font-family:inherit;font-size:11.5px;border-radius:6px;cursor:pointer;transition:.15s}
+  /* show only active panel's group */
+  .grp{display:none}
+  body[data-view="P01"] .grp.P01,body[data-view="P02"] .grp.P02,
+  body[data-view="P03"] .grp.P03,body[data-view="P04"] .grp.P04{display:block}
+</style>
+</head>
+<body data-view="P02">
+  <div class="app">
+    <!-- STAGE -->
+    <div class="stage">
+      <h1>SOMNIA Brochure Studio</h1>
+      <div class="views">
+        <button class="viewbtn" data-v="P02">P02 전면<small>FRONT</small></button>
+        <button class="viewbtn" data-v="P01">P01 후면<small>BACK</small></button>
+        <button class="viewbtn" data-v="P03">P03 내지左<small>철학</small></button>
+        <button class="viewbtn" data-v="P04">P04 내지右<small>제품</small></button>
+      </div>
+      <div class="canvas-wrap"><canvas id="art"></canvas></div>
+      <div class="dims">패널 <b>153.5 × 220 mm</b> · 도련 3mm 포함 <b>1914 × 2712 px</b> · 미리보기 = 내보내기 1:1</div>
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="panel">
+      <h2>컬러 시스템 (CMYK 매핑)</h2>
+      <div class="swatches">
+        <button class="sw" data-bg="#0E1A3A" style="background:#0E1A3A"><span>Navy</span></button>
+        <button class="sw" data-bg="#1958B2" style="background:#1958B2"><span>Ocean</span></button>
+        <button class="sw" data-bg="#4B2E83" style="background:#4B2E83"><span>Plum</span></button>
+        <button class="sw" data-bg="#B8A7E6" style="background:#B8A7E6"><span>Lavender</span></button>
+        <button class="sw" data-bg="#D0E6FA" style="background:#D0E6FA"><span style="color:#1a2540">Mist</span></button>
+        <button class="sw" data-bg="#F6F2EA" style="background:#F6F2EA"><span style="color:#1a2540">Ivory</span></button>
+      </div>
+      <p class="hint">스와치를 클릭하면 현재 패널의 배경색이 바뀝니다. 텍스트·로고·이미지·크기는 아래에서 조정해요.</p>
+
+      <h2>공통</h2>
+      <div class="toggle"><span>SOMNIA 로고 표시</span><input type="checkbox" id="f_logoOn" checked></div>
+      <div class="toggle"><span>재단·안전선 (화면만)</span><input type="checkbox" id="f_guides" checked></div>
+
+      <!-- P02 FRONT -->
+      <div class="grp P02">
+        <h2>P02 전면 표지 — Deep Ocean Blue</h2>
+        <div class="field"><label>슬로건 (헤드라인)</label><input type="text" id="f_P02_slogan" value="SLEEP DEEPER, LIVE BETTER"></div>
+        <div class="field"><label>한글 서브</label><input type="text" id="f_P02_kr" value="더 깊은 잠, 더 나은 삶"></div>
+        <div class="field"><label>하단 바디 카피 (Mist Blue)</label><input type="text" id="f_P02_body" value="좋은 삶은 충분한 회복에서 시작됩니다."></div>
+        <h2>요소 — 위치·크기·색상·표시</h2>
+        <p class="hint">요소별 위치·크기·자간·글자색을 조절하고, 눈 아이콘으로 표시를 끄면 PNG에서도 제외돼요.</p>
+        <div id="xf_P02"></div>
+        <label class="file"><input type="file" id="f_img_P02" accept="image/*"><span>＋ 배경 야경 이미지</span></label>
+        <h2>내보내기</h2>
+        <div class="dlrow"><button class="btn btn--p" id="dl_P02">P02 전면 PNG</button></div>
+      </div>
+
+      <!-- P01 BACK -->
+      <div class="grp P01">
+        <h2>P01 후면 표지 — Midnight Navy</h2>
+        <div class="field"><label>헤드라인</label><input type="text" id="f_P01_head" value="앱 다운로드"></div>
+        <div class="field"><label>서브 (채널)</label><input type="text" id="f_P01_sub" value="App Store · Google Play"></div>
+        <div class="field"><label>QR 캡션</label><input type="text" id="f_P01_qrLabel" value="App Download"></div>
+        <div class="field"><label>연락처 1</label><input type="text" id="f_P01_c1" value="somnia.co.kr"></div>
+        <div class="row">
+          <div class="field"><label>연락처 2</label><input type="text" id="f_P01_c2" value="@somnia.sleep"></div>
+          <div class="field"><label>연락처 3</label><input type="text" id="f_P01_c3" value="hello@somnia.co.kr"></div>
+        </div>
+        <label class="file"><input type="file" id="f_img_qr" accept="image/*"><span>＋ QR 코드 이미지 (선택)</span></label>
+        <label class="file"><input type="file" id="f_img_P01" accept="image/*"><span>＋ 배경 야경 이미지</span></label>
+        <h2>요소 — 위치·크기·색상·표시</h2>
+        <p class="hint">로고·헤드라인·QR·연락처 등 요소별 위치·크기·자간·글자색을 조절하고, 눈으로 표시를 끄면 PNG에서도 제외돼요.</p>
+        <div id="xf_P01"></div>
+        <h2>내보내기</h2>
+        <div class="dlrow"><button class="btn btn--p" id="dl_P01">P01 후면 PNG</button></div>
+      </div>
+
+      <!-- P03 INSIDE LEFT -->
+      <div class="grp P03">
+        <h2>P03 좌측 내지 — 브랜드 철학 — Moon Ivory</h2>
+        <div class="field"><label>Eyebrow</label><input type="text" id="f_P03_eyebrow" value="SLEEP WELLNESS"></div>
+        <div class="field"><label>헤드라인 (줄바꿈 = 엔터)</label><textarea id="f_P03_head">좋은 삶은
+충분한 회복에서
+시작됩니다</textarea></div>
+        <div class="slider"><label>헤드라인 크기</label><input type="range" id="f_P03_headSize" min="64" max="128" step="2" value="96"></div>
+        <div class="afield" style="margin:4px 0 12px"><span class="clab">본문 정렬</span><div class="aseg" id="seg_P03_main"><button class="ma" data-val="left">왼쪽</button><button class="ma" data-val="center">가운데</button><button class="ma" data-val="right">오른쪽</button></div></div>
+        <div class="field"><label>서브 메시지</label><input type="text" id="f_P03_sub" value="브랜드 철학 — 회복으로 시작하는 하루"></div>
+        <div class="field"><label>바디 카피 (빈 줄 = 문단 구분)</label><textarea id="f_P03_body">썸니아는 잠을 단순한 휴식이 아니라
+삶을 회복시키는 시간으로 봅니다.
+
+수면 데이터와 검증된 루틴으로
+당신의 밤을 더 깊고 고요하게 설계합니다.</textarea></div>
+        <div class="field"><label>키워드 (· 로 구분)</label><input type="text" id="f_P03_pills" value="Recovery · Ritual · Balance"></div>
+        <div class="toggle"><span>브랜드 심볼 섹션 표시</span><input type="checkbox" id="f_P03_symOn" checked></div>
+        <div class="field"><label>심볼 캡션 (줄바꿈 = 엔터)</label><textarea id="f_P03_symCaption">감은 눈, 잔잔한 수면
+물과 깊은 잠을 함께 담은 브랜드 심볼</textarea></div>
+        <h2>요소 — 색상 · 표시</h2>
+        <p class="hint">요소별 글자색을 바꾸고, 눈 아이콘으로 표시를 끄면 PNG에서도 제외돼요.</p>
+        <div id="xf_P03"></div>
+        <h2>이미지 영역</h2>
+        <p class="hint">＋로 여러 개 추가하고, 각 영역의 모양(원/라운드/사각형)·위치·크기·불투명도·페더를 조절해요.</p>
+        <div id="areas_P03"></div>
+        <button class="btn btn--g addarea" data-panel="P03">＋ 이미지 영역 추가</button>
+        <h2>내보내기</h2>
+        <div class="dlrow"><button class="btn btn--p" id="dl_P03">P03 좌측 PNG</button></div>
+      </div>
+
+      <!-- P04 INSIDE RIGHT -->
+      <div class="grp P04">
+        <h2>P04 우측 내지 — 서비스·제품 — Pure White</h2>
+        <div class="field"><label>Eyebrow</label><input type="text" id="f_P04_eyebrow" value="SERVICE & PRODUCTS"></div>
+        <div class="field"><label>헤드라인</label><input type="text" id="f_P04_head" value="App + Products"></div>
+        <div class="field"><label>서브 메시지</label><input type="text" id="f_P04_sub" value="기록하고, 회복하고, 잠드는 하나의 흐름"></div>
+        <div class="row">
+          <div class="field"><label>컬럼1 제목</label><input type="text" id="f_P04_col1Title" value="APP SERVICE"></div>
+          <div class="field"><label>컬럼2 제목</label><input type="text" id="f_P04_col2Title" value="PRODUCTS"></div>
+        </div>
+        <div class="field"><label>컬럼1 항목 (줄바꿈)</label><textarea id="f_P04_col1">수면 기록 · 분석
+맞춤 슬립 루틴
+슬립 인사이트</textarea></div>
+        <div class="field"><label>컬럼2 항목 (줄바꿈)</label><textarea id="f_P04_col2">멜라토닌 드림 젤리
+라벤더 아로마 오일
+슬립 웰 룸 스프레이</textarea></div>
+        <div class="field"><label>하단 CTA</label><input type="text" id="f_P04_cta" value="App 무료 다운로드"></div>
+        <h2>요소 — 색상 · 표시</h2>
+        <p class="hint">요소별 글자색을 바꾸고, 눈 아이콘으로 표시를 끄면 PNG에서도 제외돼요.</p>
+        <div id="xf_P04"></div>
+        <h2>이미지 영역</h2>
+        <p class="hint">＋로 여러 개 추가하고, 각 영역의 모양(원/라운드/사각형)·위치·크기·불투명도·페더를 조절해요.</p>
+        <div id="areas_P04"></div>
+        <button class="btn btn--g addarea" data-panel="P04">＋ 이미지 영역 추가</button>
+        <h2>내보내기</h2>
+        <div class="dlrow"><button class="btn btn--p" id="dl_P04">P04 우측 PNG</button></div>
+      </div>
+
+      <h2>스프레드 내보내기 (양면)</h2>
+      <p class="hint">접지 시 마주 보는 두 패널을 한 장으로. 인쇄소 입고용.</p>
+      <div class="dlrow">
+        <button class="btn btn--g" id="dl_outside">바깥면 (P01·P02)</button>
+        <button class="btn btn--g" id="dl_inside">안쪽면 (P03·P04)</button>
+      </div>
+      <h2>두 장 붙여 내보내기</h2>
+      <p class="hint">원하는 두 패널을 좌·우로 나란히 붙여 한 장으로 내보내요.</p>
+      <div class="row">
+        <div class="field"><label>왼쪽</label><select id="pair_l"><option value="P02">P02 전면</option><option value="P01" selected>P01 후면</option><option value="P03">P03 좌측</option><option value="P04">P04 우측</option></select></div>
+        <div class="field"><label>오른쪽</label><select id="pair_r"><option value="P02" selected>P02 전면</option><option value="P01">P01 후면</option><option value="P03">P03 좌측</option><option value="P04">P04 우측</option></select></div>
+      </div>
+      <div class="dlrow"><button class="btn btn--g" id="dl_pair">두 장 붙여 PNG</button></div>
+      <div class="dlrow" style="margin-top:14px"><button class="btn btn--g" id="reset">전체 기본값으로</button></div>
+      <p class="note">로고는 보호 자산으로 위치·크기·표시 여부만 조정하고 형태·자간은 원본을 그대로 사용합니다. 편집 내용은 자동 저장돼요.</p>
+    </div>
+  </div>
+
+  <script src="assets/brochure/brochure-studio.js"></script>
+</body>
+</html>

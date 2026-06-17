@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOMNIA — 2단 접지 브로슈어 (인쇄용 4패널)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  @import url('assets/tokens.css');
+  :root{
+    --navy:var(--somnia-ink); --ocean:var(--somnia-ocean); --lavender:var(--somnia-lavender); --mist:var(--somnia-mist); --ivory:var(--somnia-ivory); --white:var(--somnia-white);
+    --bleed:11.34px; --safe:22.7px;          /* 3mm / 6mm */
+    --panelW:580.2px; --sheetW:1160.4px; --sheetH:831.5px;
+    --en:var(--somnia-en); --kr:'Noto Sans KR',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#33373f;font-family:var(--kr);color:var(--navy);
+    display:flex;flex-direction:column;align-items:center;gap:32px;padding:42px 20px 90px}
+
+  .toolbar{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:200;white-space:nowrap;
+    background:rgba(14,26,58,.92);color:#eaf0fa;backdrop-filter:blur(8px);
+    border:1px solid rgba(208,230,250,.2);border-radius:99px;padding:8px 8px 8px 18px;
+    display:flex;align-items:center;gap:12px;font-family:var(--en);font-size:12px;box-shadow:0 10px 30px -12px rgba(0,0,0,.6)}
+  .toolbar b{font-weight:600}
+  .toolbar .dot{width:7px;height:7px;border-radius:50%;background:#7CE2B0}
+  .toolbar button{font-family:var(--en);font-size:11.5px;font-weight:600;border:none;cursor:pointer;
+    padding:7px 13px;border-radius:99px;background:rgba(208,230,250,.14);color:#eaf0fa;transition:.2s}
+  .toolbar button:hover{background:rgba(208,230,250,.26)}
+
+  .doc-head{text-align:center;color:#e8eaf0;max-width:760px;margin-top:42px}
+  .doc-head h1{font-family:var(--en);font-weight:600;font-size:19px;letter-spacing:.04em}
+  .doc-head p{font-size:12px;color:#a7adba;margin-top:8px;line-height:1.7}
+  .sheet-label{font-family:var(--en);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#a7adba;margin:12px 0 -16px}
+
+  .sheet{position:relative;width:calc(var(--sheetW) + var(--bleed)*2);height:calc(var(--sheetH) + var(--bleed)*2);
+    background:var(--ivory);box-shadow:0 24px 60px -24px rgba(0,0,0,.6)}
+  .bleed{position:absolute;inset:var(--bleed);display:flex}
+  .fold{position:absolute;top:-8px;bottom:-8px;left:50%;width:0;border-left:1px dashed rgba(120,130,150,.55);z-index:40;pointer-events:none}
+  .fold::after{content:"FOLD";position:absolute;top:50%;left:6px;transform:translateY(-50%);
+    font-family:var(--en);font-size:7px;letter-spacing:.2em;color:rgba(120,130,150,.7);writing-mode:vertical-rl}
+  .panel{position:relative;width:var(--panelW);height:var(--sheetH);overflow:hidden}
+  .panel .pad{position:absolute;inset:var(--safe);display:flex;flex-direction:column}
+  .pnum{position:absolute;bottom:7px;font-family:var(--en);font-size:8px;letter-spacing:.18em;color:rgba(14,26,58,.32);z-index:20}
+  .panel.navy .pnum{color:rgba(246,242,234,.4)}
+
+  .panel.navy{background:var(--navy);color:var(--ivory)}
+  .panel.ivory{background:var(--ivory);color:var(--navy)}
+  .panel.mist{background:var(--mist);color:var(--navy)}
+
+  /* type */
+  .ey{font-family:var(--en);font-size:10px;letter-spacing:.32em;text-transform:uppercase;font-weight:500;color:var(--ocean)}
+  .panel.navy .ey{color:var(--lavender)}
+  .title{font-family:var(--en);font-weight:600;font-size:30px;line-height:1.04;letter-spacing:.01em}
+  .display{font-family:var(--en);font-weight:300;font-size:46px;line-height:1;letter-spacing:.005em}
+  .h2{font-family:var(--en);font-weight:600;font-size:15px;letter-spacing:.02em}
+  .sub{font-family:var(--kr);font-weight:500;font-size:11px;line-height:1.5}
+  .body{font-family:var(--kr);font-weight:300;font-size:10px;line-height:1.85;letter-spacing:.01em}
+  .cap{font-family:var(--en);font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:400}
+  .dim{opacity:.66}
+  .rule{height:1px;background:currentColor;opacity:.2;width:100%}
+
+  /* editable affordance */
+  [contenteditable]{outline:none;border-radius:3px;transition:box-shadow .15s,background .15s;cursor:text}
+  body.editing [contenteditable]:hover{box-shadow:0 0 0 1px rgba(25,88,178,.4)}
+  body.editing .panel.navy [contenteditable]:hover{box-shadow:0 0 0 1px rgba(184,167,230,.55)}
+  [contenteditable]:focus{box-shadow:0 0 0 2px var(--ocean);background:rgba(25,88,178,.06)}
+  .panel.navy [contenteditable]:focus{box-shadow:0 0 0 2px var(--lavender);background:rgba(184,167,230,.12)}
+
+  /* image placeholders — plain rectangles, no decorative shapes */
+  .imgph{position:relative;border:1px dashed rgba(14,26,58,.3);background:
+      repeating-linear-gradient(135deg,rgba(14,26,58,.03) 0 7px,transparent 7px 14px);
+    display:flex;align-items:center;justify-content:center;border-radius:2px}
+  .panel.navy .imgph{border-color:rgba(246,242,234,.34);
+    background:repeating-linear-gradient(135deg,rgba(246,242,234,.05) 0 7px,transparent 7px 14px)}
+  .imgph span{font-family:var(--en);font-size:8px;letter-spacing:.14em;text-transform:uppercase;opacity:.5;text-align:center;padding:0 6px}
+
+  /* timeline */
+  .tl{position:relative;margin-top:6px;padding-left:18px}
+  .tl::before{content:"";position:absolute;left:4px;top:4px;bottom:4px;width:1px;background:rgba(14,26,58,.25)}
+  .tl .it{position:relative;padding:0 0 13px}
+  .tl .it::before{content:"";position:absolute;left:-18px;top:4px;width:9px;height:9px;border-radius:50%;
+    background:var(--ivory);border:1.5px solid var(--ocean)}
+  .tl .yr{font-family:var(--en);font-weight:600;font-size:11px;letter-spacing:.04em}
+
+  /* 2-col items */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px;margin-top:4px}
+
+  @media print{
+    @page{size:307mm 220mm;margin:0}
+    body{background:#fff;padding:0;gap:0}
+    .doc-head,.sheet-label,.toolbar,.fold{display:none}
+    .sheet{box-shadow:none;page-break-after:always}
+    .panel [contenteditable]:hover,.panel [contenteditable]:focus{box-shadow:none;background:none}
+    :root{--bleed:3mm;--safe:6mm;--panelW:153.5mm;--sheetW:307mm;--sheetH:220mm}
+    .sheet{width:calc(307mm + 6mm);height:calc(220mm + 6mm)}
+  }
+</style>
+</head>
+<body class="editing">
+  <div class="toolbar">
+    <span class="dot"></span><b>편집 모드</b> — 글자를 클릭해 바로 수정
+    <button id="toggleEdit">미리보기</button>
+    <button id="resetText">초기화</button>
+    <button id="printBtn">인쇄</button>
+  </div>
+
+  <div class="doc-head">
+    <h1>SOMNIA — Bi-fold Brochure</h1>
+    <p>2단 접지 · 펼침 307 × 220mm · 도련 3mm · 안전영역 6mm · 4패널 인쇄 아트워크<br>모든 텍스트는 클릭하면 바로 편집됩니다 · 빗금 박스 = 이미지 삽입 영역</p>
+  </div>
+
+  <!-- ============ 바깥면 OUTSIDE : P01 소개 | P02 표지 ============ -->
+  <div class="sheet-label">Outside — 바깥면</div>
+  <div class="sheet">
+    <div class="bleed">
+      <!-- P01 ABOUT -->
+      <div class="panel ivory">
+        <div class="pad">
+          <div class="ey" contenteditable="true">About SOMNIA · 브랜드 소개</div>
+          <div class="title" style="margin-top:14px;color:var(--navy)" contenteditable="true">A quiet night,<br>a brighter day.</div>
+          <div class="body" style="margin-top: 16px; max-width: 300px; font-size: 13px; width: 323px; height: 122px; font-weight: 400" contenteditable="true">SOMNIA는 더 나은 하루가 
+충분한 회복에서 시작된다고 믿는 
+슬립 웰니스 브랜드입니다. 
+수면을 측정하고 기록하는 앱으로, 
+매일 밤의 리듬을 설계합니다.</div>
+          <div class="body" style="margin-top:12px;max-width:300px" contenteditable="true">밤은 끝이 아니라 내일을 위한 조용한 시작입니다. 
+SOMNIA와 함께 더 깊이 자고, 더 잘 살아가세요.</div>
+
+          <div style="margin-top:auto;display:flex;align-items:flex-end;gap:16px">
+            <div class="imgph" style="width:78px;height:78px;flex:none"><span>QR</span></div>
+            <div>
+              <div class="cap" style="color:var(--ocean)" contenteditable="true">Contact</div>
+              <div class="sub" style="margin-top:6px" contenteditable="true">+82 00 1234 5678</div>
+              <div class="sub" contenteditable="true">www.somnia.sleep</div>
+              <div class="sub" contenteditable="true">@somnia.official</div>
+            </div>
+          </div>
+        </div>
+        <div class="pnum" style="left:var(--safe)">Panel 01 · Back — About</div>
+      </div>
+
+      <!-- P02 COVER -->
+      <div class="panel navy">
+        <div class="pad">
+          <img src="assets/symbol-white.png" alt="" style="width:44px">
+          <img src="assets/brochure/wordmark-white.png" alt="SOMNIA" style="width:178px;margin-top:20px">
+          <div class="ey" style="margin-top:16px" contenteditable="true">Sleep Wellness Brand</div>
+
+          <div class="imgph" style="height:180px;margin-top:26px"><span>Image · 밤하늘 / 달빛 무드</span></div>
+
+          <div style="margin-top:auto">
+            <div class="display" contenteditable="true">Sleep Deeper,<br>Live Better.</div>
+            <div class="body dim" style="margin-top:14px;max-width:300px" contenteditable="true">수면을 측정하고, 기록하고, 회복하는 가장 조용한 방법. SOMNIA 브랜드 브로슈어.</div>
+            <div class="cap" style="margin-top:18px;color:var(--lavender)" contenteditable="true">Brand Brochure · 2026</div>
+          </div>
+        </div>
+        <div class="pnum" style="right:var(--safe)">Panel 02 · Front Cover</div>
+      </div>
+    </div>
+    <div class="fold"></div>
+  </div>
+
+  <!-- ============ 안쪽면 INSIDE : P03 철학/로드맵 | P04 앱·컬렉션 ============ -->
+  <div class="sheet-label">Inside — 안쪽면</div>
+  <div class="sheet">
+    <div class="bleed">
+      <!-- P03 PHILOSOPHY + ROADMAP -->
+      <div class="panel ivory">
+        <div class="pad">
+          <div class="ey" contenteditable="true">Philosophy · 철학</div>
+          <div class="title" style="margin-top:12px" contenteditable="true">Rest is the<br>real beginning.</div>
+          <div class="sub" style="margin-top:14px;color:var(--ocean)" contenteditable="true">좋은 삶은 노력이 아니라 충분한 회복에서 시작됩니다.</div>
+          <div class="body" style="margin-top:8px;max-width:300px" contenteditable="true">SOMNIA는 수면 데이터와 습관, 그리고 환경을 연결해 더 건강한 삶의 리듬을 설계합니다. 측정에서 회복까지, 밤의 모든 순간을 돌봅니다.</div>
+
+          <div class="cap" style="margin-top:20px;color:var(--ocean)" contenteditable="true">Our Roadmap</div>
+          <div class="tl" style="margin-top:10px">
+            <div class="it"><div class="yr" contenteditable="true">2026</div><div class="body" contenteditable="true">수면 측정·기록 앱 출시와 첫 나이트 컬렉션 공개.</div></div>
+            <div class="it"><div class="yr" contenteditable="true">2027</div><div class="body" contenteditable="true">수면 점수·루틴 코칭 고도화, 웨어러블 연동 확대.</div></div>
+            <div class="it"><div class="yr" contenteditable="true">2028</div><div class="body" contenteditable="true">맞춤형 인사이트와 멤버십 케어 프로그램 도입.</div></div>
+            <div class="it" style="padding-bottom:0"><div class="yr" contenteditable="true">2029</div><div class="body" contenteditable="true">글로벌 슬립 웰니스 플랫폼으로 확장.</div></div>
+          </div>
+        </div>
+        <div class="pnum" style="left:var(--safe)">Panel 03 · Inside Left — Philosophy</div>
+      </div>
+
+      <!-- P04 APP & COLLECTION -->
+      <div class="panel mist">
+        <div class="pad">
+          <div class="ey" contenteditable="true">App &amp; Collection · 서비스/제품</div>
+          <div class="h2" style="margin-top:16px;font-size:18px" contenteditable="true">The SOMNIA App</div>
+          <div class="body" style="margin-top:7px;max-width:300px" contenteditable="true">수면 기록 · 분석 · 점수 · 루틴 관리 · 인사이트. 매일 밤을 측정해 더 나은 아침을 설계합니다.</div>
+          <div class="imgph" style="height:96px;margin-top:14px;border-color:rgba(25,88,178,.4)"><span>Image · 앱 화면 목업</span></div>
+
+          <div class="rule" style="margin:18px 0 14px"></div>
+
+          <div class="h2" contenteditable="true">The Night Collection</div>
+          <div class="grid2">
+            <div><div class="cap" style="color:var(--ocean)" contenteditable="true">Inner Beauty</div><div class="sub" style="margin-top:4px" contenteditable="true">멜라토닌 젤리</div><div class="body dim" contenteditable="true">잠들기 전 루틴 젤리</div></div>
+            <div><div class="cap" style="color:var(--ocean)" contenteditable="true">Wear</div><div class="sub" style="margin-top:4px" contenteditable="true">슬립웨어 · 양말</div><div class="body dim" contenteditable="true">편안한 수면 의류</div></div>
+            <div><div class="cap" style="color:var(--ocean)" contenteditable="true">Gear</div><div class="sub" style="margin-top:4px" contenteditable="true">수면 안대</div><div class="body dim" contenteditable="true">빛을 차단하는 실크 안대</div></div>
+            <div><div class="cap" style="color:var(--ocean)" contenteditable="true">Aroma</div><div class="sub" style="margin-top:4px" contenteditable="true">아로마 오일 · 룸 스프레이</div><div class="body dim" contenteditable="true">잠드는 공간의 향</div></div>
+          </div>
+
+          <div style="margin-top:auto;display:flex;align-items:center;gap:10px">
+            <img src="assets/symbol.png" alt="" style="width:20px">
+            <div class="cap" style="color:var(--ocean)" contenteditable="true">somnia.sleep — Sleep Deeper, Live Better</div>
+          </div>
+        </div>
+        <div class="pnum" style="right:var(--safe)">Panel 04 · Inside Right — App / Collection</div>
+      </div>
+    </div>
+    <div class="fold"></div>
+  </div>
+
+<script>
+(function(){
+  var KEY='somnia-brochure-edits';
+  var nodes=[].slice.call(document.querySelectorAll('[contenteditable]'));
+  nodes.forEach(function(n,i){ n.dataset.k=i; });
+  // restore
+  try{ var saved=JSON.parse(localStorage.getItem(KEY)||'{}');
+    nodes.forEach(function(n,i){ if(saved[i]!=null) n.innerHTML=saved[i]; }); }catch(e){}
+  function save(){ var o={}; nodes.forEach(function(n,i){ o[i]=n.innerHTML; });
+    localStorage.setItem(KEY,JSON.stringify(o)); }
+  document.addEventListener('input',function(e){ if(e.target.isContentEditable) save(); });
+
+  document.getElementById('toggleEdit').addEventListener('click',function(){
+    var on=document.body.classList.toggle('editing');
+    nodes.forEach(function(n){ n.setAttribute('contenteditable', on?'true':'false'); });
+    this.textContent=on?'미리보기':'편집';
+  });
+  document.getElementById('resetText').addEventListener('click',function(){
+    if(!confirm('편집한 모든 텍스트를 초기 상태로 되돌릴까요?')) return;
+    localStorage.removeItem(KEY); location.reload();
+  });
+  document.getElementById('printBtn').addEventListener('click',function(){ window.print(); });
+})();
+</script>
+</body>
+</html>

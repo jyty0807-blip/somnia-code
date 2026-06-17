@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOMNIA Detail Studio — Sleepwear (수면 웨어 컬렉션)</title>
+<link rel="stylesheet" href="assets/sleepwear-detail/sleepwear.css">
+</head>
+<body>
+<div class="studio">
+
+  <!-- LEFT RAIL -->
+  <aside class="rail">
+    <h1>SOMNIA Detail Studio</h1>
+    <div class="tag">Sleepwear · 수면 웨어 컬렉션 · 상세페이지 1000px</div>
+    <div class="seclist" id="seclist"></div>
+    <div class="railfoot">
+      <button class="btn" id="dlAll">전체 PNG 저장</button>
+      <button class="btn btn--g" id="dlStrip">세로 1장 PNG</button>
+    </div>
+  </aside>
+
+  <!-- CENTER STAGE -->
+  <main class="stage" id="stage">
+    <div class="zoombar">
+      <input type="range" id="zoom" min="28" max="100" step="1" value="52">
+      <span id="zoomv">52%</span>
+    </div>
+    <div class="stagewrap" id="strip">
+
+      <!-- 1 · HERO -->
+      <div class="frame" data-sec="hero" data-label="히어로">
+        <div class="secbar"><button data-png>PNG</button></div>
+        <section class="sec s-hero" data-screen-label="히어로">
+          <img class="sym" src="assets/symbol-white.png" alt="SOMNIA">
+          <div class="eyebrow" data-ed="hero-eyebrow" contenteditable="true">SOMNIA SLEEPWEAR</div>
+          <h2 data-ed="hero-h2" contenteditable="true">피부가 쉬는 시간,<br>잠을 위해 지은 옷</h2>
+          <div class="lead" data-ed="hero-lead" contenteditable="true">살에 닿는 감촉부터 다르게.<br>뒤척임까지 배려한 수면 전용 웨어 컬렉션.</div>
+          <div class="heroimg">
+            <image-slot id="sw_hero_img" shape="rect" radius="0" placeholder="수면웨어 착장 무드컷을 올려주세요"></image-slot>
+          </div>
+        </section>
+      </div>
+
+      <!-- 2 · FABRIC (editorial note list) -->
+      <div class="frame" data-sec="fabric" data-label="소재 이야기">
+        <div class="secbar"><button data-png>PNG</button></div>
+        <section class="sec s-notes" data-screen-label="소재 이야기">
+          <div class="top">
+            <div class="eyebrow">FABRIC STORY</div>
+            <h2 data-ed="fabric-h2" contenteditable="true">잠을 위해 고른 <span class="ac">세 가지 감각</span></h2>
+          </div>
+          <div class="notelist">
+            <div class="nrow">
+              <div class="ntier"><span class="nk">TOUCH</span><span class="nko" data-ed="fab1-stage" contenteditable="true">감촉</span></div>
+              <div class="nbody">
+                <div class="nm" data-ed="fab1-nm" contenteditable="true">텐셀™ 모달</div>
+                <div class="cp" data-ed="fab1-cp" contenteditable="true">실크처럼 흐르는 식물성 섬유. 살에 닿는 순간 서늘하고 부드러운 감촉이 하루의 긴장을 풀어줍니다.</div>
+              </div>
+            </div>
+            <div class="nrow">
+              <div class="ntier"><span class="nk">BREATH</span><span class="nko" data-ed="fab2-stage" contenteditable="true">통기 · 흡습</span></div>
+              <div class="nbody">
+                <div class="nm" data-ed="fab2-nm" contenteditable="true">에어리 코튼 블렌드</div>
+                <div class="cp" data-ed="fab2-cp" contenteditable="true">땀과 습기를 빠르게 흡수하고 내보내, 뒤척이는 밤에도 보송한 잠자리를 유지합니다.</div>
+              </div>
+            </div>
+            <div class="nrow">
+              <div class="ntier"><span class="nk">MOVE</span><span class="nko" data-ed="fab3-stage" contenteditable="true">활동성</span></div>
+              <div class="nbody">
+                <div class="nm" data-ed="fab3-nm" contenteditable="true">4-웨이 스트레치</div>
+                <div class="cp" data-ed="fab3-cp" contenteditable="true">잠결의 어떤 움직임도 잡아당기지 않도록, 사방으로 부드럽게 늘어나는 짜임으로 완성했습니다.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- 3 · CRAFT & FIT -->
+      <div class="frame" data-sec="craft" data-label="디테일 &amp; 핏">
+        <div class="secbar"><button data-png>PNG</button></div>
+        <section class="sec s-blend" data-screen-label="디테일 & 핏">
+          <div class="row">
+            <div class="media">
+              <image-slot id="sw_craft_img" placeholder="봉제 · 디테일 클로즈업 (세로)"></image-slot>
+            </div>
+            <div class="copy">
+              <div class="eyebrow" data-ed="craft-eyebrow" contenteditable="true">CRAFT &amp; FIT</div>
+              <h2 data-ed="craft-h2" contenteditable="true">잠을 방해하지 않는<br><span class="ac">조용한 디테일</span></h2>
+              <div class="body" data-ed="craft-body" contenteditable="true">눌림을 줄인 무봉제 마감과 자국이 남지 않는 평평한 밴드. 까슬한 라벨은 프린트로 대체해, 옷이 있다는 사실조차 잊게 했습니다.</div>
+              <div class="pillrow">
+                <span class="pill" data-ed="craft-pill1" contenteditable="true">무봉제 마감</span>
+                <span class="pill" data-ed="craft-pill2" contenteditable="true">플랫 밴드</span>
+                <span class="pill" data-ed="craft-pill3" contenteditable="true">프린트 라벨</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- 4 · CARE GUIDE -->
+      <div class="frame" data-sec="care" data-label="세탁 &amp; 관리">
+        <div class="secbar"><button data-png>PNG</button></div>
+        <section class="sec s-howto" data-screen-label="세탁 & 관리">
+          <div class="top">
+            <div class="eyebrow">CARE GUIDE</div>
+            <h2 data-ed="care-h2" contenteditable="true">오래 곁에 두는 <span class="ac">관리법</span></h2>
+          </div>
+          <div class="hcols">
+            <div class="hcol">
+              <div class="hcol__t" data-ed="wash-t" contenteditable="true">세탁</div>
+              <ol class="hsteps">
+                <li data-ed="wash-1" contenteditable="true">30℃ 이하 찬물에서 중성세제로 손세탁하거나 울코스를 사용합니다.</li>
+                <li data-ed="wash-2" contenteditable="true">밝은 색·진한 색은 첫 세탁 시 단독으로 세탁합니다.</li>
+                <li data-ed="wash-3" contenteditable="true">비틀어 짜지 말고 가볍게 눌러 물기를 뺍니다.</li>
+              </ol>
+            </div>
+            <div class="hcol">
+              <div class="hcol__t" data-ed="store-t" contenteditable="true">건조 · 보관</div>
+              <ol class="hsteps">
+                <li data-ed="store-1" contenteditable="true">통풍이 잘 되는 그늘에서 펼쳐 자연 건조합니다.</li>
+                <li data-ed="store-2" contenteditable="true">건조기·직사광선은 수축과 변색의 원인이 됩니다.</li>
+                <li data-ed="store-3" contenteditable="true">옷걸이보다 개어서 보관해 형태를 오래 유지합니다.</li>
+              </ol>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- 5 · WORRY-FREE -->
+      <div class="frame" data-sec="quality" data-label="안심 소재">
+        <div class="secbar"><button data-png>PNG</button></div>
+        <section class="sec s-formula" data-screen-label="안심 소재">
+          <div class="top">
+            <div class="eyebrow">WORRY-FREE</div>
+            <h2 data-ed="quality-h2" contenteditable="true">피부에 닿아도 <span class="ac">안심하는 소재</span></h2>
+          </div>
+          <div class="fgrid">
+            <div class="fitem"><div class="fk" data-ed="q1-k" contenteditable="true">OEKO-TEX® 인증 원단</div><div class="fd" data-ed="q1-d" contenteditable="true">유해물질 검출 기준을 통과한 원단만 사용합니다.</div></div>
+            <div class="fitem"><div class="fk" data-ed="q2-k" contenteditable="true">형광증백제 무첨가</div><div class="fd" data-ed="q2-d" contenteditable="true">피부에 직접 닿는 옷에 불필요한 화학 처리를 하지 않았습니다.</div></div>
+            <div class="fitem"><div class="fk" data-ed="q3-k" contenteditable="true">저자극 마일드 염색</div><div class="fd" data-ed="q3-d" contenteditable="true">민감한 피부에도 부담이 적은 순한 컬러로 물들였습니다.</div></div>
+            <div class="fitem"><div class="fk" data-ed="q4-k" contenteditable="true">사계절 운용</div><div class="fd" data-ed="q4-d" contenteditable="true">가볍고 통기성이 좋아 계절에 관계없이 편안합니다.</div></div>
+          </div>
+        </section>
+      </div>
+
+      <!-- 6 · PRODUCT INFO -->
+      <div class="frame" data-sec="spec" data-label="제품 정보">
+        <div class="secbar"><button data-png>PNG</button></div>
+        <section class="sec s-spec" data-screen-label="제품 정보">
+          <div class="top">
+            <div class="eyebrow">PRODUCT INFO</div>
+            <h2 data-ed="spec-h2" contenteditable="true">제품 정보</h2>
+          </div>
+          <div class="spectable">
+            <div class="specmeta">
+              <h4 data-ed="topspec-h4" contenteditable="true">롱슬리브 탑</h4>
+              <div class="speclist">
+                <div class="speclist__row"><span class="k">소재</span><span class="v" data-ed="top-mat" contenteditable="true">텐셀 모달 60% · 코튼 40%</span></div>
+                <div class="speclist__row"><span class="k">사이즈</span><span class="v" data-ed="top-size" contenteditable="true">S / M / L (공용)</span></div>
+                <div class="speclist__row"><span class="k">핏</span><span class="v" data-ed="top-fit" contenteditable="true">어깨가 편한 릴랙스 핏</span></div>
+                <div class="speclist__row"><span class="k">디테일</span><span class="v" data-ed="top-feat" contenteditable="true">무봉제 마감 · 프린트 라벨</span></div>
+                <div class="speclist__row"><span class="k">세탁</span><span class="v" data-ed="top-care" contenteditable="true">찬물 단독 손세탁 / 울코스</span></div>
+              </div>
+            </div>
+            <div class="specmeta">
+              <h4 data-ed="bottomspec-h4" contenteditable="true">와이드 슬립 팬츠</h4>
+              <div class="speclist">
+                <div class="speclist__row"><span class="k">소재</span><span class="v" data-ed="bot-mat" contenteditable="true">텐셀 모달 60% · 코튼 40%</span></div>
+                <div class="speclist__row"><span class="k">사이즈</span><span class="v" data-ed="bot-size" contenteditable="true">S / M / L (공용)</span></div>
+                <div class="speclist__row"><span class="k">밴드</span><span class="v" data-ed="bot-band" contenteditable="true">자국이 적은 평밴드 + 조절 끈</span></div>
+                <div class="speclist__row"><span class="k">기장</span><span class="v" data-ed="bot-len" contenteditable="true">발목을 덮는 와이드 기장</span></div>
+                <div class="speclist__row"><span class="k">세탁</span><span class="v" data-ed="bot-care" contenteditable="true">찬물 단독 손세탁 / 울코스</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- 7 · NOTICE -->
+      <div class="frame" data-sec="notice" data-label="주의사항">
+        <div class="secbar"><button data-png>PNG</button></div>
+        <section class="sec s-notice" data-screen-label="주의사항">
+          <div class="top">
+            <div class="eyebrow">NOTICE</div>
+            <h2 data-ed="notice-h2" contenteditable="true">세탁 시 주의사항</h2>
+          </div>
+          <ul class="notice-list">
+            <li data-ed="n1" contenteditable="true">첫 세탁 시 색이 빠질 수 있으니 단독으로 세탁해 주세요.</li>
+            <li data-ed="n2" contenteditable="true">표백제·섬유유연제 사용은 원단 손상의 원인이 됩니다.</li>
+            <li data-ed="n3" contenteditable="true">건조기 사용 시 수축이 발생할 수 있습니다.</li>
+            <li data-ed="n4" contenteditable="true">직사광선에서 장시간 건조하면 변색될 수 있습니다.</li>
+            <li data-ed="n5" contenteditable="true">밝은 침구·소품과 함께 둘 때 색 이염에 주의하세요.</li>
+            <li data-ed="n6" contenteditable="true">천연 소재 특성상 약간의 수축·구김은 정상입니다.</li>
+          </ul>
+          <p class="disc" data-ed="notice-disc" contenteditable="true">※ 모니터 환경에 따라 실제 색상과 다르게 보일 수 있으며, 이미지는 연출컷입니다.</p>
+        </section>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- RIGHT PANEL -->
+  <aside class="panel" id="panel">
+    <h2 id="pTitle">섹션</h2>
+    <p class="hint" id="pHint">왼쪽에서 섹션을 고르거나 캔버스에서 텍스트를 클릭해 바로 편집하세요.</p>
+    <div id="pBody"></div>
+  </aside>
+
+</div>
+
+<script src="assets/image-slot.js"></script>
+<script src="assets/sleepwear-detail/sleepwear.js"></script>
+</body>
+</html>
