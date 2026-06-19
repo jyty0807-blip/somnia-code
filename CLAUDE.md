@@ -4,6 +4,10 @@ Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-s
 
 **Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
 
+**핵심 지침:** 기존 코드를 최소로 수정한다. 새 기능은 기존 구조·패턴·스타일에 맞춰 추가하고, 동작하는 코드를 리팩터링하지 않는다.
+
+**토큰 절약:** 설명은 최소한으로. 코드 읽을 때 필요한 부분만 읽는다. 에이전트 남발 금지. 같은 파일 반복 읽기 금지. 작업 전 파일 전체를 읽지 말고, 수정할 부분만 확인한다.
+
 ## 1. Think Before Coding
 
 **Don't assume. Don't hide confusion. Surface tradeoffs.**
@@ -77,6 +81,27 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - 카드 내용: 이름, 한글 설명, 한 줄 desc, 파일명
 - 산출물 수(`<b>N</b> 산출물`) 업데이트
 - 기존 페이지에서 해당 페이지로 진입하는 링크가 있다면 함께 연결
+
+**`assets/app/` React 앱 모듈 규칙:**
+
+앱은 Vite 6 + ES 모듈 빌드 기반이다. 파일 간 공유 값은 `import/export`로 전달한다.
+새 파일을 추가할 때는 해당 파일에서 `export`하고, 사용하는 파일에서 `import`한다.
+
+| 모듈 | 정의 파일 | export 방식 |
+|------|-----------|-------------|
+| `SOMNIA_I18N` | `i18n.js` | named export |
+| `SOMNIA_PRICE` | `i18n.js` | named export |
+| `SOMNIA_DATA` | `i18n.js` | named export |
+| `SOMNIA_PRODUCTS` | `products.js` | named export |
+| `SOMNIA_NOTICE` | `products.js` | named export |
+| `Ico` | `icons.jsx` | named export |
+| `WheelCol` | `screens-sleep.jsx` | named export |
+| `db`, `auth` + CRUD 함수 | `firebase.js` | named export |
+
+**진입점:** `main.jsx` → Vite가 번들링.
+
+- 새 모듈을 추가할 때는 이 표에 행을 추가한다.
+- 순환 import에 주의할 것 (screens-sleep ↔ screens-shop 간 교차 import 금지).
 
 ---
 

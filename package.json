@@ -1,24 +1,21 @@
 {
-  "name": "somnia-landing",
+  "name": "somnia",
   "version": "1.0.0",
   "private": true,
-  "description": "SOMNIA — premium sleep lifestyle brand landing page. Bilingual (KR/EN), dreamlike & atmospheric. Sleep Deeper, Live Better.",
+  "description": "SOMNIA — premium sleep lifestyle brand. Sleep Deeper, Live Better.",
   "type": "module",
   "scripts": {
-    "start": "npx serve .",
-    "dev": "npx serve . -l 3000"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
-  "keywords": [
-    "somnia",
-    "sleep",
-    "landing-page",
-    "brand",
-    "bilingual",
-    "wellness"
-  ],
-  "author": "SOMNIA",
-  "license": "UNLICENSED",
+  "dependencies": {
+    "firebase": "^12.15.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
   "devDependencies": {
-    "serve": "^14.2.1"
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^6.0.0"
   }
 }

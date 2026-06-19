@@ -107,6 +107,12 @@
   box-shadow:0 16px 34px -16px rgba(110,91,203,.7)}
 .scr.dark .btn--primary{background:linear-gradient(135deg,#9D88E8,#4f86c4);
   box-shadow:0 16px 36px -14px rgba(124,107,214,.6)}
+.btn:disabled{opacity:.5;cursor:not-allowed;pointer-events:none;box-shadow:none}
+.badge{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:5px 10px;border-radius:999px;white-space:nowrap;flex:none}
+.badge--info{background:rgba(25,88,178,.12);color:#1958B2}
+.badge--warn{background:rgba(210,160,40,.12);color:#b8860b}
+.badge--ok{background:rgba(40,167,69,.12);color:#28a745}
+.badge--dim{background:var(--surface2);color:var(--faint)}
 .btn--ghost{background:var(--surface);border:1px solid var(--border);color:var(--fg)}
 .btn--pill{width:auto;padding:11px 20px;border-radius:999px;font-size:13px}
 .btn--lav{background:linear-gradient(135deg,#C2B0F5,#9D88E8);color:#1a1340}

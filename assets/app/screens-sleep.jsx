@@ -1,17 +1,18 @@
-/* SOMNIA App — Sleep screens (dark): Home, Bedtime, Record, Report */
-const { useState:useStateS, useEffect:useEffectS, useRef:useRefS } = React;
+import React, { useState, useEffect, useRef } from 'react'
+import { Ico } from './icons.jsx'
+import { SOMNIA_DATA } from './i18n.js'
 
 /* ---- sleep quality tiers ---- */
-function quality(score){ return score>=85 ? 'good' : score>=70 ? 'fair' : 'poor'; }
+export function quality(score){ return score>=85 ? 'good' : score>=70 ? 'fair' : 'poor'; }
 const RING_GRAD = {
   good:['#C2B0F5','#5b9fd6'], fair:['#8FB8E8','#5b9fd6'], poor:['#E7A6BE','#9D88E8']
 };
 
 /* ---- reusable sleep score ring ---- */
-function SleepRing({ score=92, size=200, label, cap, tone='good' }) {
+export function SleepRing({ score=92, size=200, label, cap, tone='good' }) {
   const r = 86, C = 2 * Math.PI * r;
-  const ref = useRefS(null);
-  useEffectS(() => {
+  const ref = useRef(null);
+  useEffect(() => {
     const el = ref.current; if (!el) return;
     el.style.strokeDasharray = C;
     el.style.strokeDashoffset = C;
@@ -41,9 +42,9 @@ function SleepRing({ score=92, size=200, label, cap, tone='good' }) {
 }
 
 /* ============== HOME (수면 대시보드) ============== */
-function TabHome({ t, lang, go, tabbar, theme }) {
-  const D = window.SOMNIA_DATA;
-  const [demo, setDemo] = useStateS('good');
+export function TabHome({ t, lang, go, tabbar, theme }) {
+  const D = SOMNIA_DATA;
+  const [demo, setDemo] = useState('good');
   const NIGHTS = {
     good:{ score:92, bed:'23:14', wake:'06:56', dur:['7','42'] },
     poor:{ score:56, bed:'01:38', wake:'06:10', dur:['4','32'] },
@@ -132,7 +133,7 @@ function timeUntil(now, ah, am){
   if (mins <= 0) mins += 24*60;
   return { h: Math.floor(mins/60), m: mins%60, total: mins };
 }
-function WheelCol({ value, set, max, step=1, pad=true }){
+export function WheelCol({ value, set, max, step=1, pad=true }){
   const fmt = (n)=> pad ? String((n+max)%max).padStart(2,'0') : String((n+max)%max);
   const up = ()=> set((value - step + max) % max);
   const down = ()=> set((value + step) % max);
@@ -148,12 +149,12 @@ function WheelCol({ value, set, max, step=1, pad=true }){
     </div>
   );
 }
-function ScreenBedPrep({ t, lang, go, back, session, theme }){
+export function ScreenBedPrep({ t, lang, go, back, session, theme }){
   const init = session || {};
-  const [ah, setAh] = useStateS(init.ah != null ? init.ah : 6);
-  const [am, setAm] = useStateS(init.am != null ? init.am : 30);
-  const [smart, setSmart] = useStateS(init.smart != null ? init.smart : true);
-  const [snd, setSnd] = useStateS(init.snd || 'rain');
+  const [ah, setAh] = useState(init.ah != null ? init.ah : 6);
+  const [am, setAm] = useState(init.am != null ? init.am : 30);
+  const [smart, setSmart] = useState(init.smart != null ? init.smart : true);
+  const [snd, setSnd] = useState(init.snd || 'rain');
   const now = new Date();
   const u = timeUntil(now, ah, am);
   const ampm = ah < 12 ? 'AM' : 'PM';
@@ -211,12 +212,12 @@ function ScreenBedPrep({ t, lang, go, back, session, theme }){
 }
 
 /* ============== BEDTIME (live tracking) ============== */
-function ScreenBedtime({ t, lang, go, back, session, theme }) {
+export function ScreenBedtime({ t, lang, go, back, session, theme }) {
   const init = session || {};
-  const [el, setEl] = useStateS(0);     // elapsed seconds (accelerated)
-  const [hr, setHr] = useStateS(60);    // live heart rate
-  const [snd, setSnd] = useStateS(init.snd || 'rain');
-  useEffectS(() => {
+  const [el, setEl] = useState(0);     // elapsed seconds (accelerated)
+  const [hr, setHr] = useState(60);    // live heart rate
+  const [snd, setSnd] = useState(init.snd || 'rain');
+  useEffect(() => {
     const id = setInterval(() => {
       setEl(e => e + 90);               // demo-accelerated: +1.5 min / tick
       setHr(h => Math.max(50, Math.min(70, Math.round(h + (Math.random()*6 - 3)))));
@@ -270,7 +271,7 @@ function ScreenBedtime({ t, lang, go, back, session, theme }) {
 }
 
 /* ============== SUMMARY (after tracking) ============== */
-function ScreenSummary({ t, lang, go, session, theme }) {
+export function ScreenSummary({ t, lang, go, session, theme }) {
   const rawEl = session && session.el ? session.el : 0;
   const el = rawEl > 3600 ? rawEl : Math.round(7.4*3600);  // demo floor: keep duration realistic
   const hr = session && session.hr ? session.hr : 58;
@@ -302,8 +303,8 @@ function ScreenSummary({ t, lang, go, session, theme }) {
 }
 
 /* ============== RECORD detail ============== */
-function ScreenRecord({ t, lang, back, day, theme }) {
-  const D = window.SOMNIA_DATA;
+export function ScreenRecord({ t, lang, back, day, theme }) {
+  const D = SOMNIA_DATA;
   const night = (D.nights||[]).find(n=>n.d===day);
   const score = night ? night.score : 92;
   const tone = quality(score);
@@ -374,10 +375,10 @@ function heatColor(s){
   const c = lo.map((v,i)=>Math.round(v+(hi[i]-v)*tn));
   return { bg:`rgb(${c[0]},${c[1]},${c[2]})`, fg: tn>0.42?'#fff':'#6A4FB8' };
 }
-function TabReport({ t, lang, go, tabbar, theme }) {
-  const D = window.SOMNIA_DATA;
-  const [seg, setSeg] = useStateS('week');
-  const [sel, setSel] = useStateS(3);
+export function TabReport({ t, lang, go, tabbar, theme }) {
+  const D = SOMNIA_DATA;
+  const [seg, setSeg] = useState('week');
+  const [sel, setSel] = useState(3);
   const max = 100;
   const days = lang==='ko' ? ['11','12','13','14','15','16','17'] : ['11','12','13','14','15','16','17'];
   const avg = Math.round(D.week.reduce((a,b)=>a+b.score,0)/D.week.length);
@@ -509,4 +510,3 @@ function TabReport({ t, lang, go, tabbar, theme }) {
   );
 }
 
-Object.assign(window, { SleepRing, TabHome, ScreenBedPrep, ScreenBedtime, ScreenSummary, ScreenRecord, TabReport, quality });

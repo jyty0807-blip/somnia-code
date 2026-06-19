@@ -10,6 +10,15 @@ screenshots/
 # Node
 node_modules/
 
+# Vite
+dist/
+
+# Firebase config (API keys)
+assets/app/firebase.js
+
+# IDE
+*.code-workspace
+
 # OS
 .DS_Store
 Thumbs.db

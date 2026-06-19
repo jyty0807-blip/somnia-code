@@ -1,24 +1,37 @@
-/* SOMNIA App — Shop screens (light): Shop, Product, Cart, My, Settings + Onboarding */
-const { useState:useStateH, useEffect:useEffectH } = React;
+import React, { useState, useEffect } from 'react'
+import { Ico } from './icons.jsx'
+import { SOMNIA_I18N, SOMNIA_PRICE, SOMNIA_DATA, formatDate } from './i18n.js'
+import { SOMNIA_PRODUCTS, SOMNIA_NOTICE } from './products.js'
+import { WheelCol } from './screens-sleep.jsx'
+import { auth, getAddresses, addAddress, updateAddress, deleteAddress, getDefaultAddress, createOrder, getOrders } from './firebase.js'
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import logoFullWhite from '../logo-full-white.png'
+import jellyDetail1 from './detail/jelly-detail-1.png'
+import jellyDetail2 from './detail/jelly-detail-2.gif'
+import jellyDetail3 from './detail/jelly-detail-3.gif'
+import jellyDetail4 from './detail/jelly-detail-4.png'
+import maskDetail1 from './detail/mask-detail-1.gif'
+import maskDetail2 from './detail/mask-detail-2.png'
 
-/* full-bleed marketing detail cuts, per product id (rendered below the buy info) */
+const P2 = SOMNIA_PRICE;
+
 const APP_DETAILCUTS = {
   jelly:[
-    {src:'assets/app/detail/jelly-detail-1.png',w:1800,h:4452,alt:'SOMNIA Dream Jelly — 3 Night Moods'},
-    {src:'assets/app/detail/jelly-detail-2.gif',w:460,h:501,alt:'잠들기 전 30분, 하루를 차분하게 마무리하는 젤리'},
-    {src:'assets/app/detail/jelly-detail-3.gif',w:718,h:404,alt:'밤의 루틴을 즐기는 순간'},
-    {src:'assets/app/detail/jelly-detail-4.png',w:1800,h:6531,alt:'POINT · HOW TO USE · 수면 만족도'},
+    {src:jellyDetail1,w:1800,h:4452,alt:'SOMNIA Dream Jelly — 3 Night Moods'},
+    {src:jellyDetail2,w:460,h:501,alt:'잠들기 전 30분, 하루를 차분하게 마무리하는 젤리'},
+    {src:jellyDetail3,w:718,h:404,alt:'밤의 루틴을 즐기는 순간'},
+    {src:jellyDetail4,w:1800,h:6531,alt:'POINT · HOW TO USE · 수면 만족도'},
   ],
   mask:[
-    {src:'assets/app/detail/mask-detail-1.gif',w:1280,h:720,alt:'잠들기 전, 빛을 차단하는 순간'},
-    {src:'assets/app/detail/mask-detail-2.png',w:3130,h:8511,alt:'SOMNIA 프리미엄 수면안대 — 구조 · 디테일 · CARE GUIDE'},
+    {src:maskDetail1,w:1280,h:720,alt:'잠들기 전, 빛을 차단하는 순간'},
+    {src:maskDetail2,w:3130,h:8511,alt:'SOMNIA 프리미엄 수면안대 — 구조 · 디테일 · CARE GUIDE'},
   ],
 };
 
 /* ============== SHOP HOME ============== */
-function TabShop({ t, lang, go, cartCount, tabbar }) {
-  const D = window.SOMNIA_DATA;
-  const [cat, setCat] = useStateH('all');
+export function TabShop({ t, lang, go, cartCount, tabbar }) {
+  const D = SOMNIA_DATA;
+  const [cat, setCat] = useState('all');
   const cats = [['all',t('cat_all')],['beauty',t('cat_beauty')],['aroma',t('cat_aroma')],['gear',t('cat_gear')]];
   const items = cat==='all' ? D.products : D.products.filter(p=>p.cat===cat);
   return (
@@ -72,12 +85,12 @@ function TabShop({ t, lang, go, cartCount, tabbar }) {
 }
 
 /* ============== PRODUCT DETAIL ============== */
-function ScreenProduct({ t, lang, back, pid, addToCart }) {
-  const D = window.SOMNIA_DATA;
+export function ScreenProduct({ t, lang, back, pid, addToCart }) {
+  const D = SOMNIA_DATA;
   const p = D.products.find(x=>x.id===pid) || D.products[0];
-  const detail = (window.SOMNIA_PRODUCTS||{})[p.id];
+  const detail = (SOMNIA_PRODUCTS||{})[p.id];
   const catKey = p.cat==='beauty'?'beauty':p.cat==='aroma'?'aroma':'gear';
-  const [opt, setOpt] = useStateH(0);
+  const [opt, setOpt] = useState(0);
   const sel = detail && detail.options ? detail.options[opt] : null;
   return (
     <div className="scr light anim-push">
@@ -189,10 +202,10 @@ function ScreenProduct({ t, lang, back, pid, addToCart }) {
           )}
 
           {/* legal-safe notice */}
-          {detail && window.SOMNIA_NOTICE && (
+          {detail && SOMNIA_NOTICE && (
             <div className="pd-notice">
               <div className="pd-sec-t">{t('pd_notice')}</div>
-              <ul>{window.SOMNIA_NOTICE[lang].map((n,i)=>(<li key={i}>{n}</li>))}</ul>
+              <ul>{SOMNIA_NOTICE[lang].map((n,i)=>(<li key={i}>{n}</li>))}</ul>
             </div>
           )}
         </div>
@@ -217,12 +230,23 @@ function ScreenProduct({ t, lang, back, pid, addToCart }) {
 }
 
 /* ============== CART ============== */
-function ScreenCart({ t, lang, back, cart, setQty, checkout }) {
-  const D = window.SOMNIA_DATA;
+export function ScreenCart({ t, lang, back, cart, setQty, checkout, uid, go, showToast }) {
+  const D = SOMNIA_DATA;
+  const [ordering, setOrdering] = useState(false);
   const lines = cart.map(c=>({ ...c, p:D.products.find(x=>x.id===c.id) })).filter(c=>c.p);
   const subtotal = lines.reduce((a,c)=>a+c.p.price*c.q,0);
   const memberTotal = lines.reduce((a,c)=>a+c.p.member*c.q,0);
   const disc = subtotal - memberTotal;
+  const doCheckout = async () => {
+    if (!uid) return;
+    setOrdering(true);
+    const addr = await getDefaultAddress(uid);
+    if (!addr) { setOrdering(false); showToast(t('cart_no_addr')); go('address'); return; }
+    const items = lines.map(c=>({ id:c.id, name:c.p.name, qty:c.q, price:c.p.member }));
+    await createOrder(uid, { items, address:addr, subtotal, discount:disc, total:memberTotal });
+    setOrdering(false);
+    checkout();
+  };
   return (
     <div className="scr light anim-push">
       <div className="hdr">
@@ -263,7 +287,9 @@ function ScreenCart({ t, lang, back, cart, setQty, checkout }) {
             </div>
           </div>
           <div className="stickybar">
-            <button className="btn btn--primary" style={{flex:1}} onClick={checkout}>{t('checkout')} · {P2(memberTotal)}</button>
+            <button className="btn btn--primary" style={{flex:1}} onClick={doCheckout} disabled={ordering}>
+              {ordering ? t('cart_ordering') : `${t('checkout')} · ${P2(memberTotal)}`}
+            </button>
           </div>
         </>
       )}
@@ -272,11 +298,11 @@ function ScreenCart({ t, lang, back, cart, setQty, checkout }) {
 }
 
 /* ============== MY PAGE ============== */
-function TabMy({ t, lang, go, tabbar }) {
-  const D = window.SOMNIA_DATA;
+export function TabMy({ t, lang, go, tabbar, onLogout }) {
+  const D = SOMNIA_DATA;
   const curTier = D.tiers.find(x=>x.cur) || D.tiers[0];
   const rows = [
-    ['box', t('my_orders'), '', ()=>{}],
+    ['box', t('my_orders'), '', ()=>go('orders')],
     ['pin', t('my_addr'), '', ()=>go('address')],
     ['spark', t('tier_title'), curTier.name[lang], ()=>go('tiers')],
     ['ticket', t('my_coupon'), '3'+(lang==='ko'?'장':''), ()=>{}],
@@ -312,7 +338,7 @@ function TabMy({ t, lang, go, tabbar }) {
               {Ico.next({s:16})}
             </div>
           ))}
-          <div className="mrow" style={{color:'var(--faint)'}}>
+          <div className="mrow" style={{color:'var(--faint)',cursor:'pointer'}} onClick={()=>{ signOut(auth); if(onLogout) onLogout(); }}>
             <div className="mi">{Ico.out({s:18})}</div>
             <div className="ml">{t('my_logout')}</div>
           </div>
@@ -324,9 +350,9 @@ function TabMy({ t, lang, go, tabbar }) {
 }
 
 /* ============== SETTINGS ============== */
-function ScreenSettings({ t, lang, setLang, back, nightTheme, setNightTheme }) {
-  const [noti,setNoti] = useStateH(true);
-  const [snd,setSnd] = useStateH(true);
+export function ScreenSettings({ t, lang, setLang, back, nightTheme, setNightTheme }) {
+  const [noti,setNoti] = useState(true);
+  const [snd,setSnd] = useState(true);
   const dark = nightTheme==='dark';
   return (
     <div className="scr light anim-push">
@@ -352,9 +378,9 @@ function ScreenSettings({ t, lang, setLang, back, nightTheme, setNightTheme }) {
 /* ── Onboarding pickers (reuse WheelCol from screens-sleep.jsx) ── */
 function OnbTimePicker({ value, onChange }) {
   const iv = value && value.includes(':') ? value.split(':') : ['23','00'];
-  const [h, setH] = useStateH(parseInt(iv[0],10)||23);
-  const [m, setM] = useStateH(parseInt(iv[1],10)||0);
-  useEffectH(() => {
+  const [h, setH] = useState(parseInt(iv[0],10)||23);
+  const [m, setM] = useState(parseInt(iv[1],10)||0);
+  useEffect(() => {
     onChange(String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0'));
   }, [h, m]);
   return (
@@ -369,9 +395,9 @@ function OnbTimePicker({ value, onChange }) {
 
 function OnbDurationPicker({ value, onChange, ko }) {
   const iv = value && value.includes(':') ? value.split(':') : ['07','30'];
-  const [h, setH] = useStateH(parseInt(iv[0],10)||7);
-  const [m, setM] = useStateH(parseInt(iv[1],10)||0);
-  useEffectH(() => {
+  const [h, setH] = useState(parseInt(iv[0],10)||7);
+  const [m, setM] = useState(parseInt(iv[1],10)||0);
+  useEffect(() => {
     onChange(String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0'));
   }, [h, m]);
   return (
@@ -385,19 +411,19 @@ function OnbDurationPicker({ value, onChange, ko }) {
 }
 
 /* ============== ONBOARDING ============== */
-function Onboarding({ t, lang, finish }) {
-  const [step, setStep] = useStateH(0);
-  const [goal, setGoal] = useStateH(null);
-  const [goalCustom, setGoalCustom] = useStateH(false);
-  const [goalCustomVal, setGoalCustomVal] = useStateH('');
-  const [bed,  setBed]  = useStateH(null);
-  const [bedCustom, setBedCustom] = useStateH(false);
-  const [bedCustomVal, setBedCustomVal] = useStateH('');
-  const [wake, setWake] = useStateH(null);
-  const [wakeCustom, setWakeCustom] = useStateH(false);
-  const [wakeCustomVal, setWakeCustomVal] = useStateH('');
+export function Onboarding({ t, lang, finish }) {
+  const [step, setStep] = useState(0);
+  const [goal, setGoal] = useState(null);
+  const [goalCustom, setGoalCustom] = useState(false);
+  const [goalCustomVal, setGoalCustomVal] = useState('');
+  const [bed,  setBed]  = useState(null);
+  const [bedCustom, setBedCustom] = useState(false);
+  const [bedCustomVal, setBedCustomVal] = useState('');
+  const [wake, setWake] = useState(null);
+  const [wakeCustom, setWakeCustom] = useState(false);
+  const [wakeCustomVal, setWakeCustomVal] = useState('');
 
-  useEffectH(() => {
+  useEffect(() => {
     const host = document.querySelector('.onb__stars'); if (!host) return;
     host.innerHTML = '';
     for (let i = 0; i < 40; i++) {
@@ -454,7 +480,7 @@ function Onboarding({ t, lang, finish }) {
   if (step === 0) return (
     <div className="scr dark onb anim-fade">
       {bg}
-      <img className="onb__logo" src="assets/logo-full-white.png" alt="SOMNIA"/>
+      <img className="onb__logo" src={logoFullWhite} alt="SOMNIA"/>
       <div className="onb__tag" style={{whiteSpace:'pre-line'}}>{t('onb_tag')}</div>
       <div className="onb__btn">
         <button className="btn btn--primary" onClick={next}>{ko?'시작하기':'Get started'} →</button>
@@ -582,9 +608,64 @@ function Onboarding({ t, lang, finish }) {
   );
 }
 
+/* ============== shared styles ============== */
+const emptyStyle = {textAlign:'center',padding:40,color:'var(--dim)'};
+
+/* ============== ORDERS ============== */
+const STATUS_KEY = { paid:'ord_paid', shipping:'ord_ship', delivered:'ord_done', cancelled:'ord_cancel' };
+const STATUS_CLS = { paid:'badge--info', shipping:'badge--warn', delivered:'badge--ok', cancelled:'badge--dim' };
+
+export function ScreenOrders({ t, lang, back, uid }) {
+  const [list, setList] = useState([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(()=>{
+    if (!uid) return;
+    getOrders(uid).then(r=>{ setList(r); setLoading(false); });
+  }, [uid]);
+  return (
+    <div className="scr light anim-push">
+      <div className="hdr">
+        <button className="icon-btn" onClick={back}>{Ico.back({s:20})}</button>
+        <div style={{flex:1,marginLeft:6}}><h1 style={{fontSize:24}}>{t('ord_title')}</h1></div>
+      </div>
+      <div className="body">
+        {loading ? <div style={emptyStyle}>…</div>
+        : list.length===0 ? <div style={emptyStyle}>{t('ord_empty')}</div>
+        : list.map(o=>(
+          <div className="card" key={o.id} style={{marginBottom:12}}>
+            <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:12}}>
+              <span className={'badge '+(STATUS_CLS[o.status]||'')}>{t(STATUS_KEY[o.status]||o.status)}</span>
+              <span style={{fontSize:12,color:'var(--dim)',marginLeft:'auto'}}>{formatDate(o.createdAt, lang)}</span>
+            </div>
+            <div style={{fontSize:13,color:'var(--dim)',marginBottom:8,lineHeight:1.4}}>{t('ord_num')} {o.orderId}</div>
+            <div style={{fontSize:14,fontWeight:600,lineHeight:1.4,display:'flex',justifyContent:'space-between'}}>
+              <span>{o.items?.length||0}{t('ord_items')}</span>
+              <span>{P2(o.total)}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /* ============== ADDRESS management ============== */
-function ScreenAddress({ t, lang, back }) {
-  const D = window.SOMNIA_DATA;
+const addrInputStyle = {width:'100%',padding:'12px 14px',borderRadius:12,border:'1.5px solid var(--border)',fontSize:14,background:'var(--surface)',color:'var(--fg)'};
+const addrLabelStyle = {fontSize:12,fontWeight:600,color:'var(--dim)',marginBottom:4,display:'block'};
+
+export function ScreenAddress({ t, lang, back, uid, go }) {
+  const [list, setList] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const reload = ()=>{ if(!uid) return; setLoading(true); getAddresses(uid).then(r=>{ setList(r); setLoading(false); }); };
+  useEffect(()=>{ reload(); }, [uid]);
+  const toggleDefault = async (item) => {
+    await updateAddress(uid, item.id, { isDefault: !item.isDefault });
+    reload();
+  };
+  const remove = async (item) => {
+    await deleteAddress(uid, item.id);
+    reload();
+  };
   return (
     <div className="scr light anim-push">
       <div className="hdr">
@@ -592,26 +673,132 @@ function ScreenAddress({ t, lang, back }) {
         <div style={{flex:1,marginLeft:6}}><h1 style={{fontSize:24}}>{t('addr_title')}</h1></div>
       </div>
       <div className="body">
-        {D.addresses.map((a,i)=>(
-          <div className="card" key={i} style={{marginBottom:12}}>
+        {loading ? <div style={emptyStyle}>…</div>
+        : list.length===0 ? <div style={emptyStyle}>{t('addr_empty')}</div>
+        : list.map(a=>(
+          <div className="card" key={a.id} style={{marginBottom:12}}>
             <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:8}}>
-              <span style={{fontSize:15,fontWeight:600}}>{a.label[lang]}</span>
-              {a.def && <span style={{fontSize:10,fontWeight:700,letterSpacing:'.06em',textTransform:'uppercase',color:'#fff',background:'var(--lav)',padding:'3px 8px',borderRadius:999}}>{t('addr_default')}</span>}
-              <span style={{marginLeft:'auto',fontSize:13,color:'var(--lav)',fontWeight:600,cursor:'pointer'}}>{t('addr_edit')}</span>
+              <span style={{fontSize:15,fontWeight:600}}>{a.label}</span>
+              {a.isDefault && <span style={{fontSize:10,fontWeight:700,letterSpacing:'.06em',textTransform:'uppercase',color:'#fff',background:'var(--lav)',padding:'3px 8px',borderRadius:999}}>{t('addr_default')}</span>}
+              <span style={{marginLeft:'auto',fontSize:13,color:'var(--lav)',fontWeight:600,cursor:'pointer'}} onClick={()=>go('addressForm',a)}>{t('addr_edit')}</span>
             </div>
-            <div style={{fontSize:14,fontWeight:600}}>{a.name[lang]} · {a.phone}</div>
-            <div style={{fontSize:13.5,color:'var(--dim)',marginTop:4,lineHeight:1.5}}>{a.addr[lang]}</div>
+            <div style={{fontSize:14,fontWeight:600}}>{a.name} · {a.phone}</div>
+            <div style={{fontSize:13.5,color:'var(--dim)',marginTop:4,lineHeight:1.5}}>{a.addr}</div>
+            <div style={{display:'flex',gap:12,marginTop:10}}>
+              {!a.isDefault && <span style={{fontSize:12,color:'var(--lav)',fontWeight:600,cursor:'pointer'}} onClick={()=>toggleDefault(a)}>{t('addr_set_default')}</span>}
+              <span style={{fontSize:12,color:'var(--faint)',cursor:'pointer',marginLeft:'auto'}} onClick={()=>{ if(confirm(t('addr_del_confirm'))) remove(a); }}>{t('addr_del')}</span>
+            </div>
           </div>
         ))}
-        <button className="btn btn--ghost" style={{marginTop:4}}>{Ico.plus({s:18})} {t('addr_add')}</button>
+        <button className="btn btn--ghost" style={{marginTop:4}} onClick={()=>go('addressForm',null)}>{Ico.plus({s:18})} {t('addr_add')}</button>
+      </div>
+    </div>
+  );
+}
+
+/* ============== ADDRESS FORM ============== */
+export function ScreenAddressForm({ t, lang, back, uid, editing, onSaved }) {
+  const isEdit = !!editing;
+  const [label, setLabel] = useState(editing?.label || '');
+  const [name, setName] = useState(editing?.name || '');
+  const [phone, setPhone] = useState(editing?.phone || '');
+  const [addr, setAddr] = useState(editing?.addr || '');
+  const [zip, setZip] = useState(editing?.zip || '');
+  const [isDef, setIsDef] = useState(editing?.isDefault || false);
+  const [saving, setSaving] = useState(false);
+  const save = async () => {
+    if (!uid || !name.trim() || !phone.trim() || !addr.trim()) return;
+    setSaving(true);
+    const data = { label: label.trim()||t('addr_new'), name: name.trim(), phone: phone.trim(), addr: addr.trim(), zip: zip.trim(), isDefault: isDef };
+    if (isEdit) await updateAddress(uid, editing.id, data);
+    else await addAddress(uid, data);
+    setSaving(false);
+    onSaved();
+  };
+  return (
+    <div className="scr light anim-push">
+      <div className="hdr">
+        <button className="icon-btn" onClick={back}>{Ico.back({s:20})}</button>
+        <div style={{flex:1,marginLeft:6}}><h1 style={{fontSize:24}}>{isEdit ? t('addr_edit_title') : t('addr_new')}</h1></div>
+      </div>
+      <div className="body" style={{display:'flex',flexDirection:'column',gap:14}}>
+        <div>
+          <label style={addrLabelStyle}>{t('addr_label')}</label>
+          <input style={addrInputStyle} value={label} onChange={e=>setLabel(e.target.value)} placeholder={lang==='ko'?'예: 집, 회사':'e.g. Home, Office'} />
+        </div>
+        <div>
+          <label style={addrLabelStyle}>{t('addr_name')}</label>
+          <input style={addrInputStyle} value={name} onChange={e=>setName(e.target.value)} />
+        </div>
+        <div>
+          <label style={addrLabelStyle}>{t('addr_phone')}</label>
+          <input style={addrInputStyle} value={phone} onChange={e=>setPhone(e.target.value)} type="tel" />
+        </div>
+        <div>
+          <label style={addrLabelStyle}>{t('addr_zip')}</label>
+          <input style={addrInputStyle} value={zip} onChange={e=>setZip(e.target.value)} />
+        </div>
+        <div>
+          <label style={addrLabelStyle}>{t('addr_addr')}</label>
+          <input style={addrInputStyle} value={addr} onChange={e=>setAddr(e.target.value)} />
+        </div>
+        <label style={{display:'flex',alignItems:'center',gap:8,fontSize:14,cursor:'pointer'}}>
+          <input type="checkbox" checked={isDef} onChange={e=>setIsDef(e.target.checked)} style={{accentColor:'var(--lav)',width:18,height:18}} />
+          {t('addr_set_default')}
+        </label>
+        <button className="btn btn--primary" style={{width:'100%',marginTop:8}} onClick={save} disabled={saving}>
+          {saving ? '…' : t('addr_save')}
+        </button>
       </div>
     </div>
   );
 }
 
 /* ============== MEMBERSHIP TIERS ============== */
-function ScreenTiers({ t, lang, back }) {
-  const D = window.SOMNIA_DATA;
+/* ============== LOGIN ============== */
+export function ScreenLogin({ t, lang, onLogin }) {
+  const [email, setEmail] = useState('');
+  const [pw, setPw] = useState('');
+  const [err, setErr] = useState('');
+  const [loading, setLoading] = useState(false);
+  const ko = lang === 'ko';
+  const submit = async () => {
+    setErr(''); setLoading(true);
+    try {
+      await signInWithEmailAndPassword(auth, email, pw);
+      onLogin();
+    } catch(e) { setErr(ko ? '이메일 또는 비밀번호를 확인해주세요.' : 'Invalid email or password.'); }
+    setLoading(false);
+  };
+  return (
+    <div className="scr dark onb anim-fade" style={{justifyContent:'center',padding:'0 32px'}}>
+      <div className="onb__stars"/>
+      <div style={{position:'relative',zIndex:2,width:'100%',maxWidth:320}}>
+        <img className="onb__logo" src={logoFullWhite} alt="SOMNIA" style={{display:'block',margin:'0 auto 30px',width:160}}/>
+        <div style={{display:'flex',flexDirection:'column',gap:10}}>
+          <input type="email" value={email} onChange={e=>setEmail(e.target.value)}
+            placeholder={ko?'이메일':'Email'}
+            style={{width:'100%',padding:'14px 16px',borderRadius:14,border:'1.5px solid rgba(255,255,255,.15)',
+              background:'rgba(255,255,255,.08)',color:'#EAF0FF',fontSize:15,fontFamily:'inherit',outline:'none',boxSizing:'border-box'}}/>
+          <input type="password" value={pw} onChange={e=>setPw(e.target.value)}
+            placeholder={ko?'비밀번호':'Password'} onKeyDown={e=>e.key==='Enter'&&submit()}
+            style={{width:'100%',padding:'14px 16px',borderRadius:14,border:'1.5px solid rgba(255,255,255,.15)',
+              background:'rgba(255,255,255,.08)',color:'#EAF0FF',fontSize:15,fontFamily:'inherit',outline:'none',boxSizing:'border-box'}}/>
+        </div>
+        {err && <div style={{color:'#E7A6BE',fontSize:13,marginTop:10,textAlign:'center'}}>{err}</div>}
+        <button className="btn btn--primary" style={{marginTop:18,opacity:loading?.5:1}} onClick={submit} disabled={loading}>
+          {loading ? '...' : (ko?'로그인':'Log in')}
+        </button>
+        <div style={{fontSize:11,color:'rgba(234,240,255,.4)',textAlign:'center',marginTop:16,lineHeight:1.5}}>
+          demo@somnia.kr / somnia2026
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function ScreenTiers({ t, lang, back }) {
+  const D = SOMNIA_DATA;
   const cur = D.tiers.find(x=>x.cur) || D.tiers[0];
   const curIdx = D.tiers.indexOf(cur);
   const toNext = Math.max(0, D.nextTierAt - D.points);
@@ -680,4 +867,3 @@ function ScreenTiers({ t, lang, back }) {
   );
 }
 
-Object.assign(window, { TabShop, ScreenProduct, ScreenCart, TabMy, ScreenSettings, Onboarding, ScreenAddress, ScreenTiers });

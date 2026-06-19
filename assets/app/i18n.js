@@ -1,5 +1,5 @@
-/* SOMNIA App — i18n dictionary + data (window globals) */
-window.SOMNIA_I18N = {
+/* SOMNIA App — i18n dictionary + data */
+export const SOMNIA_I18N = {
   ko: {
     // tabs
     tab_sleep:'수면', tab_report:'기록', tab_shop:'쇼핑', tab_my:'MY',
@@ -53,6 +53,11 @@ window.SOMNIA_I18N = {
     cart_title:'장바구니', subtotal:'상품 금액', member_disc:'회원 할인', ship:'배송비', free:'무료',
     total:'결제 금액', checkout:'결제하기', cart_empty:'장바구니가 비어 있어요', go_shop:'쇼핑하러 가기',
     ordered:'주문이 완료되었어요',
+    cart_no_addr:'배송지를 먼저 등록해주세요', cart_ordering:'주문 처리 중…',
+    // orders
+    ord_title:'주문 내역', ord_empty:'주문 내역이 없습니다',
+    ord_paid:'결제완료', ord_ship:'배송중', ord_done:'배송완료', ord_cancel:'취소',
+    ord_items:'개 상품', ord_num:'주문번호',
     // my
     my_orders:'주문 내역', my_addr:'배송지 관리', my_coupon:'쿠폰함', my_noti:'알림 설정',
     my_lang:'언어 설정', my_help:'고객센터', my_logout:'로그아웃',
@@ -67,6 +72,11 @@ window.SOMNIA_I18N = {
     tier_title:'멤버십 등급', tier_sub:'수면 여정에 따라 등급이 올라갑니다', tier_to_next:'다음 등급까지', tier_cur:'현재 등급',
     // address
     addr_title:'배송지 관리', addr_add:'새 배송지 추가', addr_default:'기본', addr_edit:'수정',
+    addr_del:'삭제', addr_save:'저장', addr_name:'수령인', addr_phone:'연락처',
+    addr_label:'배송지명', addr_addr:'주소', addr_zip:'우편번호',
+    addr_set_default:'기본 배송지로 설정', addr_new:'새 배송지',
+    addr_edit_title:'배송지 수정', addr_del_confirm:'이 배송지를 삭제하시겠습니까?',
+    addr_empty:'등록된 배송지가 없습니다',
     won:'원',
   },
   en: {
@@ -113,6 +123,10 @@ window.SOMNIA_I18N = {
     cart_title:'Cart', subtotal:'Subtotal', member_disc:'Member discount', ship:'Shipping', free:'Free',
     total:'Total', checkout:'Checkout', cart_empty:'Your cart is empty', go_shop:'Start shopping',
     ordered:'Your order is complete',
+    cart_no_addr:'Please add an address first', cart_ordering:'Placing order…',
+    ord_title:'Orders', ord_empty:'No orders yet',
+    ord_paid:'Paid', ord_ship:'Shipping', ord_done:'Delivered', ord_cancel:'Cancelled',
+    ord_items:'items', ord_num:'Order #',
     my_orders:'Orders', my_addr:'Addresses', my_coupon:'Coupons', my_noti:'Notifications',
     my_lang:'Language', my_help:'Help Center', my_logout:'Log out',
     pts:'pts', coupons_n:'',
@@ -122,14 +136,23 @@ window.SOMNIA_I18N = {
     rep_duration:'Avg Sleep Duration', rep_dur_avg:'Average', rep_hr_unit:'h',
     tier_title:'Membership Tiers', tier_sub:'Your tier rises with your sleep journey', tier_to_next:'To next tier', tier_cur:'Current',
     addr_title:'Addresses', addr_add:'Add new address', addr_default:'Default', addr_edit:'Edit',
+    addr_del:'Delete', addr_save:'Save', addr_name:'Recipient', addr_phone:'Phone',
+    addr_label:'Label', addr_addr:'Address', addr_zip:'Zip code',
+    addr_set_default:'Set as default', addr_new:'New Address',
+    addr_edit_title:'Edit Address', addr_del_confirm:'Delete this address?',
+    addr_empty:'No addresses saved',
     won:'',
   }
 };
 
 // price formatter — KRW style for both, prefix ₩
-window.SOMNIA_PRICE = function(n){ return '₩' + n.toLocaleString('en-US'); };
+export function SOMNIA_PRICE(n){ return '₩' + n.toLocaleString('en-US'); }
 
-window.SOMNIA_DATA = {
+export function formatDate(ts, lang) {
+  return ts?.toDate?.().toLocaleDateString(lang) || '';
+}
+
+export const SOMNIA_DATA = {
   products: [
     { id:'jelly', slot:'app-prod-jelly', cat:'beauty',
       name:{ko:'SOMNIA 드림 젤리', en:'SOMNIA Dream Jelly'},
@@ -142,20 +165,25 @@ window.SOMNIA_DATA = {
       desc:{ko:'잠들기 전 한 시간, 차분히 내려앉는 라벤더 블렌드 오일.',
             en:'Slow, grounding lavender for the hour before sleep.'} },
     { id:'mask', slot:'app-prod-mask', cat:'gear',
-      name:{ko:'벨벳 수면 안대', en:'Velvet Sleep Mask'},
+      name:{ko:'SOMNIA 수면 안대', en:'SOMNIA Sleep Mask'},
       price:39000, member:33150, old:0, tag:{ko:'신상', en:'NEW'},
       desc:{ko:'부드러운 벨벳과 메모리폼으로 감싼, 무게 없는 어둠.',
             en:'Weightless darkness, wrapped in soft velvet and memory foam.'} },
     { id:'spray', slot:'app-prod-spray', cat:'aroma',
       name:{ko:'슬립 웰 아로마 룸 스프레이', en:'Sleep Well Aroma Room Spray'},
-      price:34000, member:29000, old:0, tag:{ko:'', en:''},
+      price:34000, member:28900, old:0, tag:{ko:'', en:''},
       desc:{ko:'라벤더·캐모마일·시더우드가 어우러진 잠들기 전 침실 아로마.',
             en:'Lavender, chamomile and cedarwood for the bedroom before bed.'} },
-    { id:'wear', slot:'app-prod-wear', cat:'gear',
+    { id:'pajama', slot:'app-prod-pajama', cat:'gear',
       name:{ko:'클라우드 슬립웨어', en:'Cloud Sleepwear'},
-      price:79000, member:67150, old:89000, tag:{ko:'회원가', en:'MEMBER'},
-      desc:{ko:'고요함을 위해 만든 부드럽고 통기성 좋은 코튼 슬립웨어.',
-            en:'Soft, breathable cotton sleepwear made for stillness.'} },
+      price:59000, member:50150, old:0, tag:{ko:'', en:''},
+      desc:{ko:'고요함을 위해 만든 부드럽고 통기성 좋은 모달 코튼 슬립웨어.',
+            en:'Soft, breathable modal cotton sleepwear made for stillness.'} },
+    { id:'socks', slot:'app-prod-socks', cat:'gear',
+      name:{ko:'슬립 소프트 양말', en:'Sleep Soft Socks'},
+      price:19000, member:16150, old:0, tag:{ko:'', en:''},
+      desc:{ko:'발끝까지 감싸는 부드러운 수면 양말.',
+            en:'Soft sleep socks that wrap to the toes.'} },
   ],
   // recent nights: label (ko/en weekday), score, pct width
   nights: [

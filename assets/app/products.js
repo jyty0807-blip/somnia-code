@@ -1,7 +1,7 @@
 /* SOMNIA — purchase-window product detail (bilingual)
    Based on SOMNIA 구매창 상품정보. Legal-safe wording:
    routine / wind-down language, no medical/insomnia claims. */
-window.SOMNIA_PRODUCTS = {
+export const SOMNIA_PRODUCTS = {
   jelly: {
     position:{ ko:'잠들기 전 30분, 달콤하게 시작하는 나이트 루틴 젤리.',
                en:'A sweet night-routine jelly for the 30 minutes before bed.' },
@@ -30,6 +30,8 @@ window.SOMNIA_PRODUCTS = {
     bundles:[
       { name:{ko:'Dream Jelly 3 Flavor Set',en:'Dream Jelly 3 Flavor Set'},
         desc:{ko:'세 가지 무드를 번갈아 경험하는 30일 나이트 루틴 세트.',en:'Three moods across a 30-day night routine.'} },
+      { name:{ko:'Deep Night Routine Set',en:'Deep Night Routine Set'},
+        desc:{ko:'아로마 룸 스프레이 + 드림 젤리 1종 + SOMNIA 수면 안대.',en:'Room spray + 1 jelly + SOMNIA sleep mask.'} },
     ],
   },
   spray: {
@@ -55,7 +57,9 @@ window.SOMNIA_PRODUCTS = {
                en:['Do not spray directly on skin or face.','Keep away from eyes.','Store out of reach of children and pets.','Avoid leather, wood, silk and light fabrics.','Keep away from flame, heat and direct sun.'] },
     bundles:[
       { name:{ko:'Deep Night Routine Set',en:'Deep Night Routine Set'},
-        desc:{ko:'룸 스프레이 + 드림 젤리 1종 + 수면 안대.',en:'Spray + 1 jelly + a sleep mask.'} },
+        desc:{ko:'룸 스프레이 + 드림 젤리 1종 + SOMNIA 수면 안대.',en:'Spray + 1 jelly + SOMNIA sleep mask.'} },
+      { name:{ko:'Aroma Therapy Duo',en:'Aroma Therapy Duo'},
+        desc:{ko:'라벤더 아로마 오일 + 아로마 룸 스프레이.',en:'Lavender aroma oil + room spray.'} },
     ],
   },
   mask: {
@@ -75,13 +79,71 @@ window.SOMNIA_PRODUCTS = {
                en:['Hand-wash gently in lukewarm water with mild detergent.','Do not bleach — it may damage or discolor the fabric.','Dry naturally in the shade, away from direct sun.','Do not tumble-dry; heat may deform or shrink it.','If machine-washing, use a laundry net on a wool/delicate cycle.'] },
     bundles:[
       { name:{ko:'Deep Night Routine Set',en:'Deep Night Routine Set'},
-        desc:{ko:'아로마 룸 스프레이 + 드림 젤리 1종 + 수면 안대 구성.',en:'Room spray + 1 jelly + the sleep mask.'} },
+        desc:{ko:'아로마 룸 스프레이 + 드림 젤리 1종 + SOMNIA 수면 안대 구성.',en:'Room spray + 1 jelly + SOMNIA sleep mask.'} },
+      { name:{ko:'Sleep Gear Trio',en:'Sleep Gear Trio'},
+        desc:{ko:'클라우드 슬립웨어 + 슬립 소프트 양말 + SOMNIA 수면 안대 구성.',en:'Cloud sleepwear + sleep soft socks + SOMNIA sleep mask.'} },
+    ],
+  },
+  oil: {
+    position:{ ko:'잠들기 전 한 시간, 차분히 내려앉는 라벤더 블렌드 오일.',
+               en:'Slow, grounding lavender blend oil for the hour before sleep.' },
+    oneLiner:{ ko:'라벤더·베르가못·일랑일랑을 블렌딩한 수면 루틴 아로마 오일.',
+               en:'A sleep-routine aroma oil blending lavender, bergamot and ylang-ylang.' },
+    desc:{ ko:'잠들기 전 손목, 관자놀이, 목 뒤에 소량 발라 긴장을 풀어주는 SOMNIA의 나이트 리추얼 오일입니다. 라벤더·베르가못·일랑일랑의 블렌드가 하루의 피로를 차분하게 내려놓는 시간을 만들어줍니다.',
+           en:'A SOMNIA night ritual oil to ease tension before sleep. Apply a small amount to wrists, temples and the back of the neck. The blend of lavender, bergamot and ylang-ylang creates a moment to set down the day.' },
+    useTime:{ ko:'잠들기 30분~1시간 전', en:'30 min – 1 hr before sleep' },
+    features:{ ko:['라벤더·베르가못·일랑일랑 블렌드','손목·관자놀이·목 뒤에 소량 도포','앱 수면 루틴과 연동 체크'],
+               en:['Lavender, bergamot & ylang-ylang blend','Apply to wrists, temples & nape','Syncs with the app sleep routine'] },
+    spec:{ ko:'30ml / 1.0 fl. oz.', en:'30ml / 1.0 fl. oz.' },
+    howto:{ ko:['소량을 손끝에 덜어냅니다.','손목, 관자놀이, 목 뒤에 가볍게 발라줍니다.','깊게 호흡하며 향을 느낍니다.','앱에서 오늘의 아로마 루틴을 체크합니다.'],
+            en:['Take a small amount on your fingertips.','Gently apply to wrists, temples and the back of the neck.','Breathe deeply and take in the scent.','Check tonight’s aroma routine in the app.'] },
+    bundles:[
+      { name:{ko:'Aroma Therapy Duo',en:'Aroma Therapy Duo'},
+        desc:{ko:'라벤더 아로마 오일 + 아로마 룸 스프레이.',en:'Lavender aroma oil + room spray.'} },
+    ],
+  },
+  pajama: {
+    position:{ ko:'고요한 밤을 위해 만든 부드럽고 통기성 좋은 모달 코튼 슬립웨어.',
+               en:'Soft, breathable modal cotton sleepwear for a still night.' },
+    oneLiner:{ ko:'피부에 닿는 감촉까지 잠의 일부로 만든 클라우드 슬립웨어.',
+               en:'Cloud sleepwear where even the touch on skin is part of sleep.' },
+    desc:{ ko:'SOMNIA 클라우드 슬립웨어는 가볍고 부드러운 모달 코튼 소재로 피부 자극을 최소화하고, 편안한 핏으로 뒤척임에도 걸리지 않는 잠옷입니다. 통기성과 흡습성이 뛰어나 사계절 착용할 수 있습니다.',
+           en:'SOMNIA Cloud Sleepwear uses light, soft modal cotton that minimizes skin irritation. The relaxed fit never catches when you turn, and excellent breathability makes it comfortable year-round.' },
+    useTime:{ ko:'취침 시', en:'At bedtime' },
+    features:{ ko:['가벼운 모달 코튼 소재','뒤척임에도 걸리지 않는 릴랙스드 핏','사계절 착용 가능한 통기성','중앙 달 심볼 자수 디테일'],
+               en:['Light modal cotton fabric','Relaxed fit that never catches','Year-round breathability','Embroidered moon-symbol detail'] },
+    spec:{ ko:'상의 + 하의 세트 · 프리사이즈', en:'Top + bottom set · One size' },
+    howto:{ ko:['취침 30분 전 슬립웨어로 갈아입습니다.','조명을 낮추고 편안하게 휴식합니다.','앱에서 오늘의 나이트 루틴을 체크합니다.'],
+            en:['Change into sleepwear 30 min before bed.','Dim the lights and relax.','Check tonight’s routine in the app.'] },
+    cautions:{ ko:['미지근한 물에 중성세제로 세탁을 권장합니다.','표백제 사용을 금합니다.','건조기 사용을 피하고 자연 건조하세요.'],
+               en:['Wash in lukewarm water with mild detergent.','Do not bleach.','Avoid tumble-drying; air-dry naturally.'] },
+    bundles:[
+      { name:{ko:'Sleep Gear Trio',en:'Sleep Gear Trio'},
+        desc:{ko:'클라우드 슬립웨어 + 슬립 소프트 양말 + SOMNIA 수면 안대.',en:'Cloud sleepwear + sleep soft socks + SOMNIA sleep mask.'} },
+    ],
+  },
+  socks: {
+    position:{ ko:'발끝까지 감싸는 부드러운 수면 전용 양말.',
+               en:'Soft sleep-only socks that wrap to the toes.' },
+    oneLiner:{ ko:'체온 유지와 편안한 착용감을 위한 슬립 소프트 양말.',
+               en:'Sleep Soft Socks for warmth and comfort.' },
+    desc:{ ko:'잠들기 전 발을 따뜻하게 감싸 체온 유지를 돕는 SOMNIA 수면 양말입니다. 부드러운 소재와 느슨한 밴드로 조임 없이 편안하게 착용할 수 있습니다.',
+           en:'SOMNIA sleep socks that gently warm your feet before bed. Soft fabric and a loose band keep them comfortable with no tightness.' },
+    useTime:{ ko:'취침 시', en:'At bedtime' },
+    features:{ ko:['부드러운 코튼 블렌드 소재','조임 없는 느슨한 밴드','체온 유지를 돕는 두께감','달 심볼 짜넣기 디테일'],
+               en:['Soft cotton-blend fabric','Loose, no-squeeze band','Warmth-keeping thickness','Woven moon-symbol detail'] },
+    spec:{ ko:'프리사이즈 (230~270mm)', en:'One size (230–270mm)' },
+    howto:{ ko:['취침 전 양말을 신습니다.','편안하게 휴식합니다.'],
+            en:['Put on socks before bed.','Rest comfortably.'] },
+    bundles:[
+      { name:{ko:'Sleep Gear Trio',en:'Sleep Gear Trio'},
+        desc:{ko:'클라우드 슬립웨어 + 슬립 소프트 양말 + SOMNIA 수면 안대.',en:'Cloud sleepwear + sleep soft socks + SOMNIA sleep mask.'} },
     ],
   },
 };
 
 /* legal-safe common notice */
-window.SOMNIA_NOTICE = {
+export const SOMNIA_NOTICE = {
   ko:['본 제품은 질병의 예방·치료를 위한 의약품이 아닙니다.','개인의 생활 습관과 컨디션에 따라 체감은 달라질 수 있습니다.','임산부·수유부·질환 보유자·의약품 복용자는 구매 전 전문가와 상담을 권장합니다.'],
   en:['This is not a medicine for the prevention or treatment of disease.','Experience may vary with lifestyle and condition.','If pregnant, nursing, with a condition, or on medication, consult a professional before purchase.'],
 };
