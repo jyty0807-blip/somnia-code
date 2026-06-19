@@ -13,8 +13,9 @@ node_modules/
 # Vite
 dist/
 
-# Firebase config (API keys)
+# Secrets
 assets/app/firebase.js
+CREDENTIALS.md
 
 # IDE
 *.code-workspace
