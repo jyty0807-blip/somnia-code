@@ -14,34 +14,69 @@
 
 ---
 
-## 완료된 Phase
+## 6월 19일 작업 요약
 
-| Phase | 내용 | 상태 |
-|-------|------|------|
-| 1 | Firebase 설정 (Firestore + Auth SDK) | ✅ |
-| 2 | 로그인 기능 (ScreenLogin, onAuthStateChanged) | ✅ |
-| 3 | 주소 관리 CRUD (Firestore 연동, ScreenAddressForm) | ✅ |
-| 4 | 주문 기능 (checkout → Firestore 저장, 배송지 체크, 결제 로딩) | ✅ |
-| 5 | 주문 내역 화면 (ScreenOrders, 상태 배지) | ✅ |
-| 6a | 앱 재고 연동 (seedStock, getStockMap, runTransaction, 품절 UI) | ✅ |
-| 6b | 관리자 페이지 (주문/재고/번들 관리, 데스크톱 UI) | ✅ |
-| - | Vite 전환 (CDN Babel → ES 모듈) | ✅ |
-| - | 제품 데이터 통일 (6개 단품 + 4개 기획세트 확정) | ✅ |
-| - | GitHub 배포 (민감정보 분리) | ✅ |
+### 커밋 2건
+| 커밋 | 내용 |
+|------|------|
+| `0bf041a` | CREDENTIALS.md gitignore 추가 |
+| `c421be9` | Phase 6c~7 완료 (26 파일, +1,379/-164) |
+
+### Phase 6c: 웹 상세페이지 개편
+- 슬립 기어 듀오→트리오 (파일 리네임, 양말 탭 추가)
+- 잠옷 사이즈 → 프리사이즈, 실크 수면안대 → 썸니아 수면안대
+
+### Phase 6d: 관리자 로그인 디버깅
+- 에러 코드 화면 노출, 계정 미존재 시 자동생성 fallback
+
+### Phase 6e: 이미지 관리자 페이지
+- `SOMNIA Image Manager.html` + `assets/imgmgr/` (55개 슬롯 관리)
+
+### Phase 7: QA 버그 수정 7건
+1. 주문 버튼 멈춤 → `doCheckout` 전체 try-catch
+2. 배송지 미설정 → 커스텀 모달 (SOMNIA 디자인)
+3. 취침준비 뒤로가기 → `.prep .bt-top` CSS + top:72px
+4. 리포트 bell 아이콘 삭제
+5. 전 상품 품절 → seedStock/refreshStock 체인 분리 + 빈 stockMap 방어
+6. 장바구니 연타 → 재고 체크 + 확인 모달 필수
+7. 로그인 실패 → Firebase v12+ `auth/invalid-credential` fallback
+
+### 인프라
+- **Firestore Security Rules 설정 완료** (products/bundles 읽기 허용, 로그인 시 쓰기)
+- **Firestore 재고 시드 완료** (jelly:100, oil:50, mask:80, spray:50, pajama:30, socks:100)
 
 ---
 
 ## 다음 작업: Phase 7b → 8
 
-### Phase 7b: 긴급 수정
-- 관리자 사이트 재고 조회 불가 (Firestore 권한 → 해결됨, 재고 시드 완료)
-- 관리자 사이트 번들 미표시 (데이터 미등록 → 관리자에서 추가 필요)
-- 앱 장바구니 확인 모달 배경 투명 → 불투명 흰색으로 변경
-- 앱 배송지 추가 기능 수정 + 우편번호 조회 기능 추가
+### Phase 7b: 긴급 수정 (4건)
+- [ ] 앱 장바구니 확인 모달 배경 투명 → 불투명 흰색으로 변경 (`app.css` `.modal-box`)
+- [ ] 앱 배송지 추가 기능 수정 + 우편번호 조회 기능 추가
+- [x] 관리자 사이트 재고 조회 불가 → Firestore Rules 설정 + 재고 시드로 해결
+- [x] 관리자 사이트 번들 미표시 → 데이터 미등록 상태 (관리자에서 추가 필요)
 
 ### Phase 8: 기능 보완
-- 기획세트 쇼핑 앱 연동 (getBundles, 앱 번들 목록·상세·구매)
-- 멤버십 적립금 로직 (등급별 적립률, 주문 시 적립, Firestore 포인트)
+- [ ] 기획세트 쇼핑 앱 연동 (getBundles, 앱 번들 목록·상세·구매)
+  - **결정사항: B. 구성 단품 재고 차감** — 번들 주문 시 items[]의 products 재고를 각각 차감
+  - 단품 품절 시 해당 번들도 자동 품절
+  - 기존 `createOrder`의 `runTransaction` 패턴 확장
+- [ ] 멤버십 적립금 로직 (등급별 적립률, 주문 시 적립, Firestore 포인트)
+
+### Phase 9: Vercel 배포
+### Phase 10: index.html 최종 업데이트
+
+---
+
+## 주의사항 (이번 세션에서 배운 교훈)
+
+### 버그 수정 시 근본 원인 먼저
+- 코드 수정 전에 **콘솔 에러 → DB 연결 → 권한** 순서로 확인
+- `.catch(()=>{})` 에러 삼킴 패턴 의심
+- 증상 땜빵 (방어 로직, 값 덮어쓰기) 금지
+
+### 워크플로우
+- 구현 완료 → 코드+디자인 리뷰 에이전트 통과 → 사용자 승인 → /phase-approve
+- 승인 전에 반드시 리뷰 에이전트 먼저 실행
 
 ---
 
@@ -58,20 +93,12 @@
 | socks | gear | 슬립 소프트 양말 | ₩19,000 | ₩16,150 |
 
 ### 기획세트 (4개)
-| 세트명 | 구성 | 등록된 제품 bundles |
-|--------|------|-------------------|
+| 세트명 | 구성 | items[] |
+|--------|------|---------|
 | Dream Jelly 3 Flavor Set | 젤리 3맛 | jelly |
 | Deep Night Routine Set | spray + jelly + mask | jelly, spray, mask |
 | Aroma Therapy Duo | oil + spray | oil, spray |
 | Sleep Gear Trio | pajama + socks + mask | pajama, socks, mask |
-
-### 멤버십 등급별 가격
-| 등급 | 포인트 | 적립 | 할인 | 적용 가격 |
-|------|--------|------|------|-----------|
-| Cloud | 0–999P | 1% | 0% | 정가 (`price`) |
-| Pastel | 1,000–1,999P | 3% | 0% | 정가 (`price`) |
-| Lavender | 2,000–3,499P | 5% | 15% | 회원가 (`member`) |
-| Midnight | 3,500P+ | 8% | 15% | 회원가 (`member`) |
 
 ---
 
@@ -80,11 +107,11 @@
 ```
 users/{uid}/addresses/{id}    — 배송지 CRUD
 users/{uid}/orders/{id}       — 사용자별 주문 (앱에서 조회)
-products/{productId}          — 재고 (seedStock으로 초기화, 주문 시 runTransaction 차감)
+products/{productId}          — 재고 (seedStock 최초 1회 초기화, 주문 시 runTransaction 차감)
   └── stock: number
-bundles/{bundleId}            — 기획세트 (관리자 페이지에서 CRUD)
-  ├── name, desc, items[], price, originalPrice, stock, active
-orders_all/{docId}            — 관리자 전체 주문 조회용 (createOrder에서 dual write)
+bundles/{bundleId}            — 기획세트 (관리자 CRUD, 앱에서 조회)
+  ├── name, desc, items[], price, originalPrice, active
+orders_all/{docId}            — 관리자 전체 주문 조회용 (dual write)
 ```
 
 ---
@@ -94,47 +121,20 @@ orders_all/{docId}            — 관리자 전체 주문 조회용 (createOrder
 ```
 assets/app/
   main.jsx           — Vite 진입점
-  app.jsx            — App 루트 (라우팅, 상태 관리, stockMap)
-  firebase.js        — Firebase SDK 초기화 + CRUD 함수 (gitignored)
-  firebase.js.example — API 키 없는 템플릿
-  i18n.js            — 다국어 (KO/EN) + SOMNIA_DATA + SOMNIA_PRICE + formatDate
+  app.jsx            — App 루트 (라우팅, 상태, stockMap, cartConfirm 모달)
+  firebase.js        — Firebase SDK + CRUD (gitignored)
+  i18n.js            — 다국어 (KO/EN) + SOMNIA_DATA + SOMNIA_PRICE
   products.js        — SOMNIA_PRODUCTS (상세정보) + SOMNIA_NOTICE
-  screens-shop.jsx   — TabShop, ScreenProduct, ScreenCart, TabMy, ScreenAddress, ScreenAddressForm, ScreenOrders, ScreenLogin 등
+  screens-shop.jsx   — TabShop, ScreenProduct, ScreenCart, TabMy, ScreenAddress, ScreenAddressForm, ScreenOrders, ScreenLogin
   screens-sleep.jsx  — TabHome, TabReport, ScreenBedPrep, ScreenBedtime, ScreenSummary, ScreenRecord
   icons.jsx          — Ico 아이콘 맵
-  ios-frame.jsx      — IOSDevice 프레임
-  app.css            — 앱 전체 스타일
+  app.css            — 앱 전체 스타일 (.modal-overlay, .modal-box 포함)
 
 assets/admin/
-  main.jsx           — 관리자 Vite 진입점
   app.jsx            — AdminApp (로그인 + 주문/재고/번들 3탭)
   firebase-admin.js  — 관리자 Firebase CRUD (gitignored)
-  firebase-admin.js.example — API 키 없는 템플릿
-  admin.css          — 데스크톱 레이아웃 (SOMNIA 디자인 토큰)
+  admin.css          — 데스크톱 레이아웃
 ```
-
----
-
-## 작업 규칙 (반드시 따를 것)
-
-### 피드백 루프 (강제 사이클)
-```
-구현 완료 → /phase-review (개발 + 디자인 리뷰 + 빌드 검증)
-  → 결과 보고 → 사용자 승인 대기
-  → 🔴 수정 요청 시 수정 후 다시 보고
-  → 승인 시 → /phase-approve (진행도 + CHANGELOG 자동 업데이트)
-  → /phase-approve 완료 후에만 다음 작업 가능
-```
-
-### 절대 금지
-- `/phase-approve` 없이 PROJECT-STATUS.md나 CHANGELOG.md 수동 수정
-- 승인 없이 다음 Phase 시작
-- 설명 없이 바로 코드 수정 (항상 한국어로 무엇을 할지 먼저 설명)
-
-### 코드 규칙
-- 기존 코드 최소 수정, 새 기능은 기존 패턴에 맞춰 추가
-- 토큰 절약: 필요한 부분만 읽기, 에이전트 남발 금지
-- 모든 모듈은 `import/export` 사용 (window.* 전역 아님)
 
 ---
 
@@ -142,13 +142,9 @@ assets/admin/
 - `assets/app/firebase.js` — Firebase API 키
 - `assets/admin/firebase-admin.js` — Firebase API 키 (관리자)
 - `CREDENTIALS.md` — 데모 계정 비밀번호
-- `*.code-workspace` — IDE 설정
-
----
 
 ## 참고 문서
 - `PROJECT-STATUS.md` — 전체 진행도 + Phase별 체크리스트
 - `CHANGELOG.md` — Phase별 변경 이력
-- `PRODUCT-AUDIT.md` — 제품 데이터 검토 보고서
-- `CLAUDE.md` — 코드 작업 지침
+- `CLAUDE.md` — 코드 작업 지침 + 모듈 시스템 규칙
 - `DESIGN-SYSTEM.md` — 디자인 토큰 레퍼런스
