@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOMNIA Image Manager</title>
+<link rel="stylesheet" href="assets/imgmgr/imgmgr.css">
+</head>
+<body>
+
+<div class="mgr-hdr">
+  <div>
+    <h1>SOMNIA Image Manager</h1>
+  </div>
+  <div class="mgr-hdr__right">
+    <span id="counter">0 / 0 등록됨</span>
+    <a class="btn btn--ghost" href="index.html">← 인덱스</a>
+  </div>
+</div>
+
+<div class="batch-zone" id="batch-zone">
+  📁 여러 이미지를 드래그하거나 클릭해서 일괄 업로드 (파일명 = 슬롯 ID로 자동 매칭)
+</div>
+
+<div class="filter-bar" id="filters"></div>
+
+<div class="grid" id="grid"></div>
+
+<div class="toast" id="toast"></div>
+
+<script src="assets/imgmgr/imgmgr.js"></script>
+</body>
+</html>

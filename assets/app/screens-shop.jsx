@@ -4,7 +4,7 @@ import { SOMNIA_I18N, SOMNIA_PRICE, SOMNIA_DATA, formatDate } from './i18n.js'
 import { SOMNIA_PRODUCTS, SOMNIA_NOTICE } from './products.js'
 import { WheelCol } from './screens-sleep.jsx'
 import { auth, getAddresses, addAddress, updateAddress, deleteAddress, getDefaultAddress, createOrder, getOrders } from './firebase.js'
-import { signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth'
 import logoFullWhite from '../logo-full-white.png'
 import jellyDetail1 from './detail/jelly-detail-1.png'
 import jellyDetail2 from './detail/jelly-detail-2.gif'
@@ -29,7 +29,7 @@ const APP_DETAILCUTS = {
 };
 
 /* ============== SHOP HOME ============== */
-export function TabShop({ t, lang, go, cartCount, tabbar }) {
+export function TabShop({ t, lang, go, cartCount, tabbar, stockMap }) {
   const D = SOMNIA_DATA;
   const [cat, setCat] = useState('all');
   const cats = [['all',t('cat_all')],['beauty',t('cat_beauty')],['aroma',t('cat_aroma')],['gear',t('cat_gear')]];
@@ -61,10 +61,11 @@ export function TabShop({ t, lang, go, cartCount, tabbar }) {
         </div>
 
         <div className="pgrid" style={{marginTop:16}}>
-          {items.map(p=>(
-            <div className="prod" key={p.id} onClick={()=>go('product',p.id)}>
+          {items.map(p=>{ const oos = stockMap && stockMap[p.id] === 0; return (
+            <div className={'prod'+(oos?' prod--oos':'')} key={p.id} onClick={()=>go('product',p.id)}>
               <div className="prod__img">
-                {p.tag[lang] && <div className="prod__tag">{p.tag[lang]}</div>}
+                {oos && <div className="prod__oos-badge">{t('sold_out')}</div>}
+                {!oos && p.tag[lang] && <div className="prod__tag">{p.tag[lang]}</div>}
                 <image-slot id={p.slot} placeholder={p.id}></image-slot>
               </div>
               <div className="prod__b">
@@ -76,7 +77,7 @@ export function TabShop({ t, lang, go, cartCount, tabbar }) {
                 </div>
               </div>
             </div>
-          ))}
+          )})}
         </div>
       </div>
       {tabbar}
@@ -85,7 +86,7 @@ export function TabShop({ t, lang, go, cartCount, tabbar }) {
 }
 
 /* ============== PRODUCT DETAIL ============== */
-export function ScreenProduct({ t, lang, back, pid, addToCart }) {
+export function ScreenProduct({ t, lang, back, pid, addToCart, stockMap }) {
   const D = SOMNIA_DATA;
   const p = D.products.find(x=>x.id===pid) || D.products[0];
   const detail = (SOMNIA_PRODUCTS||{})[p.id];
@@ -221,31 +222,42 @@ export function ScreenProduct({ t, lang, back, pid, addToCart }) {
         )}
       </div>
       <div className="stickybar">
-        <div className="price"><span>{sel ? sel.name[lang] : t('member_price')}</span><b>{P2(p.member)}</b></div>
-        <button className="btn btn--ghost" style={{flex:'none',width:'auto',padding:'14px 18px'}} onClick={()=>addToCart(p.id)} aria-label={t('add_cart')}>{Ico.bag({s:18})}</button>
-        <button className="btn btn--primary" style={{flex:1}} onClick={()=>addToCart(p.id)}>{t('pd_buy_now')}</button>
+        {stockMap && stockMap[p.id] === 0 ? (
+          <button className="btn btn--disabled" style={{flex:1}} disabled>{t('sold_out')}</button>
+        ) : (<>
+          <div className="price"><span>{sel ? sel.name[lang] : t('member_price')}</span><b>{P2(p.member)}</b></div>
+          <button className="btn btn--ghost" style={{flex:'none',width:'auto',padding:'14px 18px'}} onClick={()=>addToCart(p.id)} aria-label={t('add_cart')}>{Ico.bag({s:18})}</button>
+          <button className="btn btn--primary" style={{flex:1}} onClick={()=>addToCart(p.id)}>{t('pd_buy_now')}</button>
+        </>)}
       </div>
     </div>
   );
 }
 
 /* ============== CART ============== */
-export function ScreenCart({ t, lang, back, cart, setQty, checkout, uid, go, showToast }) {
+export function ScreenCart({ t, lang, back, cart, setQty, checkout, uid, go, showToast, stockMap }) {
   const D = SOMNIA_DATA;
   const [ordering, setOrdering] = useState(false);
+  const [noAddr, setNoAddr] = useState(false);
   const lines = cart.map(c=>({ ...c, p:D.products.find(x=>x.id===c.id) })).filter(c=>c.p);
   const subtotal = lines.reduce((a,c)=>a+c.p.price*c.q,0);
   const memberTotal = lines.reduce((a,c)=>a+c.p.member*c.q,0);
   const disc = subtotal - memberTotal;
+  const hasOOS = lines.some(c=> stockMap && stockMap[c.id] === 0);
   const doCheckout = async () => {
     if (!uid) return;
     setOrdering(true);
-    const addr = await getDefaultAddress(uid);
-    if (!addr) { setOrdering(false); showToast(t('cart_no_addr')); go('address'); return; }
-    const items = lines.map(c=>({ id:c.id, name:c.p.name, qty:c.q, price:c.p.member }));
-    await createOrder(uid, { items, address:addr, subtotal, discount:disc, total:memberTotal });
-    setOrdering(false);
-    checkout();
+    try {
+      const addr = await getDefaultAddress(uid);
+      if (!addr) { setOrdering(false); setNoAddr(true); return; }
+      const items = lines.map(c=>({ id:c.id, name:c.p.name, qty:c.q, price:c.p.member }));
+      await createOrder(uid, { items, address:addr, subtotal, discount:disc, total:memberTotal });
+      setOrdering(false);
+      checkout();
+    } catch(e) {
+      setOrdering(false);
+      showToast(t('stock_insufficient'));
+    }
   };
   return (
     <div className="scr light anim-push">
@@ -287,11 +299,23 @@ export function ScreenCart({ t, lang, back, cart, setQty, checkout, uid, go, sho
             </div>
           </div>
           <div className="stickybar">
-            <button className="btn btn--primary" style={{flex:1}} onClick={doCheckout} disabled={ordering}>
-              {ordering ? t('cart_ordering') : `${t('checkout')} · ${P2(memberTotal)}`}
+            <button className="btn btn--primary" style={{flex:1}} onClick={doCheckout} disabled={ordering || hasOOS}>
+              {ordering ? t('cart_ordering') : hasOOS ? t('stock_insufficient') : `${t('checkout')} · ${P2(memberTotal)}`}
             </button>
           </div>
         </>
+      )}
+      {noAddr && (
+        <div className="modal-overlay" onClick={()=>setNoAddr(false)}>
+          <div className="modal-box" onClick={e=>e.stopPropagation()}>
+            <div style={{fontSize:15,fontWeight:600,marginBottom:6}}>{t('cart_no_addr_title')}</div>
+            <div style={{fontSize:13.5,color:'var(--dim)',lineHeight:1.5}}>{t('cart_no_addr')}</div>
+            <div style={{display:'flex',gap:10,marginTop:18}}>
+              <button className="btn btn--ghost" style={{flex:1}} onClick={()=>setNoAddr(false)}>{t('cancel')}</button>
+              <button className="btn btn--primary" style={{flex:1}} onClick={()=>{ setNoAddr(false); go('address'); }}>{t('cart_go_addr')}</button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
@@ -765,7 +789,13 @@ export function ScreenLogin({ t, lang, onLogin }) {
   const submit = async () => {
     setErr(''); setLoading(true);
     try {
-      await signInWithEmailAndPassword(auth, email, pw);
+      try { await signInWithEmailAndPassword(auth, email, pw); }
+      catch (err) {
+        if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
+          try { await createUserWithEmailAndPassword(auth, email, pw); }
+          catch (e2) { throw err; }
+        } else throw err;
+      }
       onLogin();
     } catch(e) { setErr(ko ? '이메일 또는 비밀번호를 확인해주세요.' : 'Invalid email or password.'); }
     setLoading(false);

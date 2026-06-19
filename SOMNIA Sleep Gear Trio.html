@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>슬립 기어 듀오 — SOMNIA</title>
+<title>슬립 기어 트리오 — SOMNIA</title>
 <link rel="stylesheet" href="assets/product.css">
 <style>
   :root{ --accent:#9a7b4f; }
@@ -50,7 +50,8 @@
   <div class="nav__links">
     <a class="nav__link" href="#detail">상세정보</a>
     <a class="nav__link" href="#pajama">잠옷 세트</a>
-    <a class="nav__link" href="#mask">실크 안대</a>
+    <a class="nav__link" href="#mask">수면 안대</a>
+    <a class="nav__link" href="#socks">수면 양말</a>
     <a class="nav__link" href="#specs">제품정보</a>
   </div>
   <div style="display:flex;align-items:center;gap:1rem">
@@ -69,35 +70,38 @@
       <a href="SOMNIA.html">SOMNIA</a><span>›</span>
       <a href="SOMNIA.html#collection">컬렉션</a><span>›</span>
       <a href="SOMNIA.html#collection">슬립 기어</a><span>›</span>
-      <span style="color:var(--ink-soft)">슬립 기어 듀오</span>
+      <span style="color:var(--ink-soft)">슬립 기어 트리오</span>
     </nav>
 
     <div class="buy__grid">
       <!-- gallery -->
       <div class="gallery">
-        <div class="gallery__main">
-          <image-slot id="gear-main" placeholder="메인컷 — 잠옷 + 실크 안대 (GIF 가능)"></image-slot>
+        <div class="gallery__main" id="gallery-main">
+          <image-slot id="gear-main" placeholder="메인컷 — 잠옷 + 수면안대 + 양말 (GIF 가능)" data-comp="trio"></image-slot>
+          <image-slot id="gear-main-pajama" placeholder="잠옷 세트 메인컷" data-comp="pajama" style="display:none"></image-slot>
+          <image-slot id="gear-main-mask" placeholder="썸니아 수면안대 메인컷" data-comp="mask" style="display:none"></image-slot>
+          <image-slot id="gear-main-socks" placeholder="수면양말 메인컷" data-comp="socks" style="display:none"></image-slot>
         </div>
         <div class="gallery__thumbs">
-          <image-slot id="gear-thumb-1" placeholder="썸네일 1"></image-slot>
-          <image-slot id="gear-thumb-2" placeholder="썸네일 2"></image-slot>
-          <image-slot id="gear-thumb-3" placeholder="썸네일 3"></image-slot>
-          <image-slot id="gear-thumb-4" placeholder="썸네일 4"></image-slot>
+          <image-slot id="gear-thumb-1" placeholder="썸네일 1 · 잠옷"></image-slot>
+          <image-slot id="gear-thumb-2" placeholder="썸네일 2 · 수면안대"></image-slot>
+          <image-slot id="gear-thumb-3" placeholder="썸네일 3 · 양말"></image-slot>
+          <image-slot id="gear-thumb-4" placeholder="썸네일 4 · 세트 컷"></image-slot>
         </div>
       </div>
 
       <!-- info -->
       <div class="info">
-        <span class="duo-tag"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12v10H4V12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg> Bundle · 듀오 세트</span>
-        <h1 class="info__title">슬립 기어 듀오</h1>
-        <p class="info__en">Sleep Gear Duo · Pajama Set + Silk Eye Mask</p>
-        <p class="info__tag">피부에 닿는 감촉까지 잠의 일부입니다. 부드러운 잠옷과 빛을 완전히 가리는 실크 안대로 완성하는 가장 편안한 밤.</p>
+        <span class="duo-tag"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12v10H4V12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg> Bundle · 트리오 세트</span>
+        <h1 class="info__title">슬립 기어 트리오</h1>
+        <p class="info__en">Sleep Gear Trio · Pajama Set + SOMNIA Sleep Mask + Sleep Socks</p>
+        <p class="info__tag">피부에 닿는 감촉까지 잠의 일부입니다. 부드러운 잠옷과 빛을 완전히 가리는 수면 안대, 발끝까지 감싸는 수면 양말로 완성하는 가장 편안한 밤.</p>
 
         <div class="price">
-          <span class="price__off" id="off">15%</span>
-          <span class="price__now"><span class="num" id="price-now">99,000</span><span class="won">원</span></span>
-          <span class="price__was"><span class="num" id="price-was">116,000</span>원</span>
-          <span class="price__unit" id="unit">모달 잠옷 세트 + 19 모미 실크 안대</span>
+          <span class="price__off" id="off">20%</span>
+          <span class="price__now"><span class="num" id="price-now">109,000</span><span class="won">원</span></span>
+          <span class="price__was"><span class="num" id="price-was">136,000</span>원</span>
+          <span class="price__unit" id="unit">모달 잠옷 세트 + 썸니아 수면안대 + 수면양말</span>
         </div>
 
         <div class="divider"></div>
@@ -106,34 +110,30 @@
         <div class="opt">
           <p class="opt__label">구성 선택 <span class="req">필수</span></p>
           <div class="flavors" id="comp-select">
-            <button class="flavor on" data-comp="duo" data-price="99000" data-was="116000" data-off="15" data-size="1"
-                    data-name="듀오 세트" data-unit="모달 잠옷 세트 + 19 모미 실크 안대">
+            <button class="flavor on" data-comp="trio" data-price="109000" data-was="136000" data-off="20"
+                    data-name="트리오 세트" data-unit="모달 잠옷 세트 + 썸니아 수면안대 + 수면양말" data-thumb="trio">
               <span class="flavor__dot" style="background:linear-gradient(135deg,#c9ad7e,#9a7b4f)"></span>
-              <span class="flavor__txt"><span class="flavor__name">듀오 세트 · 15% 할인</span><span class="flavor__sub">잠옷 세트 + 실크 안대</span></span>
+              <span class="flavor__txt"><span class="flavor__name">트리오 세트 · 20% 할인</span><span class="flavor__sub">잠옷 + 수면안대 + 양말</span></span>
               <span class="flavor__check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
             </button>
-            <button class="flavor" data-comp="pajama" data-price="89000" data-was="89000" data-off="0" data-size="1"
-                    data-name="모달 잠옷 세트" data-unit="모달 잠옷 세트 단품 (상하의)">
+            <button class="flavor" data-comp="pajama" data-price="59000" data-was="59000" data-off="0"
+                    data-name="모달 잠옷 세트" data-unit="모달 잠옷 세트 단품 (상하의 · 프리사이즈)" data-thumb="pajama">
               <span class="flavor__dot" style="background:linear-gradient(135deg,#b9a079,#8a6f49)"></span>
-              <span class="flavor__txt"><span class="flavor__name">모달 잠옷 세트</span><span class="flavor__sub">상하의 단품</span></span>
+              <span class="flavor__txt"><span class="flavor__name">모달 잠옷 세트</span><span class="flavor__sub">상하의 단품 · 프리사이즈</span></span>
               <span class="flavor__check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
             </button>
-            <button class="flavor" data-comp="mask" data-price="27000" data-was="27000" data-off="0" data-size="0"
-                    data-name="실크 수면안대" data-unit="19 모미 실크 수면안대 단품">
+            <button class="flavor" data-comp="mask" data-price="39000" data-was="39000" data-off="0"
+                    data-name="썸니아 수면안대" data-unit="썸니아 수면안대 단품" data-thumb="mask">
               <span class="flavor__dot" style="background:linear-gradient(135deg,#d6c4a8,#b09b78)"></span>
-              <span class="flavor__txt"><span class="flavor__name">실크 수면안대</span><span class="flavor__sub">19 모미 단품</span></span>
+              <span class="flavor__txt"><span class="flavor__name">썸니아 수면안대</span><span class="flavor__sub">벨벳 + 메모리폼</span></span>
               <span class="flavor__check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
             </button>
-          </div>
-
-          <!-- size (only when pajama is part of the pick) -->
-          <div id="size-block">
-            <p class="opt__sub">잠옷 사이즈</p>
-            <div class="sizes" id="size-select">
-              <button class="size on" data-size="S">S<small>85~95</small></button>
-              <button class="size" data-size="M">M<small>95~105</small></button>
-              <button class="size" data-size="L">L<small>105~115</small></button>
-            </div>
+            <button class="flavor" data-comp="socks" data-price="19000" data-was="19000" data-off="0"
+                    data-name="수면양말" data-unit="슬립 소프트 양말 단품 · 프리사이즈" data-thumb="socks">
+              <span class="flavor__dot" style="background:linear-gradient(135deg,#a89bc4,#7a6ea0)"></span>
+              <span class="flavor__txt"><span class="flavor__name">슬립 소프트 양말</span><span class="flavor__sub">프리사이즈</span></span>
+              <span class="flavor__check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+            </button>
           </div>
         </div>
 
@@ -172,7 +172,8 @@
   <div class="wrap">
     <a class="detail__tab on" href="#detail">상세정보</a>
     <a class="detail__tab" href="#pajama">잠옷 세트</a>
-    <a class="detail__tab" href="#mask">실크 안대</a>
+    <a class="detail__tab" href="#mask">수면 안대</a>
+    <a class="detail__tab" href="#socks">수면 양말</a>
     <a class="detail__tab" href="#care">소재 &amp; 케어</a>
     <a class="detail__tab" href="#specs">제품정보</a>
   </div>
@@ -185,7 +186,7 @@
     <div class="intro__inner">
       <span class="eyebrow sec__eyebrow reveal">Dressed for Rest</span>
       <h2 class="sec__title reveal d1">잠을 위해<br>가장 부드럽게 입는 밤.</h2>
-      <p class="sec__lead reveal d2">피부에 닿는 한 겹까지 잠의 일부입니다. 살결처럼 부드러운 모달 잠옷과 빛을 완전히 가리는 실크 안대가 가장 깊은 밤으로 안내합니다.</p>
+      <p class="sec__lead reveal d2">피부에 닿는 한 겹까지 잠의 일부입니다. 살결처럼 부드러운 모달 잠옷, 빛을 완전히 가리는 수면 안대, 발끝까지 감싸는 수면 양말이 가장 깊은 밤으로 안내합니다.</p>
     </div>
     <div class="intro__shot reveal d2">
       <div class="shot shot--pano">
@@ -211,7 +212,7 @@
         <div class="incl reveal d2">
           <div class="incl__row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7l4-4 5 3 5-3 4 4-4 3v11H7V10z"/></svg><span><b>상하의 세트</b> · 라운드넥 상의 + 밴딩 팬츠</span></div>
           <div class="incl__row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M7 12h10"/></svg><span>텐셀 모달 95% · 스판 5%의 부드러운 신축성</span></div>
-          <div class="incl__row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6L9 17l-5-5"/></svg><span>사이즈 S · M · L (키 155~180cm 대응)</span></div>
+          <div class="incl__row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6L9 17l-5-5"/></svg><span>프리사이즈 (키 155~180cm 대응)</span></div>
         </div>
         <div class="pillrow reveal d3">
           <span class="pill">텐셀 모달</span>
@@ -239,23 +240,23 @@
     <div class="row row--rev">
       <div class="row__media reveal">
         <div class="shot shot--tall">
-          <image-slot id="mask-shot" placeholder="실크 수면안대 컷 (세로, GIF 가능)"></image-slot>
+          <image-slot id="mask-shot" placeholder="썸니아 수면안대 컷 (세로, GIF 가능)"></image-slot>
         </div>
       </div>
       <div class="row__copy">
-        <span class="eyebrow sec__eyebrow reveal">02 · Silk Eye Mask</span>
-        <h3 class="sec__title reveal d1">실크 <span class="ac">수면안대</span></h3>
-        <p class="sec__lead reveal d2">19 모미 100% 천연 실크. 빛을 완전히 차단하면서도 눈가를 부드럽게 감싸 압박 없이 편안합니다. 피부 자극과 눈가 주름 걱정 없는 매끈한 감촉.</p>
+        <span class="eyebrow sec__eyebrow reveal">02 · SOMNIA Sleep Mask</span>
+        <h3 class="sec__title reveal d1">썸니아 <span class="ac">수면안대</span></h3>
+        <p class="sec__lead reveal d2">부드러운 벨벳과 메모리폼으로 감싼, 무게 없는 어둠. 코끝까지 밀착되는 입체 설계로 빛을 완전히 차단하면서도 눈가에 압박 없이 편안합니다.</p>
         <div class="incl reveal d2">
-          <div class="incl__row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span><b>19 모미 실크</b> · 빛 99% 차단 입체 패턴</span></div>
-          <div class="incl__row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16M4 12a8 8 0 0 1 16 0"/></svg><span>탄성 밴드 · 머리 눌림 없는 부드러운 고정</span></div>
-          <div class="incl__row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6L9 17l-5-5"/></svg><span>전용 파우치 동봉 · 여행에도 간편</span></div>
+          <div class="incl__row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span><b>벨벳 + 메모리폼</b> · 코끝 밀착 빛 차단 설계</span></div>
+          <div class="incl__row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16M4 12a8 8 0 0 1 16 0"/></svg><span>52~68cm 조절 밴드 · 머리 눌림 없는 부드러운 고정</span></div>
+          <div class="incl__row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6L9 17l-5-5"/></svg><span>중앙 달 심볼 자수 디테일</span></div>
         </div>
         <div class="pillrow reveal d3">
-          <span class="pill">19 모미 실크</span>
-          <span class="pill">빛 99% 차단</span>
+          <span class="pill">벨벳 + 메모리폼</span>
+          <span class="pill">코끝 밀착 차광</span>
           <span class="pill">눈가 무압박</span>
-          <span class="pill">파우치 포함</span>
+          <span class="pill">달 심볼 자수</span>
         </div>
       </div>
     </div>
@@ -271,13 +272,51 @@
   </div>
 </section>
 
+<!-- ===================== PRODUCT 3: SOCKS ===================== -->
+<section class="sec" id="socks">
+  <div class="wrap">
+    <div class="row">
+      <div class="row__media reveal">
+        <div class="shot shot--tall">
+          <image-slot id="socks-shot" placeholder="슬립 소프트 양말 컷 (세로, GIF 가능)"></image-slot>
+        </div>
+      </div>
+      <div class="row__copy">
+        <span class="eyebrow sec__eyebrow reveal">03 · Sleep Soft Socks</span>
+        <h3 class="sec__title reveal d1">슬립 소프트 <span class="ac">양말</span></h3>
+        <p class="sec__lead reveal d2">발끝까지 감싸는 부드러운 코튼 블렌드. 조임 없는 느슨한 밴드로 잠결에도 편안하고, 체온을 유지해 더 깊은 잠으로 안내합니다.</p>
+        <div class="incl reveal d2">
+          <div class="incl__row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6L9 17l-5-5"/></svg><span><b>코튼 블렌드</b> · 부드럽고 보온성 좋은 소재</span></div>
+          <div class="incl__row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M7 12h10"/></svg><span>조임 없는 느슨한 밴드 · 발목 자국 없음</span></div>
+          <div class="incl__row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6L9 17l-5-5"/></svg><span>프리사이즈 (230~270mm) · 달 심볼 짜넣기</span></div>
+        </div>
+        <div class="pillrow reveal d3">
+          <span class="pill">코튼 블렌드</span>
+          <span class="pill">느슨한 밴드</span>
+          <span class="pill">체온 유지</span>
+          <span class="pill">달 심볼</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- stacked wide shot (socks) -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="shot shot--wide reveal">
+      <image-slot id="socks-life" placeholder="양말 라이프스타일 컷 (가로, GIF 가능)"></image-slot>
+    </div>
+  </div>
+</section>
+
 <!-- ===================== TOGETHER RITUAL ===================== -->
 <section class="sec sec--center flavorshow" id="together">
   <div class="stars" aria-hidden="true"></div>
   <div class="wrap">
     <span class="eyebrow sec__eyebrow reveal">Better Together</span>
     <h2 class="sec__title reveal d1">감촉으로 완성하는<br>가장 편안한 밤.</h2>
-    <p class="sec__lead reveal d2">부드러운 잠옷으로 갈아입고, 실크 안대로 빛을 지우면 — 몸과 마음이 비로소 잠에 들 준비를 마칩니다.</p>
+    <p class="sec__lead reveal d2">부드러운 잠옷으로 갈아입고, 수면 안대로 빛을 지우고, 양말로 발끝까지 감싸면 — 몸과 마음이 비로소 잠에 들 준비를 마칩니다.</p>
     <div class="fcards">
       <div class="fcard reveal d1">
         <image-slot id="together-1" placeholder="잠옷 디테일 (정사각, GIF 가능)"></image-slot>
@@ -294,16 +333,16 @@
           <span class="fcard__dot" style="background:linear-gradient(135deg,#d6c4a8,#b09b78)"></span>
           <span class="fcard__en">Total Darkness</span>
           <h4>빛 지우기</h4>
-          <p>실크 안대로 빛을 완전히 가려 깊은 어둠 속으로.</p>
+          <p>수면 안대로 빛을 완전히 가려 깊은 어둠 속으로.</p>
         </div>
       </div>
       <div class="fcard reveal d3">
-        <image-slot id="together-3" placeholder="수면 무드 (정사각, GIF 가능)"></image-slot>
+        <image-slot id="together-3" placeholder="양말 디테일 (정사각, GIF 가능)"></image-slot>
         <div class="fcard__b">
-          <span class="fcard__dot" style="background:linear-gradient(135deg,#9a86c4,#6f5b9e)"></span>
-          <span class="fcard__en">Deep Sleep</span>
-          <h4>잠들기</h4>
-          <p>감촉도 어둠도 완벽한, 가장 고요한 밤으로.</p>
+          <span class="fcard__dot" style="background:linear-gradient(135deg,#a89bc4,#7a6ea0)"></span>
+          <span class="fcard__en">Warm Feet</span>
+          <h4>발끝 감싸기</h4>
+          <p>부드러운 양말로 체온을 유지해 더 깊은 잠으로.</p>
         </div>
       </div>
     </div>
@@ -319,7 +358,7 @@
       <div class="note reveal d1">
         <div class="note__mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h18l-2 13H5L3 6zM8 6V4a4 4 0 0 1 8 0v2"/></svg></div>
         <h4>세탁</h4>
-        <p>잠옷은 30℃ 이하 중성세제 손세탁 또는 세탁망 약세탁. 실크 안대는 미온수 손세탁을 권장합니다.</p>
+        <p>잠옷은 30℃ 이하 중성세제 손세탁 또는 세탁망 약세탁. 안대와 양말은 미온수 손세탁을 권장합니다.</p>
       </div>
       <div class="note reveal d2">
         <div class="note__mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="5"/><path d="M12 1v3M12 20v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M1 12h3M20 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg></div>
@@ -329,7 +368,7 @@
       <div class="note reveal d3">
         <div class="note__mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
         <h4>보관</h4>
-        <p>통풍이 잘 되는 곳에 보관하고, 실크 안대는 동봉된 전용 파우치에 넣어 형태를 유지하세요.</p>
+        <p>통풍이 잘 되는 곳에 보관하고, 안대는 형태가 유지되도록 눌리지 않게 보관하세요.</p>
       </div>
     </div>
     <div class="shot shot--wide reveal d2" style="margin-top:clamp(2.5rem,5vw,3.5rem)">
@@ -352,20 +391,31 @@
         <div class="speclist">
           <div class="speclist__row"><span class="k">구성</span><span class="v">상의 + 하의 (2종)</span></div>
           <div class="speclist__row"><span class="k">소재</span><span class="v">텐셀 모달 95% · 스판 5%</span></div>
-          <div class="speclist__row"><span class="k">사이즈</span><span class="v">S · M · L</span></div>
+          <div class="speclist__row"><span class="k">사이즈</span><span class="v">프리사이즈</span></div>
           <div class="speclist__row"><span class="k">색상</span><span class="v">미드나잇 네이비</span></div>
           <div class="speclist__row"><span class="k">제조</span><span class="v">오에코텍스 인증 원단</span></div>
         </div>
       </div>
       <!-- mask spec -->
       <div class="specmeta reveal d2">
-        <h4>실크 수면안대</h4>
+        <h4>썸니아 수면안대</h4>
         <div class="speclist">
-          <div class="speclist__row"><span class="k">소재</span><span class="v">19 모미 100% 천연 실크</span></div>
-          <div class="speclist__row"><span class="k">차광</span><span class="v">빛 99% 차단 입체 패턴</span></div>
-          <div class="speclist__row"><span class="k">고정</span><span class="v">탄성 밴드 · 길이 조절</span></div>
-          <div class="speclist__row"><span class="k">구성</span><span class="v">안대 + 전용 파우치</span></div>
+          <div class="speclist__row"><span class="k">소재</span><span class="v">벨벳 + 메모리폼</span></div>
+          <div class="speclist__row"><span class="k">차광</span><span class="v">코끝 밀착 빛 차단 설계</span></div>
+          <div class="speclist__row"><span class="k">고정</span><span class="v">52~68cm 조절 밴드</span></div>
+          <div class="speclist__row"><span class="k">크기</span><span class="v">22.5 × 10cm</span></div>
           <div class="speclist__row"><span class="k">케어</span><span class="v">미온수 손세탁 권장</span></div>
+        </div>
+      </div>
+      <!-- socks spec -->
+      <div class="specmeta reveal d3">
+        <h4>슬립 소프트 양말</h4>
+        <div class="speclist">
+          <div class="speclist__row"><span class="k">소재</span><span class="v">코튼 블렌드</span></div>
+          <div class="speclist__row"><span class="k">사이즈</span><span class="v">프리사이즈 (230~270mm)</span></div>
+          <div class="speclist__row"><span class="k">밴드</span><span class="v">조임 없는 느슨한 밴드</span></div>
+          <div class="speclist__row"><span class="k">디테일</span><span class="v">달 심볼 짜넣기</span></div>
+          <div class="speclist__row"><span class="k">케어</span><span class="v">중성세제 손세탁 권장</span></div>
         </div>
       </div>
     </div>
@@ -380,7 +430,7 @@
     <p class="closing__q reveal">오늘 밤,<br><b>가장 부드러운</b><br>잠을 입으세요.</p>
     <p class="closing__by reveal d1">Sleep Deeper · Live Better</p>
     <div class="closing__cta reveal d2">
-      <button class="btn btn--light" id="buynow2" style="background:#fff;color:var(--navy);padding:1.05rem 2.4rem;border-radius:14px;font-weight:600">듀오 세트 구매하기 · 99,000원</button>
+      <button class="btn btn--light" id="buynow2" style="background:#fff;color:var(--navy);padding:1.05rem 2.4rem;border-radius:14px;font-weight:600">트리오 세트 구매하기 · 109,000원</button>
     </div>
   </div>
 </section>
@@ -427,10 +477,10 @@
 <div class="stickybar" id="stickybar">
   <div class="stickybar__in">
     <div class="stickybar__meta">
-      <div class="stickybar__name">슬립 기어 듀오</div>
-      <div class="stickybar__opt" id="sticky-opt">듀오 세트 · S · 수량 1</div>
+      <div class="stickybar__name">슬립 기어 트리오</div>
+      <div class="stickybar__opt" id="sticky-opt">트리오 세트 · 수량 1</div>
     </div>
-    <div class="stickybar__price"><span class="num" id="sticky-price">99,000</span><span class="won">원</span></div>
+    <div class="stickybar__price"><span class="num" id="sticky-price">109,000</span><span class="won">원</span></div>
     <button class="btn btn--ghost" id="sticky-cart" style="padding:.85rem 1.3rem">장바구니</button>
     <button class="btn btn--navy" id="sticky-buy">바로 구매</button>
   </div>
@@ -444,14 +494,14 @@
 
 <script src="assets/somnia-lang.js"></script>
 <script src="assets/cart.js"></script>
-<script src="assets/sleepgear-duo.js"></script>
+<script src="assets/sleepgear-trio.js"></script>
 
 <!-- React + Babel for Tweaks -->
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 <script type="text/babel" src="assets/tweaks-panel.jsx"></script>
-<script type="text/babel" src="assets/sleepgear-tweaks.jsx"></script>
+<script type="text/babel" src="assets/sleepgear-trio-tweaks.jsx"></script>
 
 </body>
 </html>

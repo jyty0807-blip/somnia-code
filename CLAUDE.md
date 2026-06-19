@@ -97,8 +97,10 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 | `Ico` | `icons.jsx` | named export |
 | `WheelCol` | `screens-sleep.jsx` | named export |
 | `db`, `auth` + CRUD 함수 | `firebase.js` | named export |
+| `db`, `auth` + 관리자 CRUD | `admin/firebase-admin.js` | named export |
+| `AdminApp` | `admin/app.jsx` | named export |
 
-**진입점:** `main.jsx` → Vite가 번들링.
+**진입점:** `main.jsx` (앱) / `admin/main.jsx` (관리자) → Vite 멀티페이지 번들링.
 
 - 새 모듈을 추가할 때는 이 표에 행을 추가한다.
 - 순환 import에 주의할 것 (screens-sleep ↔ screens-shop 간 교차 import 금지).

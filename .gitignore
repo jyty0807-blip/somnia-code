@@ -15,6 +15,7 @@ dist/
 
 # Secrets
 assets/app/firebase.js
+assets/admin/firebase-admin.js
 CREDENTIALS.md
 
 # IDE

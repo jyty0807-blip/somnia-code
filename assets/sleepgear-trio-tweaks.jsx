@@ -1,4 +1,4 @@
-/* SOMNIA Sleep Gear Duo — Tweaks */
+/* SOMNIA Sleep Gear Trio — Tweaks */
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "fontScale": 100,
   "accent": "#9a7b4f",

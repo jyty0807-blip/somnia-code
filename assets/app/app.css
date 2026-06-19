@@ -170,7 +170,10 @@
     radial-gradient(70% 45% at 50% 22%,rgba(124,107,214,.30),transparent 62%),
     radial-gradient(80% 50% at 50% 100%,rgba(25,91,130,.30),transparent 60%),
     linear-gradient(180deg,#141f44,#0c1530 60%,#080d22)}
-.bedtime .bt-top{position:absolute;top:56px;left:0;right:0;display:flex;justify-content:space-between;padding:0 22px}
+.bedtime .bt-top,.prep .bt-top{position:absolute;top:56px;left:0;right:0;display:flex;justify-content:space-between;padding:0 22px;z-index:10}
+.prep .bt-top{top:72px}
+.modal-overlay{position:absolute;inset:0;background:rgba(10,20,48,.55);z-index:50;display:flex;align-items:center;justify-content:center;padding:28px}
+.modal-box{background:var(--surface);border-radius:18px;padding:22px 24px;max-width:300px;width:100%;box-shadow:0 12px 36px rgba(0,0,0,.25)}
 .bt-status{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--lav);font-weight:600;margin-bottom:18px;display:flex;align-items:center;gap:8px;justify-content:center}
 .bt-status i{width:7px;height:7px;border-radius:50%;background:var(--lav);animation:bpulse 2.4s ease-in-out infinite}
 @keyframes bpulse{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
@@ -317,6 +320,10 @@
 .prod__price{margin-top:auto;display:flex;align-items:baseline;gap:7px}
 .prod__price b{font-size:15px;font-weight:700}
 .prod__price s{font-size:11.5px;color:var(--faint)}
+.prod--oos .prod__img{opacity:.45}
+.prod__oos-badge{position:absolute;top:10px;left:10px;padding:4px 9px;border-radius:999px;font-size:9.5px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;background:rgba(110,91,203,.85);color:#fff;z-index:2}
+.btn--disabled{background:var(--surface2);color:var(--faint)}
 
 /* product detail */
 .pd-img{width:100%;aspect-ratio:1/1;background:#EAF1F9;border-radius:0}

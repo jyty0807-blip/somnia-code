@@ -1,8 +1,8 @@
-/* SOMNIA — Sleep Gear Duo PDP interactions */
+/* SOMNIA — Sleep Gear Trio PDP interactions */
 (function(){
   'use strict';
   var fmt=function(n){ return n.toLocaleString('ko-KR'); };
-  var state={ comp:'듀오 세트', price:99000, qty:1, size:'S', needsSize:true };
+  var state={ comp:'트리오 세트', price:109000, qty:1 };
 
   /* ---------- starfield ---------- */
   function stars(el,n,maxR){
@@ -36,13 +36,23 @@
   var unitEl=document.getElementById('unit');
   var stickyPrice=document.getElementById('sticky-price');
   var stickyOpt=document.getElementById('sticky-opt');
-  var sizeBlock=document.getElementById('size-block');
+  var galleryMain=document.getElementById('gallery-main');
 
   function render(){
     var total=state.price*state.qty;
     if(subtotalEl) subtotalEl.textContent=fmt(total);
     if(stickyPrice) stickyPrice.textContent=fmt(total);
-    if(stickyOpt) stickyOpt.textContent=state.comp+(state.needsSize?(' · '+state.size):'')+' · 수량 '+state.qty;
+    if(stickyOpt) stickyOpt.textContent=state.comp+' · 수량 '+state.qty;
+  }
+
+  /* ---------- gallery thumbnail switch ---------- */
+  function switchGallery(comp){
+    if(!galleryMain) return;
+    var slots=galleryMain.querySelectorAll('image-slot');
+    slots.forEach(function(slot){
+      var target=slot.dataset.comp;
+      slot.style.display=(target===comp||(!target&&comp==='trio'))?'':'none';
+    });
   }
 
   /* ---------- composition select ---------- */
@@ -52,27 +62,13 @@
       btn.classList.add('on');
       state.comp=btn.dataset.name;
       state.price=parseInt(btn.dataset.price,10);
-      state.needsSize=btn.dataset.size==='1';
       var was=parseInt(btn.dataset.was,10);
       var off=parseInt(btn.dataset.off,10);
       if(priceNow) priceNow.textContent=fmt(state.price);
       if(priceWas){ if(off>0){ priceWas.parentElement.style.display=''; priceWas.textContent=fmt(was); } else { priceWas.parentElement.style.display='none'; } }
       if(offEl){ offEl.style.display=off>0?'':'none'; offEl.textContent=off+'%'; }
       if(unitEl) unitEl.textContent=btn.dataset.unit;
-      // toggle size block
-      if(sizeBlock){
-        sizeBlock.style.display=state.needsSize?'':'none';
-      }
-      render();
-    });
-  });
-
-  /* ---------- size select ---------- */
-  document.querySelectorAll('#size-select .size').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      document.querySelectorAll('#size-select .size').forEach(function(b){ b.classList.remove('on'); });
-      btn.classList.add('on');
-      state.size=btn.dataset.size;
+      switchGallery(btn.dataset.comp);
       render();
     });
   });
@@ -90,10 +86,9 @@
   var cartNumEl=document.querySelector('.nav__cart .cartnum');
   var toastEl=document.getElementById('toast'), toastT;
   function toast(msg){ if(!toastEl) return; toastEl.textContent=msg; toastEl.classList.add('show'); clearTimeout(toastT); toastT=setTimeout(function(){ toastEl.classList.remove('show'); },2200); }
-  function label(){ return state.comp+(state.needsSize?(' ('+state.size+')'):''); }
   function addCart(){
-    if(window.CART){ CART.add({id:'sleepgear-duo',name:'슬립 기어 듀오 세트'+(state.needsSize?' ('+state.size+')':''),price:state.price,qty:state.qty}); }
-    else { cartCount+=state.qty; if(cartNumEl) cartNumEl.textContent=cartCount; toast(label()+' '+state.qty+'개를 장바구니에 담았어요.'); }
+    if(window.CART){ CART.add({id:'sleepgear-trio',name:'슬립 기어 트리오 — '+state.comp,price:state.price,qty:state.qty}); }
+    else { cartCount+=state.qty; if(cartNumEl) cartNumEl.textContent=cartCount; toast(state.comp+' '+state.qty+'개를 장바구니에 담았어요.'); }
   }
   function buyNow(){ toast('구매 페이지로 이동합니다 · 합계 '+fmt(state.price*state.qty)+'원'); }
   ['addcart','sticky-cart'].forEach(function(id){ var el=document.getElementById(id); if(el) el.addEventListener('click',addCart); });

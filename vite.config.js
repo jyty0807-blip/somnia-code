@@ -7,6 +7,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         app: 'SOMNIA App.html',
+        admin: 'SOMNIA Admin.html',
       },
     },
   },

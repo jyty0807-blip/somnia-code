@@ -1,0 +1,60 @@
+import { initializeApp } from 'firebase/app'
+import { getFirestore, collection, doc, getDocs, getDoc, setDoc, updateDoc, deleteDoc, query, orderBy, serverTimestamp } from 'firebase/firestore'
+import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth'
+
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT",
+  storageBucket: "YOUR_PROJECT.firebasestorage.app",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID",
+  measurementId: "YOUR_MEASUREMENT_ID"
+};
+
+const app = initializeApp(firebaseConfig, 'admin')
+export const db = getFirestore(app)
+export const auth = getAuth(app)
+
+const ADMIN_EMAIL = 'admin@somnia.kr'
+
+export async function adminLogin(email, password) {
+  if (email !== ADMIN_EMAIL) throw new Error('not_admin')
+  return signInWithEmailAndPassword(auth, email, password)
+}
+
+export async function adminLogout() {
+  return signOut(auth)
+}
+
+export async function getOrdersAll() {
+  const snap = await getDocs(query(collection(db, 'orders_all'), orderBy('createdAt', 'desc')))
+  return snap.docs.map(d => ({ id: d.id, ...d.data() }))
+}
+
+export async function updateOrderStatus(docId, status) {
+  return updateDoc(doc(db, 'orders_all', docId), { status })
+}
+
+export async function getStockAll() {
+  const snap = await getDocs(collection(db, 'products'))
+  return snap.docs.map(d => ({ id: d.id, ...d.data() }))
+}
+
+export async function updateStock(productId, stock) {
+  return updateDoc(doc(db, 'products', productId), { stock: Number(stock) })
+}
+
+export async function getBundles() {
+  const snap = await getDocs(collection(db, 'bundles'))
+  return snap.docs.map(d => ({ id: d.id, ...d.data() }))
+}
+
+export async function saveBundle(id, data) {
+  const ref = id ? doc(db, 'bundles', id) : doc(collection(db, 'bundles'))
+  return setDoc(ref, { ...data, updatedAt: serverTimestamp() }, { merge: true })
+}
+
+export async function deleteBundle(id) {
+  return deleteDoc(doc(db, 'bundles', id))
+}

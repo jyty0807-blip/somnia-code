@@ -1,5 +1,79 @@
 # SOMNIA Changelog
 
+## Phase 7: QA 버그 수정 — 2026-06-19
+
+### 변경 파일
+| 파일 | 변경 내용 |
+|------|-----------|
+| `assets/app/app.jsx` | seedStock/refreshStock 체인 분리, 장바구니 재고 체크 + 확인 모달, SOMNIA_DATA import |
+| `assets/app/screens-shop.jsx` | doCheckout try-catch 전체 감싸기, 배송지 커스텀 모달, 로그인 Firebase v12+ 대응 |
+| `assets/app/screens-sleep.jsx` | TabReport bell 아이콘 삭제 |
+| `assets/app/app.css` | .prep .bt-top CSS (top:72px, z-index:10), .modal-overlay/.modal-box 스타일 |
+| `assets/app/firebase.js` | seedStock 강제 리셋 (매 로드 시 재고 초기화) |
+| `assets/app/i18n.js` | 모달 관련 i18n 키 추가 (cart_confirm_title, cancel 등) |
+
+### 수정 이슈
+- 주문 버튼 "주문 처리 중..." 멈춤 → try-catch 전체 감싸기
+- 배송지 미설정 시 토스트 → SOMNIA 디자인 커스텀 모달
+- 취침준비 뒤로가기 버튼 CSS 누락 → .prep .bt-top 추가 + 위치 조정
+- 리포트 탭 기능 없는 bell 아이콘 → 삭제
+- 전 상품 품절 (stockMap 로드 실패) → 체인 분리 + 빈 stockMap 방어
+- 장바구니 연타 무제한 담기 → 재고 체크 + 확인 모달 필수
+- 로그인 실패 (Firebase v12 에러코드 변경) → auth/invalid-credential fallback
+
+---
+
+## Phase 6b: 관리자 페이지 — 2026-06-19
+
+### 변경 파일
+| 파일 | 변경 내용 |
+|------|-----------|
+| `SOMNIA Admin.html` | 관리자 페이지 진입점 (tokens.css 로드) |
+| `assets/admin/main.jsx` | Vite 진입점 |
+| `assets/admin/app.jsx` | 관리자 앱 — 로그인 + 3탭 (주문/재고/번들), 모달 CRUD |
+| `assets/admin/firebase-admin.js` | 관리자 Firebase CRUD (gitignored) |
+| `assets/admin/firebase-admin.js.example` | API 키 없는 템플릿 |
+| `assets/admin/admin.css` | SOMNIA 디자인 토큰 기반 데스크톱 레이아웃 |
+| `vite.config.js` | 멀티페이지 빌드 (admin 추가) |
+| `index.html` | Admin 카드 추가, 산출물 19→20 |
+| `.gitignore` | firebase-admin.js 제외 추가 |
+| `CLAUDE.md` | 관리자 모듈 테이블 추가 |
+
+### 리뷰 수정사항
+- `ADMIN_EMAIL` 하드코딩 중복 → firebase-admin.js에서 export, app.jsx에서 import
+- 테이블 인라인 스타일 → `.tbl__strong`, `.tbl__code`, `.tbl__sm` CSS 클래스로 전환
+
+---
+
+## Phase 6a: 앱 재고 연동 — 2026-06-19
+
+### 변경 파일
+| 파일 | 변경 내용 |
+|------|-----------|
+| `assets/app/firebase.js` | `seedStock()`, `getStockMap()` 추가, `createOrder` → `runTransaction` (재고 차감 + `orders_all` dual write) |
+| `assets/app/app.jsx` | `stockMap` state 추가, seedStock/getStockMap 초기화, TabShop/ScreenProduct/ScreenCart에 prop 전달, 주문 후 refreshStock |
+| `assets/app/screens-shop.jsx` | TabShop 품절 배지, ScreenProduct 구매 버튼 차단, ScreenCart 재고 부족 체크 + 결제 차단 |
+| `assets/app/i18n.js` | `sold_out`, `stock_insufficient` 키 추가 (KO/EN) |
+| `assets/app/app.css` | `.prod--oos`, `.prod__oos-badge`, `.btn--disabled` 스타일 추가 |
+
+### 리뷰 수정사항
+- 품절 배지 배경색 `rgba(0,0,0,.55)` → `rgba(110,91,203,.85)` (라벤더 디자인 시스템 준수)
+- `.btn--disabled` 하드코딩 색상 → `var(--surface2)/var(--faint)` 디자인 토큰 사용, 중복 속성 제거
+
+---
+
+## GitHub 배포 — 2026-06-19
+
+### 변경 파일
+| 파일 | 변경 내용 |
+|------|-----------|
+| `.gitignore` | `firebase.js`, `CREDENTIALS.md`, `*.code-workspace` 제외 추가 |
+| `assets/app/firebase.js.example` | API 키 없는 템플릿 신규 생성 |
+| `CREDENTIALS.md` | 데모 계정 비밀번호 로컬 전용 파일 (gitignored) |
+| `PROJECT-STATUS.md` | 비밀번호 행 삭제 (공개 안전) |
+
+---
+
 ## 제품 데이터 통일 — 2026-06-19
 
 ### 변경 파일

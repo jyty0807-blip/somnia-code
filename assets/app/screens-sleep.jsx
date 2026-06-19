@@ -399,7 +399,6 @@ export function TabReport({ t, lang, go, tabbar, theme }) {
     <div className={'scr '+(theme||'dark')+' anim-fade'}>
       <div className="hdr">
         <div><div className="hdr__ey">{lang==='ko'?'6월 둘째 주':'Jun · Week 2'}</div><h1>{t('rep_title')}</h1></div>
-        <button className="icon-btn">{Ico.bell({s:19})}</button>
       </div>
       <div className="body">
         <div className="seg" style={{marginBottom:16}}>
