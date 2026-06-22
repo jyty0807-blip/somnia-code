@@ -3,8 +3,8 @@ import { Ico } from './icons.jsx'
 import { SOMNIA_I18N, SOMNIA_DATA } from './i18n.js'
 import { IOSDevice } from './ios-frame.jsx'
 import { TabHome, TabReport, ScreenBedPrep, ScreenBedtime, ScreenSummary, ScreenRecord } from './screens-sleep.jsx'
-import { TabShop, ScreenProduct, ScreenCart, TabMy, ScreenSettings, Onboarding, ScreenOrders, ScreenAddress, ScreenAddressForm, ScreenTiers, ScreenLogin } from './screens-shop.jsx'
-import { auth, seedStock, getStockMap } from './firebase.js'
+import { TabShop, ScreenProduct, ScreenCart, TabMy, ScreenSettings, Onboarding, ScreenOrders, ScreenAddress, ScreenAddressForm, ScreenTiers, ScreenLogin, ScreenBundleDetail, ScreenCheckout, ScreenOrderComplete } from './screens-shop.jsx'
+import { auth, seedStock, getStockMap, getBundles } from './firebase.js'
 import { onAuthStateChanged } from 'firebase/auth'
 
 const DARK_SCREENS = { home:1, report:1, bedprep:1, bedtime:1, record:1, summary:1 };
@@ -44,11 +44,14 @@ export function App() {
   const [toast, setToast] = useState({ msg:'', show:false });
   const toastTimer = useRef(null);
   const [stockMap, setStockMap] = useState({});
+  const [bundleList, setBundleList] = useState([]);
   const refreshStock = useCallback(()=> getStockMap().then(setStockMap).catch(e=>console.error('stockMap load failed:',e)), []);
+  const refreshBundles = useCallback(()=> getBundles().then(setBundleList).catch(e=>console.error('bundles load failed:',e)), []);
   useEffect(()=>{
     seedStock().catch(e=>console.error('seedStock failed:',e));
     refreshStock();
-  }, [refreshStock]);
+    refreshBundles();
+  }, [refreshStock, refreshBundles]);
 
   const t = useCallback((k)=> (SOMNIA_I18N[lang] && SOMNIA_I18N[lang][k]) || k, [lang]);
   const setLang = (l)=>{ setLangState(l); localStorage.setItem('somnia-app-lang', l); };
@@ -86,15 +89,27 @@ export function App() {
       return f ? c.map(x=>x.id===id?{...x,q:x.q+1}:x) : [...c,{id,q:1}]; });
     showToast(t('added'));
   };
-  const setQty = (id,d)=>{
+  const addBundleToCart = (bundle)=>{
+    const itemIds = (bundle.items||[]).map(x=>typeof x==='string'?x:x.id);
+    if (stockLoaded && itemIds.some(id=>(stockMap[id]??0)<=0)) { showToast(t('sold_out')); return; }
+    setCart(c=>{ const f=c.find(x=>x.bundleId===bundle.id);
+      return f ? c.map(x=>x.bundleId===bundle.id?{...x,q:x.q+1}:x) : [...c,{bundleId:bundle.id,q:1}]; });
+    showToast(t('added'));
+  };
+  const setQty = (id,d,isBundle)=>{
+    if (isBundle) {
+      setCart(c=> c.map(x=>x.bundleId===id?{...x,q:x.q+d}:x).filter(x=>x.q>0));
+      return;
+    }
     if (d > 0 && stockLoaded) {
       const cur = cart.find(x=>x.id===id);
       const stock = stockMap[id] ?? 0;
       if (cur && cur.q >= stock) { showToast(t('stock_insufficient')); return; }
     }
-    setCart(c=> c.map(x=>x.id===id?{...x,q:x.q+d}:x).filter(x=>x.q>0));
+    setCart(c=> c.map(x=>x.id===id && !x.bundleId?{...x,q:x.q+d}:x).filter(x=>x.q>0));
   };
-  const checkout = ()=>{ setCart([]); setOverlay(null); setTab('shop'); showToast(t('ordered')); refreshStock(); };
+  const onOrderComplete = (result)=>{ setCart([]); refreshStock(); go('orderComplete', result); };
+  const finishOrder = ()=>{ setOverlay(null); setTab('shop'); };
 
   const tabBarNode = <TabBar t={t} tab={tab} setTab={(k)=>go(k)} cartCount={cartCount} />;
 
@@ -112,7 +127,10 @@ export function App() {
     else if (overlay.name==='summary') content = <ScreenSummary t={t} lang={lang} go={go} session={a} theme={nt} />;
     else if (overlay.name==='record') content = <ScreenRecord t={t} lang={lang} back={back} day={a} theme={nt} />;
     else if (overlay.name==='product') content = <ScreenProduct t={t} lang={lang} back={back} pid={a} addToCart={doAddToCart} stockMap={stockMap} />;
-    else if (overlay.name==='cart') content = <ScreenCart t={t} lang={lang} back={back} cart={cart} setQty={setQty} checkout={checkout} uid={user?.uid} go={go} showToast={showToast} stockMap={stockMap} />;
+    else if (overlay.name==='bundleDetail') content = <ScreenBundleDetail t={t} lang={lang} back={back} bundle={bundleList.find(b=>b.id===a)} stockMap={stockMap} addBundleToCart={addBundleToCart} />;
+    else if (overlay.name==='cart') content = <ScreenCart t={t} lang={lang} back={back} cart={cart} setQty={setQty} uid={user?.uid} go={go} showToast={showToast} stockMap={stockMap} bundles={bundleList} />;
+    else if (overlay.name==='checkout') content = <ScreenCheckout t={t} lang={lang} back={()=>go('cart')} data={a} uid={user?.uid} onOrder={onOrderComplete} showToast={showToast} />;
+    else if (overlay.name==='orderComplete') content = <ScreenOrderComplete t={t} lang={lang} result={a} onDone={finishOrder} go={go} />;
     else if (overlay.name==='orders') content = <ScreenOrders t={t} lang={lang} back={back} uid={user?.uid} />;
     else if (overlay.name==='settings') content = <ScreenSettings t={t} lang={lang} setLang={setLang} back={back} nightTheme={nt} setNightTheme={setNightTheme} />;
     else if (overlay.name==='address') content = <ScreenAddress t={t} lang={lang} back={back} uid={user?.uid} go={go} />;
@@ -121,7 +139,7 @@ export function App() {
   } else {
     if (tab==='home') content = <TabHome t={t} lang={lang} go={go} tabbar={tabBarNode} theme={nt} />;
     else if (tab==='report') content = <TabReport t={t} lang={lang} go={go} tabbar={tabBarNode} theme={nt} />;
-    else if (tab==='shop') content = <TabShop t={t} lang={lang} go={go} cartCount={cartCount} tabbar={tabBarNode} stockMap={stockMap} />;
+    else if (tab==='shop') content = <TabShop t={t} lang={lang} go={go} cartCount={cartCount} tabbar={tabBarNode} stockMap={stockMap} bundles={bundleList} />;
     else if (tab==='my') content = <TabMy t={t} lang={lang} go={go} tabbar={tabBarNode} onLogout={()=>setUser(null)} />;
   }
 

@@ -173,7 +173,7 @@
 .bedtime .bt-top,.prep .bt-top{position:absolute;top:56px;left:0;right:0;display:flex;justify-content:space-between;padding:0 22px;z-index:10}
 .prep .bt-top{top:72px}
 .modal-overlay{position:absolute;inset:0;background:rgba(10,20,48,.55);z-index:50;display:flex;align-items:center;justify-content:center;padding:28px}
-.modal-box{background:var(--surface);border-radius:18px;padding:22px 24px;max-width:300px;width:100%;box-shadow:0 12px 36px rgba(0,0,0,.25)}
+.modal-box{background:#fff;color:#13233A;--dim:#5b7286;--faint:#92a3b5;--lav:#6E5BCB;border-radius:18px;padding:22px 24px;max-width:300px;width:100%;box-shadow:0 12px 36px rgba(0,0,0,.25)}
 .bt-status{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--lav);font-weight:600;margin-bottom:18px;display:flex;align-items:center;gap:8px;justify-content:center}
 .bt-status i{width:7px;height:7px;border-radius:50%;background:var(--lav);animation:bpulse 2.4s ease-in-out infinite}
 @keyframes bpulse{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
@@ -390,6 +390,7 @@
 .bundle__b b{font-size:14px;font-weight:600;color:var(--ink)}
 .bundle__b p{font-size:12.5px;color:var(--dim);margin-top:3px;line-height:1.4}
 .bundle__arw{color:var(--faint);flex:none}
+.bundle__oos{font-size:10px;font-weight:700;color:#e8638b;flex:none;padding:3px 8px;border-radius:99px;background:rgba(232,99,139,.1)}
 /* app link */
 .pd-applink{display:flex;gap:12px;align-items:flex-start;margin-top:22px;padding:15px;border-radius:16px;
   background:linear-gradient(120deg,rgba(110,91,203,.1),rgba(25,91,130,.08));border:1px solid var(--border)}

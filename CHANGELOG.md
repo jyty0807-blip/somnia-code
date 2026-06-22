@@ -1,5 +1,58 @@
 # SOMNIA Changelog
 
+## Phase 8b: 주문 상세화 + 멤버십 적립금 — 2026-06-19
+
+### 변경 파일
+| 파일 | 변경 내용 |
+|------|-----------|
+| `assets/app/i18n.js` | 결제/쿠폰/적립금 i18n 키 추가 (ck_title, ck_pay, ck_coupon*, ck_reward*, ck_complete 등) |
+| `assets/app/screens-shop.jsx` | ScreenCheckout (결제 수단·쿠폰·적립금), ScreenOrderComplete (완료 화면), ScreenCart에서 checkout 분리 |
+| `assets/app/app.jsx` | checkout/orderComplete 라우팅, onOrderComplete/finishOrder 플로우 |
+
+### 리뷰 수정사항
+- ₩0 결제 방지 → `finalTotal <= 0` 시 결제 버튼 비활성화
+- 결제 수단 카드 터치 타겟 → `minHeight:56` 추가
+- 쿠폰 라디오 터치 타겟 → `minHeight:56` 추가
+- 결제 카드 border 리플로우 → 1.5px 통일
+- 주문 완료 체크마크 아이콘 s:28 → s:32
+
+---
+
+## Phase 8a: 기획세트 앱 연동 — 2026-06-19
+
+### 변경 파일
+| 파일 | 변경 내용 |
+|------|-----------|
+| `assets/app/firebase.js` | `getBundles()` 추가 — Firestore bundles 컬렉션 조회, active 필터 |
+| `assets/app/i18n.js` | 번들 i18n 키 추가 (bundle_section, bundle_items, bundle_orig, bundle_save) |
+| `assets/app/screens-shop.jsx` | TabShop 번들 섹션, ScreenBundleDetail 컴포넌트, ScreenCart 번들 아이템 처리 |
+| `assets/app/app.jsx` | bundleList 상태, refreshBundles, addBundleToCart, setQty 번들 지원, 라우팅 |
+| `assets/app/app.css` | `.bundle__oos` 품절 배지 CSS 클래스 추가 |
+
+### 리뷰 수정사항
+- 상세 아이템 행 터치 타겟 부족 → `minHeight:56` + `padding:'12px 0'` 적용
+- 아이템 목록 패딩 10px → 12px (8px 그리드 정합)
+- 품절 배지 인라인 스타일 → `.bundle__oos` CSS 클래스 분리 + 배경색 추가
+
+---
+
+## Phase 7b: 긴급 수정 — 2026-06-19
+
+### 변경 파일
+| 파일 | 변경 내용 |
+|------|-----------|
+| `assets/app/app.css` | `.modal-box` 배경 `var(--surface)` → `#fff` 고정 + 라이트 테마 변수 오버라이드 |
+| `assets/app/i18n.js` | `addr_addr_detail`, `addr_zip_search` 키 추가 (KO/EN) |
+| `assets/app/screens-shop.jsx` | ScreenAddressForm: Daum Postcode API 연동, addrDetail 별도 필드, readOnly 스타일, 검색 버튼 터치 타겟 |
+
+### 리뷰 수정사항
+- addrDetail을 addr에 합치지 않고 Firestore 별도 필드로 저장
+- Daum 스크립트 로드 실패 시 onerror alert 추가
+- readOnly 필드에 `background:var(--surface2)` + `opacity:.7` 비활성 시각 표시
+- 주소 검색 버튼 padding `0 14px` → `10px 14px` (터치 타겟 44px 확보)
+
+---
+
 ## Phase 7: QA 버그 수정 — 2026-06-19
 
 ### 변경 파일

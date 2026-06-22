@@ -3,7 +3,7 @@ import { Ico } from './icons.jsx'
 import { SOMNIA_I18N, SOMNIA_PRICE, SOMNIA_DATA, formatDate } from './i18n.js'
 import { SOMNIA_PRODUCTS, SOMNIA_NOTICE } from './products.js'
 import { WheelCol } from './screens-sleep.jsx'
-import { auth, getAddresses, addAddress, updateAddress, deleteAddress, getDefaultAddress, createOrder, getOrders } from './firebase.js'
+import { auth, getAddresses, addAddress, updateAddress, deleteAddress, getDefaultAddress, createOrder, getOrders, getBundles } from './firebase.js'
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth'
 import logoFullWhite from '../logo-full-white.png'
 import jellyDetail1 from './detail/jelly-detail-1.png'
@@ -29,7 +29,7 @@ const APP_DETAILCUTS = {
 };
 
 /* ============== SHOP HOME ============== */
-export function TabShop({ t, lang, go, cartCount, tabbar, stockMap }) {
+export function TabShop({ t, lang, go, cartCount, tabbar, stockMap, bundles }) {
   const D = SOMNIA_DATA;
   const [cat, setCat] = useState('all');
   const cats = [['all',t('cat_all')],['beauty',t('cat_beauty')],['aroma',t('cat_aroma')],['gear',t('cat_gear')]];
@@ -79,8 +79,86 @@ export function TabShop({ t, lang, go, cartCount, tabbar, stockMap }) {
             </div>
           )})}
         </div>
+
+        {bundles && bundles.length > 0 && (<>
+          <div style={{fontSize:18,fontWeight:700,marginTop:28,marginBottom:12}}>{t('bundle_section')}</div>
+          <div className="bundle-list">
+            {bundles.map(b => {
+              const itemIds = (b.items || []).map(x => typeof x === 'string' ? x : x.id);
+              const oos = itemIds.some(id => stockMap && stockMap[id] === 0);
+              return (
+                <div className={'bundle'+(oos?' prod--oos':'')} key={b.id} onClick={()=>go('bundleDetail',b.id)}>
+                  <div className="bundle__ic">{Ico.box({s:18})}</div>
+                  <div className="bundle__b">
+                    <b>{b.name}</b>
+                    <p>{b.desc}</p>
+                  </div>
+                  {oos ? <span className="bundle__oos">{t('sold_out')}</span> : <span className="bundle__arw">{Ico.next({s:16})}</span>}
+                </div>
+              );
+            })}
+          </div>
+        </>)}
       </div>
       {tabbar}
+    </div>
+  );
+}
+
+/* ============== BUNDLE DETAIL ============== */
+export function ScreenBundleDetail({ t, lang, back, bundle, stockMap, addBundleToCart }) {
+  if (!bundle) return null;
+  const D = SOMNIA_DATA;
+  const itemIds = (bundle.items || []).map(x => typeof x === 'string' ? x : x.id);
+  const itemProducts = itemIds.map(id => D.products.find(p => p.id === id)).filter(Boolean);
+  const origTotal = itemProducts.reduce((a, p) => a + p.member, 0);
+  const bundlePrice = bundle.price || origTotal;
+  const saving = origTotal - bundlePrice;
+  const oos = itemIds.some(id => stockMap && stockMap[id] === 0);
+  return (
+    <div className="scr light anim-push">
+      <div style={{position:'absolute',top:56,left:22,zIndex:10}}>
+        <button className="icon-btn" style={{background:'rgba(255,255,255,.7)',backdropFilter:'blur(8px)'}} onClick={back}>{Ico.back({s:20})}</button>
+      </div>
+      <div className="body" style={{paddingTop:80}}>
+        <div style={{textAlign:'center',marginBottom:24}}>
+          <div style={{width:64,height:64,borderRadius:18,margin:'0 auto 14px',display:'flex',alignItems:'center',justifyContent:'center',background:'linear-gradient(135deg,#C2B0F5,#5b9fd6)',color:'#fff'}}>{Ico.box({s:28})}</div>
+          <div style={{fontSize:20,fontWeight:700}}>{bundle.name}</div>
+          <div style={{fontSize:14,color:'var(--dim)',marginTop:6,lineHeight:1.5}}>{bundle.desc}</div>
+        </div>
+
+        <div className="pd-sec">
+          <div className="pd-sec-t">{t('bundle_items')}</div>
+          {itemProducts.map(p => {
+            const itemOos = stockMap && stockMap[p.id] === 0;
+            return (
+              <div key={p.id} style={{display:'flex',alignItems:'center',gap:12,padding:'12px 0',minHeight:56,borderBottom:'1px solid var(--border)'}}>
+                <div style={{width:48,height:48,borderRadius:10,overflow:'hidden',flexShrink:0,background:'var(--surface2)'}}>
+                  <image-slot id={p.slot} placeholder={p.id}></image-slot>
+                </div>
+                <div style={{flex:1}}>
+                  <div style={{fontSize:14,fontWeight:600}}>{p.name[lang]}</div>
+                  <div style={{fontSize:12.5,color:'var(--dim)'}}>{P2(p.member)}</div>
+                </div>
+                {itemOos && <span style={{fontSize:10,fontWeight:700,color:'#e8638b'}}>{t('sold_out')}</span>}
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="summary" style={{marginTop:18}}>
+          <div className="ln"><span>{t('bundle_orig')}</span><span>{P2(origTotal)}</span></div>
+          {saving > 0 && <div className="ln lav"><span>{t('bundle_save')}</span><span>−{P2(saving)}</span></div>}
+          <div className="ln total"><span>{t('total')}</span><span>{P2(bundlePrice)}</span></div>
+        </div>
+      </div>
+      <div className="stickybar">
+        {oos ? (
+          <button className="btn btn--disabled" style={{flex:1}} disabled>{t('sold_out')}</button>
+        ) : (
+          <button className="btn btn--primary" style={{flex:1}} onClick={()=>addBundleToCart(bundle)}>{t('add_cart')} · {P2(bundlePrice)}</button>
+        )}
+      </div>
     </div>
   );
 }
@@ -235,29 +313,28 @@ export function ScreenProduct({ t, lang, back, pid, addToCart, stockMap }) {
 }
 
 /* ============== CART ============== */
-export function ScreenCart({ t, lang, back, cart, setQty, checkout, uid, go, showToast, stockMap }) {
+export function ScreenCart({ t, lang, back, cart, setQty, uid, go, showToast, stockMap, bundles }) {
   const D = SOMNIA_DATA;
-  const [ordering, setOrdering] = useState(false);
   const [noAddr, setNoAddr] = useState(false);
-  const lines = cart.map(c=>({ ...c, p:D.products.find(x=>x.id===c.id) })).filter(c=>c.p);
-  const subtotal = lines.reduce((a,c)=>a+c.p.price*c.q,0);
-  const memberTotal = lines.reduce((a,c)=>a+c.p.member*c.q,0);
+  const productLines = cart.filter(c=>!c.bundleId).map(c=>({ ...c, p:D.products.find(x=>x.id===c.id) })).filter(c=>c.p);
+  const bundleLines = cart.filter(c=>c.bundleId).map(c=>{
+    const b = (bundles||[]).find(x=>x.id===c.bundleId);
+    return b ? { ...c, bundle:b } : null;
+  }).filter(Boolean);
+  const lines = [...productLines, ...bundleLines];
+  const subtotal = productLines.reduce((a,c)=>a+c.p.price*c.q,0) + bundleLines.reduce((a,c)=>{
+    const orig = (c.bundle.items||[]).map(id=>{ const p=D.products.find(x=>x.id===(typeof id==='string'?id:id.id)); return p?p.price:0; }).reduce((s,v)=>s+v,0);
+    return a + orig * c.q;
+  },0);
+  const memberTotal = productLines.reduce((a,c)=>a+c.p.member*c.q,0) + bundleLines.reduce((a,c)=>a+(c.bundle.price||0)*c.q,0);
   const disc = subtotal - memberTotal;
-  const hasOOS = lines.some(c=> stockMap && stockMap[c.id] === 0);
-  const doCheckout = async () => {
+  const hasOOS = productLines.some(c=> stockMap && stockMap[c.id] === 0) ||
+    bundleLines.some(c=> (c.bundle.items||[]).some(id=> stockMap && stockMap[typeof id==='string'?id:id.id] === 0));
+  const goCheckout = async () => {
     if (!uid) return;
-    setOrdering(true);
-    try {
-      const addr = await getDefaultAddress(uid);
-      if (!addr) { setOrdering(false); setNoAddr(true); return; }
-      const items = lines.map(c=>({ id:c.id, name:c.p.name, qty:c.q, price:c.p.member }));
-      await createOrder(uid, { items, address:addr, subtotal, discount:disc, total:memberTotal });
-      setOrdering(false);
-      checkout();
-    } catch(e) {
-      setOrdering(false);
-      showToast(t('stock_insufficient'));
-    }
+    const addr = await getDefaultAddress(uid);
+    if (!addr) { setNoAddr(true); return; }
+    go('checkout', { productLines, bundleLines, subtotal, memberTotal, disc, addr });
   };
   return (
     <div className="scr light anim-push">
@@ -276,7 +353,7 @@ export function ScreenCart({ t, lang, back, cart, setQty, checkout, uid, go, sho
       ) : (
         <>
           <div className="body">
-            {lines.map(c=>(
+            {productLines.map(c=>(
               <div className="crow" key={c.id}>
                 <div className="crow__img"><image-slot id={c.p.slot} placeholder={c.id}></image-slot></div>
                 <div className="crow__b">
@@ -291,6 +368,21 @@ export function ScreenCart({ t, lang, back, cart, setQty, checkout, uid, go, sho
                 <div className="crow__price">{P2(c.p.member*c.q)}</div>
               </div>
             ))}
+            {bundleLines.map(c=>(
+              <div className="crow" key={'b_'+c.bundleId}>
+                <div className="crow__img" style={{display:'flex',alignItems:'center',justifyContent:'center',background:'linear-gradient(135deg,#C2B0F5,#5b9fd6)',borderRadius:10,color:'#fff'}}>{Ico.box({s:22})}</div>
+                <div className="crow__b">
+                  <div className="crow__cat">{t('bundle_section')}</div>
+                  <div className="crow__n">{c.bundle.name}</div>
+                  <div className="qty">
+                    <button onClick={()=>setQty(c.bundleId,-1,true)}>−</button>
+                    <span>{c.q}</span>
+                    <button onClick={()=>setQty(c.bundleId,1,true)}>+</button>
+                  </div>
+                </div>
+                <div className="crow__price">{P2((c.bundle.price||0)*c.q)}</div>
+              </div>
+            ))}
             <div className="summary">
               <div className="ln"><span>{t('subtotal')}</span><span>{P2(subtotal)}</span></div>
               <div className="ln lav"><span>{t('member_disc')}</span><span>−{P2(disc)}</span></div>
@@ -299,8 +391,8 @@ export function ScreenCart({ t, lang, back, cart, setQty, checkout, uid, go, sho
             </div>
           </div>
           <div className="stickybar">
-            <button className="btn btn--primary" style={{flex:1}} onClick={doCheckout} disabled={ordering || hasOOS}>
-              {ordering ? t('cart_ordering') : hasOOS ? t('stock_insufficient') : `${t('checkout')} · ${P2(memberTotal)}`}
+            <button className="btn btn--primary" style={{flex:1}} onClick={goCheckout} disabled={hasOOS}>
+              {hasOOS ? t('stock_insufficient') : `${t('checkout')} · ${P2(memberTotal)}`}
             </button>
           </div>
         </>
@@ -317,6 +409,152 @@ export function ScreenCart({ t, lang, back, cart, setQty, checkout, uid, go, sho
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+/* ============== CHECKOUT ============== */
+const TIER_RATES = { cloud:0.01, pastel:0.03, lavender:0.05, midnight:0.08 };
+const COUPONS = [
+  { id:'none', discount:0 },
+  { id:'10pct', discount:0.10, pct:true },
+  { id:'5k', discount:5000 },
+];
+const PAY_METHODS = ['card','kakao','naver','toss'];
+
+export function ScreenCheckout({ t, lang, back, data, uid, onOrder, showToast }) {
+  const D = SOMNIA_DATA;
+  const { productLines, bundleLines, subtotal, memberTotal, disc, addr } = data;
+  const curTier = D.tiers.find(x=>x.cur) || D.tiers[0];
+  const rate = TIER_RATES[curTier.key] || 0.01;
+  const [payMethod, setPayMethod] = useState('card');
+  const [couponId, setCouponId] = useState('none');
+  const [ordering, setOrdering] = useState(false);
+  const coupon = COUPONS.find(c=>c.id===couponId);
+  const couponDisc = coupon.pct ? Math.round(memberTotal * coupon.discount) : coupon.discount;
+  const finalTotal = Math.max(0, memberTotal - couponDisc);
+  const reward = Math.round(finalTotal * rate);
+
+  const payIcons = { card:'ticket', kakao:'chat', naver:'globe', toss:'spark' };
+
+  const doOrder = async () => {
+    setOrdering(true);
+    try {
+      const orderItems = [];
+      productLines.forEach(c=> orderItems.push({ id:c.id, name:c.p.name, qty:c.q, price:c.p.member }));
+      bundleLines.forEach(c=> {
+        const itemIds = (c.bundle.items||[]).map(id=>typeof id==='string'?id:id.id);
+        itemIds.forEach(id=> {
+          const exist = orderItems.find(x=>x.id===id);
+          if (exist) exist.qty += c.q;
+          else { const p=D.products.find(x=>x.id===id); if(p) orderItems.push({ id, name:p.name, qty:c.q, price:p.member }); }
+        });
+      });
+      const result = await createOrder(uid, { items:orderItems, address:addr, subtotal, discount:disc+couponDisc, total:finalTotal });
+      setOrdering(false);
+      onOrder({ orderId:result.orderId, total:finalTotal, reward, payMethod });
+    } catch(e) {
+      setOrdering(false);
+      showToast(t('stock_insufficient'));
+    }
+  };
+
+  return (
+    <div className="scr light anim-push">
+      <div className="hdr">
+        <button className="icon-btn" onClick={back}>{Ico.back({s:20})}</button>
+        <div style={{flex:1,marginLeft:6}}><h1 style={{fontSize:24}}>{t('ck_title')}</h1></div>
+      </div>
+      <div className="body" style={{display:'flex',flexDirection:'column',gap:20}}>
+        {/* 배송지 */}
+        <div className="card">
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:8}}>
+            <span style={{fontSize:13,fontWeight:600,color:'var(--dim)'}}>{t('ck_addr')}</span>
+          </div>
+          <div style={{fontSize:14,fontWeight:600}}>{addr.name} · {addr.phone}</div>
+          <div style={{fontSize:13,color:'var(--dim)',marginTop:4,lineHeight:1.5}}>{addr.addr}{addr.addrDetail ? ` ${addr.addrDetail}` : ''}</div>
+        </div>
+
+        {/* 결제 수단 */}
+        <div>
+          <div style={{fontSize:15,fontWeight:700,marginBottom:10}}>{t('ck_pay')}</div>
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8}}>
+            {PAY_METHODS.map(m=>(
+              <div key={m} onClick={()=>setPayMethod(m)}
+                style={{display:'flex',alignItems:'center',gap:10,padding:'14px 16px',minHeight:56,borderRadius:14,
+                  border:'1.5px solid '+(payMethod===m?'var(--lav)':'var(--border)'),
+                  background:payMethod===m?'var(--lav-soft, #EDE9FB)':'var(--surface)',cursor:'pointer'}}>
+                {Ico[payIcons[m]]({s:18})}
+                <span style={{fontSize:13.5,fontWeight:payMethod===m?600:400}}>{t('ck_'+m)}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 쿠폰 */}
+        <div>
+          <div style={{fontSize:15,fontWeight:700,marginBottom:10}}>{t('ck_coupon')}</div>
+          {COUPONS.map(c=>(
+            <label key={c.id} style={{display:'flex',alignItems:'center',gap:10,padding:'12px 0',minHeight:56,borderBottom:'1px solid var(--border)',cursor:'pointer'}}>
+              <input type="radio" name="coupon" checked={couponId===c.id} onChange={()=>setCouponId(c.id)}
+                style={{accentColor:'var(--lav)',width:18,height:18,flexShrink:0}} />
+              <span style={{fontSize:14,flex:1}}>{t('ck_coupon_'+c.id.replace('pct','10'))}</span>
+              {c.discount>0 && <span style={{fontSize:13,fontWeight:600,color:'var(--lav)'}}>{c.pct ? '-10%' : '-'+P2(c.discount)}</span>}
+            </label>
+          ))}
+        </div>
+
+        {/* 결제 요약 + 예상 적립금 */}
+        <div className="summary">
+          <div className="ln"><span>{t('subtotal')}</span><span>{P2(subtotal)}</span></div>
+          <div className="ln lav"><span>{t('member_disc')}</span><span>−{P2(disc)}</span></div>
+          {couponDisc > 0 && <div className="ln lav"><span>{t('ck_coupon_disc')}</span><span>−{P2(couponDisc)}</span></div>}
+          <div className="ln"><span>{t('ship')}</span><span>{t('free')}</span></div>
+          <div className="ln total"><span>{t('total')}</span><span>{P2(finalTotal)}</span></div>
+        </div>
+
+        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'14px 16px',borderRadius:14,background:'linear-gradient(120deg,rgba(110,91,203,.08),rgba(25,91,130,.06))'}}>
+          <div>
+            <div style={{fontSize:13,color:'var(--dim)'}}>{t('ck_reward')} ({t('ck_reward_rate')} {Math.round(rate*100)}%)</div>
+            <div style={{fontSize:18,fontWeight:700,color:'var(--lav)',marginTop:2}}>+{reward.toLocaleString()}{t('pts')}</div>
+          </div>
+          <div style={{fontSize:12,color:'var(--dim)'}}>{curTier.name[lang]}</div>
+        </div>
+      </div>
+      <div className="stickybar">
+        <button className="btn btn--primary" style={{flex:1}} onClick={doOrder} disabled={ordering || finalTotal <= 0}>
+          {ordering ? t('cart_ordering') : `${t('ck_pay_btn')} · ${P2(finalTotal)}`}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ============== ORDER COMPLETE ============== */
+export function ScreenOrderComplete({ t, lang, result, onDone, go }) {
+  return (
+    <div className="scr light anim-fade">
+      <div className="body" style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',textAlign:'center',gap:16}}>
+        <div style={{width:64,height:64,borderRadius:99,background:'linear-gradient(135deg,#C2B0F5,#5b9fd6)',display:'flex',alignItems:'center',justifyContent:'center',color:'#fff'}}>{Ico.check({s:32,w:2.5})}</div>
+        <div style={{fontSize:20,fontWeight:700}}>{t('ck_complete')}</div>
+        <div style={{fontSize:13,color:'var(--dim)'}}>{t('ck_order_num')} {result.orderId}</div>
+
+        <div className="card" style={{width:'100%',maxWidth:280,marginTop:8}}>
+          <div style={{display:'flex',justifyContent:'space-between',padding:'10px 0',borderBottom:'1px solid var(--border)'}}>
+            <span style={{fontSize:14,color:'var(--dim)'}}>{t('ck_paid')}</span>
+            <span style={{fontSize:16,fontWeight:700}}>{P2(result.total)}</span>
+          </div>
+          <div style={{display:'flex',justifyContent:'space-between',padding:'10px 0'}}>
+            <span style={{fontSize:14,color:'var(--dim)'}}>{t('ck_earned')}</span>
+            <span style={{fontSize:16,fontWeight:700,color:'var(--lav)'}}>+{result.reward.toLocaleString()}{t('pts')}</span>
+          </div>
+        </div>
+
+        <div style={{display:'flex',gap:10,marginTop:12,width:'100%',maxWidth:280}}>
+          <button className="btn btn--ghost" style={{flex:1}} onClick={onDone}>{t('ck_back_shop')}</button>
+          <button className="btn btn--primary" style={{flex:1}} onClick={()=>go('orders')}>{t('ck_view_orders')}</button>
+        </div>
+      </div>
     </div>
   );
 }
@@ -707,7 +945,7 @@ export function ScreenAddress({ t, lang, back, uid, go }) {
               <span style={{marginLeft:'auto',fontSize:13,color:'var(--lav)',fontWeight:600,cursor:'pointer'}} onClick={()=>go('addressForm',a)}>{t('addr_edit')}</span>
             </div>
             <div style={{fontSize:14,fontWeight:600}}>{a.name} · {a.phone}</div>
-            <div style={{fontSize:13.5,color:'var(--dim)',marginTop:4,lineHeight:1.5}}>{a.addr}</div>
+            <div style={{fontSize:13.5,color:'var(--dim)',marginTop:4,lineHeight:1.5}}>{a.addr}{a.addrDetail ? ` ${a.addrDetail}` : ''}</div>
             <div style={{display:'flex',gap:12,marginTop:10}}>
               {!a.isDefault && <span style={{fontSize:12,color:'var(--lav)',fontWeight:600,cursor:'pointer'}} onClick={()=>toggleDefault(a)}>{t('addr_set_default')}</span>}
               <span style={{fontSize:12,color:'var(--faint)',cursor:'pointer',marginLeft:'auto'}} onClick={()=>{ if(confirm(t('addr_del_confirm'))) remove(a); }}>{t('addr_del')}</span>
@@ -727,13 +965,31 @@ export function ScreenAddressForm({ t, lang, back, uid, editing, onSaved }) {
   const [name, setName] = useState(editing?.name || '');
   const [phone, setPhone] = useState(editing?.phone || '');
   const [addr, setAddr] = useState(editing?.addr || '');
+  const [addrDetail, setAddrDetail] = useState(editing?.addrDetail || '');
   const [zip, setZip] = useState(editing?.zip || '');
   const [isDef, setIsDef] = useState(editing?.isDefault || false);
   const [saving, setSaving] = useState(false);
+  const searchAddr = () => {
+    if (!window.daum?.Postcode) {
+      const s = document.createElement('script');
+      s.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+      s.onload = () => openPostcode();
+      s.onerror = () => alert(lang==='ko'?'주소 검색 서비스에 연결할 수 없습니다.':'Unable to connect to address search service.');
+      document.head.appendChild(s);
+    } else openPostcode();
+  };
+  const openPostcode = () => {
+    new window.daum.Postcode({
+      oncomplete(d) {
+        setZip(d.zonecode);
+        setAddr(d.roadAddress || d.jibunAddress);
+      }
+    }).open();
+  };
   const save = async () => {
     if (!uid || !name.trim() || !phone.trim() || !addr.trim()) return;
     setSaving(true);
-    const data = { label: label.trim()||t('addr_new'), name: name.trim(), phone: phone.trim(), addr: addr.trim(), zip: zip.trim(), isDefault: isDef };
+    const data = { label: label.trim()||t('addr_new'), name: name.trim(), phone: phone.trim(), addr: addr.trim(), addrDetail: addrDetail.trim(), zip: zip.trim(), isDefault: isDef };
     if (isEdit) await updateAddress(uid, editing.id, data);
     else await addAddress(uid, data);
     setSaving(false);
@@ -760,11 +1016,18 @@ export function ScreenAddressForm({ t, lang, back, uid, editing, onSaved }) {
         </div>
         <div>
           <label style={addrLabelStyle}>{t('addr_zip')}</label>
-          <input style={addrInputStyle} value={zip} onChange={e=>setZip(e.target.value)} />
+          <div style={{display:'flex',gap:8}}>
+            <input style={{...addrInputStyle,flex:1,background:'var(--surface2)',opacity:.7}} value={zip} readOnly placeholder={lang==='ko'?'우편번호':'Zip'} />
+            <button className="btn btn--ghost" style={{whiteSpace:'nowrap',fontSize:13,padding:'10px 14px'}} onClick={searchAddr}>{t('addr_zip_search')}</button>
+          </div>
         </div>
         <div>
           <label style={addrLabelStyle}>{t('addr_addr')}</label>
-          <input style={addrInputStyle} value={addr} onChange={e=>setAddr(e.target.value)} />
+          <input style={{...addrInputStyle,background:'var(--surface2)',opacity:.7}} value={addr} readOnly placeholder={lang==='ko'?'주소 검색 버튼을 눌러주세요':'Use search button above'} />
+        </div>
+        <div>
+          <label style={addrLabelStyle}>{t('addr_addr_detail')}</label>
+          <input style={addrInputStyle} value={addrDetail} onChange={e=>setAddrDetail(e.target.value)} placeholder={lang==='ko'?'동/호수':'Apt, Suite, etc.'} />
         </div>
         <label style={{display:'flex',alignItems:'center',gap:8,fontSize:14,cursor:'pointer'}}>
           <input type="checkbox" checked={isDef} onChange={e=>setIsDef(e.target.checked)} style={{accentColor:'var(--lav)',width:18,height:18}} />
