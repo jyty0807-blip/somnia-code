@@ -1,7 +1,7 @@
 # SOMNIA 작업 컨텍스트
 
 > 새 대화에서 이 파일을 참고하여 이전 작업 상태를 이어받는다.
-> 마지막 업데이트: 2026-06-19
+> 마지막 업데이트: 2026-06-24
 
 ---
 
@@ -11,6 +11,51 @@
 - **기술 스택:** React 18 + Vite 6 + Firebase (Firestore + Auth)
 - **GitHub:** https://github.com/jyty0807-blip/somnia-code
 - **진행도:** 100% (Phase 1~8b 완료, 9부터 진행)
+
+---
+
+## 6월 24일 작업 요약
+
+### 프로젝트 구조 정리
+- `_archive/` 생성 — 고아 에셋 분리 (`hero-night.png` 1.4MB, `src-sheet.png`)
+- `uploads/_archive/` 생성 — 생성 흔적 30개 분리 (draw-*, ChatGPT 초안, pasted-*, symbol 중복 등)
+- `assets/images/` 폴더 생성 (웹페이지 제품 이미지 전용)
+
+### 이미지 에셋 분류 완료
+- 제품 이미지 110개+ 를 제품별 폴더로 분류
+- `assets/images/` 하위 폴더 구조:
+
+| 폴더 | 파일 수 | 내용 |
+|------|---------|------|
+| `jelly/` | 16개 | 드림 젤리 3종 |
+| `oil/` | 31개 | 라벤더 아로마 오일 |
+| `spray/` | 9개 | 슬립 웰 룸 스프레이 |
+| `mask/` | 13개 | SOMNIA 수면 안대 |
+| `pajama/` | 16개 | 클라우드 슬립웨어 |
+| `socks/` | 7개 | 슬립 소프트 양말 |
+| `set/` | 20개 | 기획세트 |
+| `lifestyle/` | 10개 | 라이프스타일 |
+| `_unsorted/` | 1개 | 앱 UI 스크린샷 (미분류) |
+
+- 기존 하위폴더 유지: `멜라토닌젤리/`, `브로슈어/`, `썸니아배경/`, `최종 카드뉴스/`
+
+---
+
+## 다음 작업
+
+### 이미지 에셋 픽스 ✅
+- [x] `assets/images/` 폴더 생성
+- [x] 제품 이미지 넣기 + 폴더 분류
+- [x] 웹페이지에 이미지 연결 — `image-slot.js`의 `src` fallback 속성 활용 (10개 파일, ~54개 슬롯)
+- [x] 굿 티 (미구현 제품) 전체 삭제 — `SOMNIA-print.html`에서 article 블록 + tagline 수정
+
+### Phase 9: Vercel 배포
+- [ ] `vercel.json` 생성
+- [ ] GitHub 연동
+- [ ] 프로덕션 배포
+- [ ] 배포 URL 확인
+
+### Phase 10: index.html 최종 업데이트
 
 ---
 
@@ -47,17 +92,6 @@
 
 ---
 
-## 다음 작업: Phase 9
-
-### Phase 9: Vercel 배포
-- [ ] 기획세트 쇼핑 앱 연동 (getBundles, 앱 번들 목록·상세·구매)
-  - **결정사항: B. 구성 단품 재고 차감** — 번들 주문 시 items[]의 products 재고를 각각 차감
-  - 단품 품절 시 해당 번들도 자동 품절
-  - 기존 `createOrder`의 `runTransaction` 패턴 확장
-- [ ] 멤버십 적립금 로직 (등급별 적립률, 주문 시 적립, Firestore 포인트)
-
-### Phase 9: Vercel 배포
-### Phase 10: index.html 최종 업데이트
 
 ---
 

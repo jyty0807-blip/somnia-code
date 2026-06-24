@@ -4,7 +4,7 @@ import { SOMNIA_I18N, SOMNIA_DATA } from './i18n.js'
 import { IOSDevice } from './ios-frame.jsx'
 import { TabHome, TabReport, ScreenBedPrep, ScreenBedtime, ScreenSummary, ScreenRecord } from './screens-sleep.jsx'
 import { TabShop, ScreenProduct, ScreenCart, TabMy, ScreenSettings, Onboarding, ScreenOrders, ScreenAddress, ScreenAddressForm, ScreenTiers, ScreenLogin, ScreenBundleDetail, ScreenCheckout, ScreenOrderComplete } from './screens-shop.jsx'
-import { auth, seedStock, getStockMap, getBundles } from './firebase.js'
+import { auth, seedStock, getStockMap, getBundles, getUser } from './firebase.js'
 import { onAuthStateChanged } from 'firebase/auth'
 
 const DARK_SCREENS = { home:1, report:1, bedprep:1, bedtime:1, record:1, summary:1 };
@@ -37,7 +37,12 @@ export function App() {
   const setNightTheme = (v)=>{ setNightThemeState(v); localStorage.setItem('somnia-app-theme', v); };
   const [onboard, setOnboard] = useState(true);
   const [user, setUser] = useState(undefined);
-  useEffect(()=> onAuthStateChanged(auth, (u)=> setUser(u||null)), []);
+  const [userPoints, setUserPoints] = useState(null);
+  useEffect(()=> onAuthStateChanged(auth, async (u)=> {
+    setUser(u||null);
+    if (u) { const d = await getUser(u.uid); setUserPoints(d?.points ?? 0); }
+    else setUserPoints(null);
+  }), []);
   const [tab, setTab] = useState('home');
   const [overlay, setOverlay] = useState(null);
   const [cart, setCart] = useState([]);
@@ -126,21 +131,21 @@ export function App() {
     else if (overlay.name==='bedtime') content = <ScreenBedtime t={t} lang={lang} go={go} back={back} session={a} theme={nt} />;
     else if (overlay.name==='summary') content = <ScreenSummary t={t} lang={lang} go={go} session={a} theme={nt} />;
     else if (overlay.name==='record') content = <ScreenRecord t={t} lang={lang} back={back} day={a} theme={nt} />;
-    else if (overlay.name==='product') content = <ScreenProduct t={t} lang={lang} back={back} pid={a} addToCart={doAddToCart} stockMap={stockMap} />;
-    else if (overlay.name==='bundleDetail') content = <ScreenBundleDetail t={t} lang={lang} back={back} bundle={bundleList.find(b=>b.id===a)} stockMap={stockMap} addBundleToCart={addBundleToCart} />;
-    else if (overlay.name==='cart') content = <ScreenCart t={t} lang={lang} back={back} cart={cart} setQty={setQty} uid={user?.uid} go={go} showToast={showToast} stockMap={stockMap} bundles={bundleList} />;
+    else if (overlay.name==='product') content = <ScreenProduct t={t} lang={lang} back={back} pid={a} addToCart={doAddToCart} stockMap={stockMap} userPoints={userPoints} />;
+    else if (overlay.name==='bundleDetail') content = <ScreenBundleDetail t={t} lang={lang} back={back} bundle={bundleList.find(b=>b.id===a)} stockMap={stockMap} addBundleToCart={addBundleToCart} userPoints={userPoints} />;
+    else if (overlay.name==='cart') content = <ScreenCart t={t} lang={lang} back={back} cart={cart} setQty={setQty} uid={user?.uid} go={go} showToast={showToast} stockMap={stockMap} bundles={bundleList} userPoints={userPoints} />;
     else if (overlay.name==='checkout') content = <ScreenCheckout t={t} lang={lang} back={()=>go('cart')} data={a} uid={user?.uid} onOrder={onOrderComplete} showToast={showToast} />;
     else if (overlay.name==='orderComplete') content = <ScreenOrderComplete t={t} lang={lang} result={a} onDone={finishOrder} go={go} />;
     else if (overlay.name==='orders') content = <ScreenOrders t={t} lang={lang} back={back} uid={user?.uid} />;
     else if (overlay.name==='settings') content = <ScreenSettings t={t} lang={lang} setLang={setLang} back={back} nightTheme={nt} setNightTheme={setNightTheme} />;
     else if (overlay.name==='address') content = <ScreenAddress t={t} lang={lang} back={back} uid={user?.uid} go={go} />;
     else if (overlay.name==='addressForm') content = <ScreenAddressForm t={t} lang={lang} back={()=>go('address')} uid={user?.uid} editing={a} onSaved={()=>go('address')} />;
-    else if (overlay.name==='tiers') content = <ScreenTiers t={t} lang={lang} back={back} />;
+    else if (overlay.name==='tiers') content = <ScreenTiers t={t} lang={lang} back={back} userPoints={userPoints} />;
   } else {
     if (tab==='home') content = <TabHome t={t} lang={lang} go={go} tabbar={tabBarNode} theme={nt} />;
     else if (tab==='report') content = <TabReport t={t} lang={lang} go={go} tabbar={tabBarNode} theme={nt} />;
-    else if (tab==='shop') content = <TabShop t={t} lang={lang} go={go} cartCount={cartCount} tabbar={tabBarNode} stockMap={stockMap} bundles={bundleList} />;
-    else if (tab==='my') content = <TabMy t={t} lang={lang} go={go} tabbar={tabBarNode} onLogout={()=>setUser(null)} />;
+    else if (tab==='shop') content = <TabShop t={t} lang={lang} go={go} cartCount={cartCount} tabbar={tabBarNode} stockMap={stockMap} bundles={bundleList} userPoints={userPoints} />;
+    else if (tab==='my') content = <TabMy t={t} lang={lang} go={go} tabbar={tabBarNode} onLogout={()=>setUser(null)} userPoints={userPoints} />;
   }
 
   return (

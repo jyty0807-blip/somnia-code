@@ -2,9 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth, ADMIN_EMAILS, adminLogin, adminLogout, getOrdersAll, updateOrderStatus, getStockAll, updateStock, getBundles, saveBundle, deleteBundle } from './firebase-admin.js'
 
-const STATUSES = ['paid','ship','done','cancel']
-const STATUS_LABEL = { paid:'결제완료', ship:'배송중', done:'배송완료', cancel:'취소' }
-const STATUS_CLS = { paid:'b-paid', ship:'b-ship', done:'b-done', cancel:'b-cancel' }
+const STATUSES = ['paid','shipping','delivered','cancelled']
+const STATUS_LABEL = { paid:'결제완료', shipping:'배송중', delivered:'배송완료', cancelled:'취소' }
+const STATUS_CLS = { paid:'b-paid', shipping:'b-ship', delivered:'b-done', cancelled:'b-cancel' }
 const PRODUCT_NAMES = { jelly:'드림 젤리', oil:'아로마 오일', mask:'수면 안대', spray:'룸 스프레이', pajama:'클라우드 슬립웨어', socks:'슬립 소프트 양말' }
 
 function LoginScreen({ onLogin }) {

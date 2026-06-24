@@ -243,13 +243,13 @@ export const SOMNIA_DATA = {
   ],
   tiers: [
     { key:'cloud', name:{ko:'클라우드',en:'Cloud'}, range:{ko:'0 – 999P',en:'0 – 999 pts'},
-      perks:{ko:['기본 적립 1%','웰컴 쿠폰'], en:['1% base rewards','Welcome coupon']} },
+      perks:{ko:['기본 적립 1%','웰컴 쿠폰'], en:['1% base rewards','Welcome coupon']}, discountPct:0 },
     { key:'pastel', name:{ko:'파스텔',en:'Pastel'}, range:{ko:'1,000 – 1,999P',en:'1,000 – 1,999 pts'},
-      perks:{ko:['적립 3%','생일 쿠폰'], en:['3% rewards','Birthday coupon']} },
+      perks:{ko:['적립 3%','생일 쿠폰'], en:['3% rewards','Birthday coupon']}, discountPct:0.05 },
     { key:'lavender', name:{ko:'라벤더',en:'Lavender'}, range:{ko:'2,000 – 3,499P',en:'2,000 – 3,499 pts'},
-      perks:{ko:['적립 5%','무료배송','15% 상시 할인'], en:['5% rewards','Free shipping','15% off always']}, cur:true },
+      perks:{ko:['적립 5%','무료배송','15% 상시 할인'], en:['5% rewards','Free shipping','15% off always']}, discountPct:0.15 },
     { key:'midnight', name:{ko:'미드나잇',en:'Midnight'}, range:{ko:'3,500P 이상',en:'3,500+ pts'},
-      perks:{ko:['적립 8%','신상 우선구매','전용 이벤트'], en:['8% rewards','Early access','Private events']} },
+      perks:{ko:['적립 8%','신상 우선구매','전용 이벤트'], en:['8% rewards','Early access','Private events']}, discountPct:0.20 },
   ],
   points: 2480, nextTierAt: 3500,
 };

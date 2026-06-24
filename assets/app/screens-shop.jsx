@@ -15,6 +15,14 @@ import maskDetail2 from './detail/mask-detail-2.png'
 
 const P2 = SOMNIA_PRICE;
 
+function getTierByPoints(points, tiers) {
+  if (points == null || points < 1000) return tiers.find(x=>x.key==='cloud') || tiers[0];
+  if (points < 2000) return tiers.find(x=>x.key==='pastel');
+  if (points < 3500) return tiers.find(x=>x.key==='lavender');
+  return tiers.find(x=>x.key==='midnight');
+}
+const mp = (p, tier) => Math.round(p.price * (1 - (tier?.discountPct || 0)));
+
 const APP_DETAILCUTS = {
   jelly:[
     {src:jellyDetail1,w:1800,h:4452,alt:'SOMNIA Dream Jelly — 3 Night Moods'},
@@ -29,8 +37,9 @@ const APP_DETAILCUTS = {
 };
 
 /* ============== SHOP HOME ============== */
-export function TabShop({ t, lang, go, cartCount, tabbar, stockMap, bundles }) {
+export function TabShop({ t, lang, go, cartCount, tabbar, stockMap, bundles, userPoints }) {
   const D = SOMNIA_DATA;
+  const activeTier = getTierByPoints(userPoints, D.tiers);
   const [cat, setCat] = useState('all');
   const cats = [['all',t('cat_all')],['beauty',t('cat_beauty')],['aroma',t('cat_aroma')],['gear',t('cat_gear')]];
   const items = cat==='all' ? D.products : D.products.filter(p=>p.cat===cat);
@@ -72,7 +81,7 @@ export function TabShop({ t, lang, go, cartCount, tabbar, stockMap, bundles }) {
                 <div className="prod__cat">{t('cat_'+(p.cat==='beauty'?'beauty':p.cat==='aroma'?'aroma':'gear'))}</div>
                 <div className="prod__n">{p.name[lang]}</div>
                 <div className="prod__price">
-                  <b>{P2(p.member)}</b>
+                  <b>{P2(mp(p, activeTier))}</b>
                   {p.old>0 && <s>{P2(p.old)}</s>}
                 </div>
               </div>
@@ -106,12 +115,13 @@ export function TabShop({ t, lang, go, cartCount, tabbar, stockMap, bundles }) {
 }
 
 /* ============== BUNDLE DETAIL ============== */
-export function ScreenBundleDetail({ t, lang, back, bundle, stockMap, addBundleToCart }) {
+export function ScreenBundleDetail({ t, lang, back, bundle, stockMap, addBundleToCart, userPoints }) {
   if (!bundle) return null;
   const D = SOMNIA_DATA;
+  const activeTier = getTierByPoints(userPoints, D.tiers);
   const itemIds = (bundle.items || []).map(x => typeof x === 'string' ? x : x.id);
   const itemProducts = itemIds.map(id => D.products.find(p => p.id === id)).filter(Boolean);
-  const origTotal = itemProducts.reduce((a, p) => a + p.member, 0);
+  const origTotal = itemProducts.reduce((a, p) => a + mp(p, activeTier), 0);
   const bundlePrice = bundle.price || origTotal;
   const saving = origTotal - bundlePrice;
   const oos = itemIds.some(id => stockMap && stockMap[id] === 0);
@@ -138,7 +148,7 @@ export function ScreenBundleDetail({ t, lang, back, bundle, stockMap, addBundleT
                 </div>
                 <div style={{flex:1}}>
                   <div style={{fontSize:14,fontWeight:600}}>{p.name[lang]}</div>
-                  <div style={{fontSize:12.5,color:'var(--dim)'}}>{P2(p.member)}</div>
+                  <div style={{fontSize:12.5,color:'var(--dim)'}}>{P2(mp(p, activeTier))}</div>
                 </div>
                 {itemOos && <span style={{fontSize:10,fontWeight:700,color:'#e8638b'}}>{t('sold_out')}</span>}
               </div>
@@ -164,8 +174,9 @@ export function ScreenBundleDetail({ t, lang, back, bundle, stockMap, addBundleT
 }
 
 /* ============== PRODUCT DETAIL ============== */
-export function ScreenProduct({ t, lang, back, pid, addToCart, stockMap }) {
+export function ScreenProduct({ t, lang, back, pid, addToCart, stockMap, userPoints }) {
   const D = SOMNIA_DATA;
+  const activeTier = getTierByPoints(userPoints, D.tiers);
   const p = D.products.find(x=>x.id===pid) || D.products[0];
   const detail = (SOMNIA_PRODUCTS||{})[p.id];
   const catKey = p.cat==='beauty'?'beauty':p.cat==='aroma'?'aroma':'gear';
@@ -183,7 +194,7 @@ export function ScreenProduct({ t, lang, back, pid, addToCart, stockMap }) {
           <div className="pd-cat">{t('cat_'+catKey)}</div>
           <div className="pd-name">{p.name[lang]}</div>
           {detail && <div className="pd-line">{detail.oneLiner[lang]}</div>}
-          <div className="pd-price"><b>{P2(p.member)}</b>{p.old>0 && <s>{P2(p.old)}</s>}</div>
+          <div className="pd-price"><b>{P2(mp(p, activeTier))}</b>{p.old>0 && <s>{P2(p.old)}</s>}</div>
           <div className="pd-member">{Ico.spark({s:14})} {t('member_price')}</div>
 
           {/* 3 flavor / scent options */}
@@ -303,7 +314,7 @@ export function ScreenProduct({ t, lang, back, pid, addToCart, stockMap }) {
         {stockMap && stockMap[p.id] === 0 ? (
           <button className="btn btn--disabled" style={{flex:1}} disabled>{t('sold_out')}</button>
         ) : (<>
-          <div className="price"><span>{sel ? sel.name[lang] : t('member_price')}</span><b>{P2(p.member)}</b></div>
+          <div className="price"><span>{sel ? sel.name[lang] : t('member_price')}</span><b>{P2(mp(p, activeTier))}</b></div>
           <button className="btn btn--ghost" style={{flex:'none',width:'auto',padding:'14px 18px'}} onClick={()=>addToCart(p.id)} aria-label={t('add_cart')}>{Ico.bag({s:18})}</button>
           <button className="btn btn--primary" style={{flex:1}} onClick={()=>addToCart(p.id)}>{t('pd_buy_now')}</button>
         </>)}
@@ -313,8 +324,9 @@ export function ScreenProduct({ t, lang, back, pid, addToCart, stockMap }) {
 }
 
 /* ============== CART ============== */
-export function ScreenCart({ t, lang, back, cart, setQty, uid, go, showToast, stockMap, bundles }) {
+export function ScreenCart({ t, lang, back, cart, setQty, uid, go, showToast, stockMap, bundles, userPoints }) {
   const D = SOMNIA_DATA;
+  const activeTier = getTierByPoints(userPoints, D.tiers);
   const [noAddr, setNoAddr] = useState(false);
   const productLines = cart.filter(c=>!c.bundleId).map(c=>({ ...c, p:D.products.find(x=>x.id===c.id) })).filter(c=>c.p);
   const bundleLines = cart.filter(c=>c.bundleId).map(c=>{
@@ -326,7 +338,7 @@ export function ScreenCart({ t, lang, back, cart, setQty, uid, go, showToast, st
     const orig = (c.bundle.items||[]).map(id=>{ const p=D.products.find(x=>x.id===(typeof id==='string'?id:id.id)); return p?p.price:0; }).reduce((s,v)=>s+v,0);
     return a + orig * c.q;
   },0);
-  const memberTotal = productLines.reduce((a,c)=>a+c.p.member*c.q,0) + bundleLines.reduce((a,c)=>a+(c.bundle.price||0)*c.q,0);
+  const memberTotal = productLines.reduce((a,c)=>a+mp(c.p, activeTier)*c.q,0) + bundleLines.reduce((a,c)=>a+(c.bundle.price||0)*c.q,0);
   const disc = subtotal - memberTotal;
   const hasOOS = productLines.some(c=> stockMap && stockMap[c.id] === 0) ||
     bundleLines.some(c=> (c.bundle.items||[]).some(id=> stockMap && stockMap[typeof id==='string'?id:id.id] === 0));
@@ -334,7 +346,7 @@ export function ScreenCart({ t, lang, back, cart, setQty, uid, go, showToast, st
     if (!uid) return;
     const addr = await getDefaultAddress(uid);
     if (!addr) { setNoAddr(true); return; }
-    go('checkout', { productLines, bundleLines, subtotal, memberTotal, disc, addr });
+    go('checkout', { productLines, bundleLines, subtotal, memberTotal, disc, addr, tierKey: activeTier.key });
   };
   return (
     <div className="scr light anim-push">
@@ -365,7 +377,7 @@ export function ScreenCart({ t, lang, back, cart, setQty, uid, go, showToast, st
                     <button onClick={()=>setQty(c.id,1)}>+</button>
                   </div>
                 </div>
-                <div className="crow__price">{P2(c.p.member*c.q)}</div>
+                <div className="crow__price">{P2(mp(c.p, activeTier)*c.q)}</div>
               </div>
             ))}
             {bundleLines.map(c=>(
@@ -424,9 +436,9 @@ const PAY_METHODS = ['card','kakao','naver','toss'];
 
 export function ScreenCheckout({ t, lang, back, data, uid, onOrder, showToast }) {
   const D = SOMNIA_DATA;
-  const { productLines, bundleLines, subtotal, memberTotal, disc, addr } = data;
-  const curTier = D.tiers.find(x=>x.cur) || D.tiers[0];
-  const rate = TIER_RATES[curTier.key] || 0.01;
+  const { productLines, bundleLines, subtotal, memberTotal, disc, addr, tierKey } = data;
+  const activeTier = D.tiers.find(x=>x.key===tierKey) || D.tiers[0];
+  const rate = TIER_RATES[activeTier.key] || 0.01;
   const [payMethod, setPayMethod] = useState('card');
   const [couponId, setCouponId] = useState('none');
   const [ordering, setOrdering] = useState(false);
@@ -441,13 +453,13 @@ export function ScreenCheckout({ t, lang, back, data, uid, onOrder, showToast })
     setOrdering(true);
     try {
       const orderItems = [];
-      productLines.forEach(c=> orderItems.push({ id:c.id, name:c.p.name, qty:c.q, price:c.p.member }));
+      productLines.forEach(c=> orderItems.push({ id:c.id, name:c.p.name, qty:c.q, price:mp(c.p, activeTier) }));
       bundleLines.forEach(c=> {
         const itemIds = (c.bundle.items||[]).map(id=>typeof id==='string'?id:id.id);
         itemIds.forEach(id=> {
           const exist = orderItems.find(x=>x.id===id);
           if (exist) exist.qty += c.q;
-          else { const p=D.products.find(x=>x.id===id); if(p) orderItems.push({ id, name:p.name, qty:c.q, price:p.member }); }
+          else { const p=D.products.find(x=>x.id===id); if(p) orderItems.push({ id, name:p.name, qty:c.q, price:mp(p, activeTier) }); }
         });
       });
       const result = await createOrder(uid, { items:orderItems, address:addr, subtotal, discount:disc+couponDisc, total:finalTotal });
@@ -560,9 +572,9 @@ export function ScreenOrderComplete({ t, lang, result, onDone, go }) {
 }
 
 /* ============== MY PAGE ============== */
-export function TabMy({ t, lang, go, tabbar, onLogout }) {
+export function TabMy({ t, lang, go, tabbar, onLogout, userPoints }) {
   const D = SOMNIA_DATA;
-  const curTier = D.tiers.find(x=>x.cur) || D.tiers[0];
+  const curTier = getTierByPoints(userPoints, D.tiers);
   const rows = [
     ['box', t('my_orders'), '', ()=>go('orders')],
     ['pin', t('my_addr'), '', ()=>go('address')],
@@ -1090,9 +1102,9 @@ export function ScreenLogin({ t, lang, onLogin }) {
   );
 }
 
-export function ScreenTiers({ t, lang, back }) {
+export function ScreenTiers({ t, lang, back, userPoints }) {
   const D = SOMNIA_DATA;
-  const cur = D.tiers.find(x=>x.cur) || D.tiers[0];
+  const cur = getTierByPoints(userPoints, D.tiers);
   const curIdx = D.tiers.indexOf(cur);
   const toNext = Math.max(0, D.nextTierAt - D.points);
   const prevAt = 2000, span = D.nextTierAt - prevAt;
@@ -1122,7 +1134,7 @@ export function ScreenTiers({ t, lang, back }) {
 
         <div className="section-t">{t('tier_sub')}</div>
         {D.tiers.map((tr,i)=>{
-          const active = tr.cur;
+          const active = tr.key === cur.key;
           const META = {
             cloud:    { grad:['#AFCDEC','#7FA9D6'], ic:'cloud',   ring:'rgba(127,169,214,.45)', chip:'#E8F1FA', chipFg:'#3E6E9E' },
             pastel:   { grad:['#F4C4DD','#E6A0C6'], ic:'droplet', ring:'rgba(230,160,198,.5)',  chip:'#FBEAF3', chipFg:'#B85E8E' },
